@@ -1,5 +1,6 @@
 package com.doit.repository;
 
+import com.doit.entity.Exam;
 import com.doit.entity.ReadingPassage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -10,4 +11,6 @@ import java.util.List;
 public interface ReadingPassageRepository extends JpaRepository<ReadingPassage, Long> {
     
     List<ReadingPassage> findByExamIdOrderByPassageNumber(Long examId);
+    
+    List<ReadingPassage> findByExamOrderByPassageNumber(Exam exam);
 }
