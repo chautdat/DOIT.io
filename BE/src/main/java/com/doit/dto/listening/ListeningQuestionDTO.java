@@ -1,7 +1,6 @@
 package com.doit.dto.listening;
 
 import com.doit.entity.ListeningQuestion;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
