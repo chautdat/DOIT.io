@@ -27,4 +27,13 @@ public interface ExamRepository extends JpaRepository<Exam, Long> {
     long countBySkillAndIsActiveTrue(Exam.Skill skill);
     
     long countByTypeAndIsActiveTrue(Exam.ExamType type);
+
+    // Listening API queries
+    List<Exam> findBySkillAndIsActiveTrue(Exam.Skill skill);
+    
+    List<Exam> findBySkillAndBandLevelAndIsActiveTrue(Exam.Skill skill, Exam.BandLevel bandLevel);
+    
+    List<Exam> findBySkillAndTypeAndIsActiveTrue(Exam.Skill skill, Exam.ExamType type);
+    
+    List<Exam> findBySkillAndBandLevelAndTypeAndIsActiveTrue(Exam.Skill skill, Exam.BandLevel bandLevel, Exam.ExamType type);
 }
