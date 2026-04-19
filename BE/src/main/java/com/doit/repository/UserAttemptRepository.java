@@ -28,6 +28,9 @@ public interface UserAttemptRepository extends JpaRepository<UserAttempt, Long> 
 
     List<UserAttempt> findByUserAndStatus(User user, UserAttempt.AttemptStatus status);
 
+    Optional<UserAttempt> findTopByUserAndExamAndStatusOrderByCreatedAtDesc(
+            User user, Exam exam, UserAttempt.AttemptStatus status);
+
     @Query("SELECT ua FROM UserAttempt ua WHERE ua.user = :user AND ua.exam.skill = :skill " +
            "AND ua.status = 'GRADED' ORDER BY ua.submittedAt DESC")
     List<UserAttempt> findGradedAttemptsByUserAndSkill(@Param("user") User user, 
