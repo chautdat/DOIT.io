@@ -1,0 +1,384 @@
+interface WebSocketOptions {
+  url?: string
+  messageHandler: (event: MessageEvent) => void
+  reconnectInterval?: number
+  heartbeatInterval?: number
+  pingInterval?: number
+  reconnectTimeout?: number
+  maxReconnectAttempts?: number
+  connectionTimeout?: number
+}
+
+export default class WebSocketClient {
+  private static instance: WebSocketClient | null = null
+  private ws: WebSocket | null = null
+  private url: string
+  private messageHandler: (event: MessageEvent) => void
+  private reconnectInterval: number
+  private heartbeatInterval: number
+  private pingInterval: number
+  private reconnectTimeout: number
+  private maxReconnectAttempts: number
+  private connectionTimeout: number
+  private reconnectAttempts: number = 0
+
+  private messageQueue: Array<string | ArrayBufferLike | Blob | ArrayBufferView> = []
+
+  private detectionTimer: NodeJS.Timeout | null = null
+  private timeoutTimer: NodeJS.Timeout | null = null
+  private reconnectTimer: NodeJS.Timeout | null = null
+  private pingTimer: NodeJS.Timeout | null = null
+  private connectionTimer: NodeJS.Timeout | null = null
+
+  private isConnected: boolean = false
+  private isConnecting: boolean = false
+  private stopReconnect: boolean = false
+  private isReconnecting: boolean = false
+
+  private constructor(options: WebSocketOptions) {
+    this.url = options.url || (process.env.VUE_APP_LOGIN_WEBSOCKET as string)
+    this.messageHandler = options.messageHandler
+    this.reconnectInterval = options.reconnectInterval ?? 20 * 1000
+    this.heartbeatInterval = options.heartbeatInterval ?? 5 * 1000
+    this.pingInterval = options.pingInterval ?? 10 * 1000
+    this.reconnectTimeout = options.reconnectTimeout ?? 30 * 1000
+    this.maxReconnectAttempts = options.maxReconnectAttempts ?? 10
+    this.connectionTimeout = options.connectionTimeout ?? 10 * 1000
+  }
+
+  static getInstance(options: WebSocketOptions): WebSocketClient {
+    if (!WebSocketClient.instance) {
+      WebSocketClient.instance = new WebSocketClient(options)
+    } else {
+      WebSocketClient.instance.messageHandler = options.messageHandler
+      if (options.url && WebSocketClient.instance.url !== options.url) {
+        WebSocketClient.instance.url = options.url
+        WebSocketClient.instance.reconnectAttempts = 0
+        WebSocketClient.instance.init()
+      }
+    }
+    return WebSocketClient.instance
+  }
+
+  init(): void {
+    this.connect(true)
+  }
+
+  private connect(resetReconnectAttempts: boolean = false): void {
+    if (this.isConnecting) {
+      console.log('Establishing WebSocket connection...')
+      return
+    }
+
+    if (this.ws?.readyState === WebSocket.OPEN) {
+      console.warn('WebSocket connection already exists')
+      this.flushMessageQueue()
+      return
+    }
+
+    try {
+      this.isConnecting = true
+      this.stopReconnect = false
+      if (resetReconnectAttempts) {
+        this.reconnectAttempts = 0
+        this.isReconnecting = false
+        this.clearTimer('reconnectTimer')
+      }
+      this.ws = new WebSocket(this.url)
+
+      this.clearTimer('connectionTimer')
+      this.connectionTimer = setTimeout(() => {
+        console.error(`WebSocket connection timed out (${this.connectionTimeout}ms): ${this.url}`)
+        this.handleConnectionTimeout()
+      }, this.connectionTimeout)
+
+      this.ws.onopen = (event) => this.handleOpen(event)
+      this.ws.onmessage = (event) => this.handleMessage(event)
+      this.ws.onclose = (event) => this.handleClose(event)
+      this.ws.onerror = (event) => this.handleError(event)
+    } catch (error) {
+      console.error('WebSocket initialization failed:', error)
+      this.isConnecting = false
+      this.reconnect()
+    }
+  }
+
+  private handleConnectionTimeout(): void {
+    if (this.ws?.readyState !== WebSocket.OPEN) {
+      console.error('WebSocket connection timed out. Forcing close.')
+      this.ws?.close(1000, 'Connection timeout')
+      this.isConnecting = false
+      this.reconnect()
+    }
+  }
+
+  close(force?: boolean): void {
+    this.clearAllTimers()
+    this.stopReconnect = true
+    this.isReconnecting = false
+    this.isConnecting = false
+
+    if (this.ws) {
+      this.ws.close(force ? 1001 : 1000, force ? 'Force closed' : 'Normal close')
+      this.ws = null
+    }
+
+    this.isConnected = false
+  }
+
+  send(data: string | ArrayBufferLike | Blob | ArrayBufferView, immediate: boolean = false): void {
+    if (immediate && (!this.ws || this.ws.readyState !== WebSocket.OPEN)) {
+      console.error('WebSocket is not connected. Cannot send message immediately.')
+      return
+    }
+
+    if (!this.ws || this.ws.readyState !== WebSocket.OPEN) {
+      console.log('WebSocket is not connected. Message queued for later sending.')
+      this.messageQueue.push(data)
+      if (!this.isConnecting && !this.stopReconnect) {
+        this.init()
+      }
+      return
+    }
+
+    try {
+      this.ws.send(data)
+    } catch (error) {
+      console.error('WebSocket send failed:', error)
+      this.messageQueue.push(data)
+      this.reconnect()
+    }
+  }
+
+  private flushMessageQueue(): void {
+    if (this.messageQueue.length > 0 && this.ws?.readyState === WebSocket.OPEN) {
+      console.log(`Sending ${this.messageQueue.length} queued messages`)
+      while (this.messageQueue.length > 0) {
+        const data = this.messageQueue.shift()
+        if (data) {
+          try {
+            this.ws?.send(data)
+          } catch (error) {
+            console.error('Failed to send queued message:', error)
+            if (data) this.messageQueue.unshift(data)
+            break
+          }
+        }
+      }
+    }
+  }
+
+  private handleOpen(event: Event): void {
+    console.log('WebSocket connected successfully', event)
+    this.clearTimer('connectionTimer')
+    this.isConnected = true
+    this.isConnecting = false
+    this.isReconnecting = false
+    this.stopReconnect = false
+    this.reconnectAttempts = 0
+    this.startHeartbeat()
+    this.startPing()
+    this.flushMessageQueue()
+  }
+
+  private handleMessage(event: MessageEvent): void {
+    console.log('WebSocket message received:', event)
+    this.resetHeartbeat()
+    this.messageHandler(event)
+  }
+
+  private handleClose(event: CloseEvent): void {
+    console.log(
+      `WebSocket disconnected: code=${event.code}, reason=${event.reason}, clean=${event.wasClean}`
+    )
+
+    const isNormalClose = event.code === 1000
+
+    this.isConnected = false
+    this.isConnecting = false
+    this.clearConnectionTimers()
+    this.ws = null
+
+    if (!this.stopReconnect && !isNormalClose) {
+      this.reconnect()
+    }
+  }
+
+  private handleError(event: Event): void {
+    console.error('WebSocket connection error:')
+    console.error('Error event:', event)
+    console.error(
+      'Current connection state:',
+      this.ws?.readyState ? this.getReadyStateText(this.ws.readyState) : 'Not initialized'
+    )
+
+    this.isConnected = false
+    this.isConnecting = false
+
+    if (!this.stopReconnect) {
+      this.reconnect()
+    }
+  }
+
+  private closeCurrentSocketForReconnect(): void {
+    this.clearConnectionTimers()
+    this.isConnected = false
+    this.isConnecting = false
+
+    if (this.ws) {
+      this.ws.onopen = null
+      this.ws.onmessage = null
+      this.ws.onclose = null
+      this.ws.onerror = null
+
+      if (this.ws.readyState === WebSocket.OPEN || this.ws.readyState === WebSocket.CONNECTING) {
+        this.ws.close(1001, 'Reconnect')
+      }
+
+      this.ws = null
+    }
+  }
+
+  private getReadyStateText(state: number): string {
+    switch (state) {
+      case WebSocket.CONNECTING:
+        return 'CONNECTING (0) - Connecting'
+      case WebSocket.OPEN:
+        return 'OPEN (1) - Connected'
+      case WebSocket.CLOSING:
+        return 'CLOSING (2) - Closing'
+      case WebSocket.CLOSED:
+        return 'CLOSED (3) - Closed'
+      default:
+        return `Unknown state (${state})`
+    }
+  }
+
+  private startHeartbeat(): void {
+    this.clearTimer('detectionTimer')
+    this.clearTimer('timeoutTimer')
+
+    this.detectionTimer = setTimeout(() => {
+      this.isConnected = this.ws?.readyState === WebSocket.OPEN
+
+      if (!this.isConnected) {
+        console.warn('WebSocket heartbeat check failed. Attempting to reconnect.')
+        this.reconnect()
+
+        this.timeoutTimer = setTimeout(() => {
+          console.warn('WebSocket reconnect timed out')
+          this.close()
+        }, this.reconnectTimeout)
+      }
+    }, this.heartbeatInterval)
+  }
+
+  private resetHeartbeat(): void {
+    this.clearTimer('detectionTimer')
+    this.clearTimer('timeoutTimer')
+    this.startHeartbeat()
+  }
+
+  private startPing(): void {
+    this.clearTimer('pingTimer')
+
+    this.pingTimer = setInterval(() => {
+      if (this.ws?.readyState !== WebSocket.OPEN) {
+        console.warn('WebSocket is not connected. Stopping ping.')
+        this.clearTimer('pingTimer')
+        this.reconnect()
+        return
+      }
+
+      try {
+        this.ws.send('ping')
+        console.log('Sending ping')
+      } catch (error) {
+        console.error('Failed to send ping:', error)
+        this.clearTimer('pingTimer')
+        this.reconnect()
+      }
+    }, this.pingInterval)
+  }
+
+  private reconnect(): void {
+    if (this.stopReconnect || this.isConnecting || this.reconnectInterval <= 0) {
+      return
+    }
+
+    if (this.reconnectAttempts >= this.maxReconnectAttempts) {
+      console.error(`Reached the maximum reconnect attempts (${this.maxReconnectAttempts}). Stopping reconnect.`)
+      this.close(true)
+      return
+    }
+
+    this.reconnectAttempts++
+    this.isReconnecting = true
+    this.closeCurrentSocketForReconnect()
+
+    const delay = this.calculateReconnectDelay()
+    console.log(
+      `Will retry connection in ${delay / 1000} seconds (attempt ${this.reconnectAttempts}/${this.maxReconnectAttempts})`
+    )
+
+    this.clearTimer('reconnectTimer')
+    this.reconnectTimer = setTimeout(() => {
+      console.log(`Retrying WebSocket connection (attempt ${this.reconnectAttempts})`)
+      this.connect(false)
+    }, delay)
+  }
+
+  private calculateReconnectDelay(): number {
+    const jitter = Math.random() * 1000
+    const baseDelay = Math.min(
+      this.reconnectInterval * Math.pow(1.5, this.reconnectAttempts - 1),
+      this.reconnectInterval * 5
+    )
+    return baseDelay + jitter
+  }
+
+  private clearTimer(
+    timerName:
+      | 'detectionTimer'
+      | 'timeoutTimer'
+      | 'reconnectTimer'
+      | 'pingTimer'
+      | 'connectionTimer'
+  ): void {
+    if (this[timerName]) {
+      clearTimeout(this[timerName] as NodeJS.Timeout)
+      this[timerName] = null
+    }
+  }
+
+  private clearAllTimers(): void {
+    this.clearConnectionTimers()
+    this.clearTimer('reconnectTimer')
+  }
+
+  private clearConnectionTimers(): void {
+    this.clearTimer('detectionTimer')
+    this.clearTimer('timeoutTimer')
+    this.clearTimer('pingTimer')
+    this.clearTimer('connectionTimer')
+  }
+
+  get isWebSocketConnected(): boolean {
+    return this.isConnected
+  }
+
+  get connectionStatusText(): string {
+    if (this.isConnecting) return 'Connecting'
+    if (this.isConnected) return 'Connected'
+    if (this.isReconnecting && this.reconnectAttempts > 0)
+      return `Reconnecting (${this.reconnectAttempts}/${this.maxReconnectAttempts})`
+    return 'Disconnected'
+  }
+
+  static destroyInstance(): void {
+    if (WebSocketClient.instance) {
+      WebSocketClient.instance.close()
+      WebSocketClient.instance = null
+    }
+  }
+}

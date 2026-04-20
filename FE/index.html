@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <title>DOIT IELTS - Practice Platform</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="DOIT IELTS - A comprehensive IELTS practice platform for Listening, Reading, Writing and Speaking skills."
+    />
+    <link rel="shortcut icon" type="image/x-icon" href="src/assets/images/favicon.ico" />
+
+    <style>
+      /* Initial styles to prevent white screen on page refresh */
+      html {
+        background-color: #fafbfc;
+      }
+
+      html.dark {
+        background-color: #070707;
+      }
+    </style>
+
+    <script>
+      // Initialize html class theme attribute
+      ;(function () {
+        try {
+          if (typeof Storage === 'undefined' || !window.localStorage) {
+            return
+          }
+
+          const themeType = localStorage.getItem('sys-theme')
+          if (themeType === 'dark') {
+            document.documentElement.classList.add('dark')
+          }
+        } catch (e) {
+          console.warn('Failed to apply initial theme:', e)
+        }
+      })()
+    </script>
+  </head>
+
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
