@@ -178,10 +178,12 @@
       switching.value = true
 
       // 模拟登录请求
-      const { token, refreshToken } = await fetchLogin({
-        userName: account.userName,
+      const response = await fetchLogin({
+        email: account.userName, // Use userName as email
         password: account.password
       })
+
+      const token = response.accessToken || response.token
 
       // 验证token
       if (!token) {
@@ -189,7 +191,7 @@
       }
 
       // 存储token和用户信息
-      userStore.setToken(token, refreshToken)
+      userStore.setToken(token, response.refreshToken)
       const userInfo = await fetchGetUserInfo()
       userStore.setUserInfo(userInfo)
 

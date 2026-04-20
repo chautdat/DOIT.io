@@ -2,6 +2,7 @@
  * Listening API
  *
  * API functions for IELTS Listening tests and practice
+ * Matches BE: ListeningController
  *
  * @module api/ielts/listening
  * @author DOIT IELTS Team
@@ -12,82 +13,88 @@ import request from '@/utils/http'
 const BASE_URL = '/api/v1/listening'
 
 /**
- * Get all listening tests
- * @param params Query parameters
- * @returns List of listening tests
+ * Get all listening exams
+ * @param params Query parameters (bandLevel, examType)
+ * @returns List of listening exams
  */
-export function getListeningTests(params?: { page?: number; size?: number; difficulty?: string }) {
+export function getListeningExams(params?: { 
+  bandLevel?: string
+  examType?: string 
+}) {
   return request.get({
-    url: BASE_URL,
+    url: `${BASE_URL}/exams`,
     params
   })
 }
 
 /**
- * Get listening test by ID
- * @param id Test ID
- * @returns Listening test details
+ * Get listening exam by ID
+ * @param examId Exam ID
+ * @returns Listening exam details
  */
-export function getListeningTest(id: number) {
+export function getListeningExam(examId: string) {
   return request.get({
-    url: `${BASE_URL}/${id}`
+    url: `${BASE_URL}/exams/${examId}`
   })
 }
 
 /**
- * Get listening sections for a test
- * @param testId Test ID
- * @returns List of sections
+ * Start a listening test attempt
+ * @param examId Exam ID
+ * @returns New attempt info
  */
-export function getListeningSections(testId: number) {
-  return request.get<Api.IELTS.ListeningSection[]>({
-    url: `${BASE_URL}/${testId}/sections`
+export function startListeningAttempt(examId: string) {
+  return request.post({
+    url: `${BASE_URL}/exams/${examId}/start`
   })
 }
 
 /**
- * Get questions for a listening section
- * @param sectionId Section ID
- * @returns List of questions
+ * Get listening sections for an exam
+ * @param examId Exam ID
+ * @returns List of sections with questions
  */
-export function getListeningQuestions(sectionId: number) {
-  return request.get<Api.IELTS.Question[]>({
-    url: `${BASE_URL}/sections/${sectionId}/questions`
+export function getListeningSections(examId: string) {
+  return request.get({
+    url: `${BASE_URL}/exams/${examId}/sections`
   })
 }
 
 /**
  * Submit listening test answers
- * @param testId Test ID
+ * @param attemptId Attempt ID
  * @param answers User answers
- * @returns Submission result
+ * @returns Submission result with score
  */
-export function submitListeningAnswers(testId: number, answers: Api.IELTS.UserAnswer[]) {
+export function submitListeningAnswers(attemptId: string, answers: Record<string, string>) {
   return request.post({
-    url: `${BASE_URL}/${testId}/submit`,
+    url: `${BASE_URL}/attempts/${attemptId}/submit`,
     params: { answers }
   })
 }
 
 /**
- * Get listening test result
+ * Get listening attempt result
  * @param attemptId Attempt ID
- * @returns Test result with score
+ * @returns Detailed result with band score
  */
-export function getListeningResult(attemptId: number) {
+export function getListeningResult(attemptId: string) {
   return request.get({
     url: `${BASE_URL}/attempts/${attemptId}/result`
   })
 }
 
 /**
- * Start a new listening practice session
- * @param sectionId Section ID for practice
- * @returns Practice session info
+ * Get user's listening attempt history
+ * @param params Pagination parameters
+ * @returns List of past attempts
  */
-export function startListeningPractice(sectionId: number) {
-  return request.post({
-    url: `${BASE_URL}/practice/start`,
-    params: { sectionId }
+export function getListeningHistory(params?: { 
+  page?: number
+  size?: number 
+}) {
+  return request.get({
+    url: `${BASE_URL}/history`,
+    params
   })
 }

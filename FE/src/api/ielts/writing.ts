@@ -2,6 +2,7 @@
  * Writing API
  *
  * API functions for IELTS Writing tests and practice
+ * Matches BE: WritingController
  *
  * @module api/ielts/writing
  * @author DOIT IELTS Team
@@ -12,83 +13,97 @@ import request from '@/utils/http'
 const BASE_URL = '/api/v1/writing'
 
 /**
- * Get all writing tasks
+ * Get all writing exams
  * @param params Query parameters
- * @returns List of writing tasks
+ * @returns List of writing exams
  */
-export function getWritingTasks(params?: { page?: number; size?: number; taskType?: string }) {
+export function getWritingExams(params?: {
+  bandLevel?: string
+  examType?: string
+  taskType?: string
+}) {
   return request.get({
-    url: BASE_URL,
+    url: `${BASE_URL}/exams`,
     params
   })
 }
 
 /**
- * Get writing task by ID
- * @param id Task ID
- * @returns Writing task details
+ * Get writing exam by ID
+ * @param examId Exam ID
+ * @returns Writing exam details with tasks
  */
-export function getWritingTask(id: number) {
-  return request.get<Api.IELTS.WritingTask>({
-    url: `${BASE_URL}/${id}`
+export function getWritingExam(examId: string) {
+  return request.get({
+    url: `${BASE_URL}/exams/${examId}`
   })
 }
 
 /**
- * Submit writing task response
- * @param taskId Task ID
- * @param response User's written response
+ * Start a writing test attempt
+ * @param examId Exam ID
+ * @returns New attempt info
+ */
+export function startWritingAttempt(examId: string) {
+  return request.post({
+    url: `${BASE_URL}/exams/${examId}/start`
+  })
+}
+
+/**
+ * Submit writing test response
+ * @param attemptId Attempt ID
+ * @param submission Writing submission (task1Response, task2Response)
  * @returns Submission result
  */
-export function submitWritingResponse(taskId: number, response: string) {
+export function submitWritingResponse(attemptId: string, submission: {
+  task1Response?: string
+  task2Response?: string
+}) {
   return request.post({
-    url: `${BASE_URL}/${taskId}/submit`,
-    params: { response }
+    url: `${BASE_URL}/attempts/${attemptId}/submit`,
+    params: submission
   })
 }
 
 /**
- * Get writing task evaluation
+ * Get writing evaluation with AI grading
  * @param attemptId Attempt ID
  * @returns Evaluation with band scores and feedback
  */
-export function getWritingEvaluation(attemptId: number) {
+export function getWritingEvaluation(attemptId: string) {
   return request.get({
     url: `${BASE_URL}/attempts/${attemptId}/evaluation`
   })
 }
 
 /**
- * Save writing draft
- * @param taskId Task ID
+ * Save writing draft (auto-save)
+ * @param attemptId Attempt ID
  * @param content Draft content
  * @returns Save result
  */
-export function saveWritingDraft(taskId: number, content: string) {
+export function saveWritingDraft(attemptId: string, content: {
+  task1Response?: string
+  task2Response?: string
+}) {
   return request.post({
-    url: `${BASE_URL}/${taskId}/draft`,
-    params: { content }
+    url: `${BASE_URL}/attempts/${attemptId}/draft`,
+    params: content
   })
 }
 
 /**
- * Get writing draft
- * @param taskId Task ID
- * @returns Draft content if exists
+ * Get user's writing attempt history
+ * @param params Pagination parameters
+ * @returns List of past attempts
  */
-export function getWritingDraft(taskId: number) {
+export function getWritingHistory(params?: {
+  page?: number
+  size?: number
+}) {
   return request.get({
-    url: `${BASE_URL}/${taskId}/draft`
-  })
-}
-
-/**
- * Get AI feedback for writing
- * @param attemptId Attempt ID
- * @returns AI-generated feedback
- */
-export function getAIWritingFeedback(attemptId: number) {
-  return request.get({
-    url: `${BASE_URL}/attempts/${attemptId}/ai-feedback`
+    url: `${BASE_URL}/history`,
+    params
   })
 }

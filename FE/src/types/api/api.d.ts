@@ -67,6 +67,7 @@ declare namespace Api {
     interface LoginParams {
       email: string
       password: string
+      userName?: string // for backward compatibility
     }
 
     /** Register Parameters */
@@ -83,6 +84,7 @@ declare namespace Api {
       refreshToken: string
       tokenType: string
       expiresIn: number
+      token?: string // alias for accessToken (backward compatibility)
     }
 
     /** User Info */
@@ -254,6 +256,90 @@ declare namespace Api {
       reading: number
       writing: number
       speaking: number
+    }
+
+    /** Word Definition from Dictionary API */
+    interface WordDefinition {
+      word: string
+      phonetic?: string
+      phonetics?: Array<{
+        text?: string
+        audio?: string
+      }>
+      meanings: Array<{
+        partOfSpeech: string
+        definitions: Array<{
+          definition: string
+          example?: string
+          synonyms?: string[]
+          antonyms?: string[]
+        }>
+        synonyms?: string[]
+        antonyms?: string[]
+      }>
+    }
+
+    /** Vocabulary Resource */
+    interface VocabularyResource {
+      source: string
+      band: string
+      words: Array<{
+        word: string
+        partOfSpeech: string
+        definition: string
+        example: string
+      }>
+    }
+
+    /** Band Score Result */
+    interface BandResult {
+      totalQuestions: number
+      correctAnswers: number
+      bandScore: number
+      description: string
+    }
+
+    /** Writing Grading Result */
+    interface WritingGradingResult {
+      wordCount: number
+      overallBand: number
+      criteriaScores: {
+        taskAchievement: number
+        coherenceCohesion: number
+        lexicalResource: number
+        grammaticalRange: number
+      }
+      feedback: string
+      strengths: string[]
+      improvements: string[]
+    }
+
+    /** Speaking Grading Result */
+    interface SpeakingGradingResult {
+      wordCount: number
+      wordsPerMinute: number
+      overallBand: number
+      criteriaScores: {
+        fluencyCoherence: number
+        lexicalResource: number
+        grammaticalRange: number
+        pronunciation: number
+      }
+      feedback: string
+      fillerWords: {
+        count: number
+        fillers: string[]
+      }
+    }
+
+    /** Overall Band Result */
+    interface OverallBandResult {
+      listening: number
+      reading: number
+      writing: number
+      speaking: number
+      overall: number
+      description: string
     }
   }
 

@@ -2,6 +2,7 @@
  * Mock Test API
  *
  * API functions for full IELTS mock tests
+ * Matches BE: MockTestController
  *
  * @module api/ielts/mock-test
  * @author DOIT IELTS Team
@@ -9,134 +10,115 @@
 
 import request from '@/utils/http'
 
-const BASE_URL = '/api/v1/mock-tests'
+const BASE_URL = '/api/v1/mock-test'
 
 /**
- * Get available mock tests
- * @param params Query parameters
- * @returns List of mock tests
+ * Start a new mock test
+ * @returns Mock test session info
  */
-export function getMockTests(params?: { page?: number; size?: number; type?: string }) {
-  return request.get({
-    url: BASE_URL,
-    params
+export function startMockTest() {
+  return request.post({
+    url: `${BASE_URL}/start`
+  })
+}
+
+/**
+ * Start a mock test with pre-selected exams
+ * @param exams Selected exam IDs for each skill
+ * @returns Mock test session info
+ */
+export function startMockTestWithExams(exams: {
+  listeningExamId?: string
+  readingExamId?: string
+  writingExamId?: string
+  speakingExamId?: string
+}) {
+  return request.post({
+    url: `${BASE_URL}/start-with-exams`,
+    params: exams
   })
 }
 
 /**
  * Get mock test by ID
- * @param id Test ID
+ * @param mockTestId Mock test ID
  * @returns Mock test details
  */
-export function getMockTest(id: number) {
+export function getMockTest(mockTestId: string) {
   return request.get({
-    url: `${BASE_URL}/${id}`
+    url: `${BASE_URL}/${mockTestId}`
   })
 }
 
 /**
- * Start mock test
- * @param testId Test ID
- * @returns Test session info
+ * Get user's mock tests
+ * @returns List of mock tests
  */
-export function startMockTest(testId: number) {
-  return request.post({
-    url: `${BASE_URL}/${testId}/start`
-  })
-}
-
-/**
- * Get mock test sections
- * @param testId Test ID
- * @returns Test sections (Listening, Reading, Writing, Speaking)
- */
-export function getMockTestSections(testId: number) {
+export function getUserMockTests() {
   return request.get({
-    url: `${BASE_URL}/${testId}/sections`
+    url: BASE_URL
   })
 }
 
 /**
- * Submit mock test section
- * @param testId Test ID
- * @param sectionType Section type (LISTENING, READING, WRITING, SPEAKING)
- * @param answers User answers
- * @returns Submission result
+ * Get paginated mock tests
+ * @param params Pagination parameters
+ * @returns Paginated list of mock tests
  */
-export function submitMockTestSection(
-  testId: number,
-  sectionType: Api.IELTS.SkillType,
-  answers: Api.IELTS.UserAnswer[] | string
-) {
-  return request.post({
-    url: `${BASE_URL}/${testId}/sections/${sectionType}/submit`,
-    params: { answers }
-  })
-}
-
-/**
- * Complete mock test
- * @param testId Test ID
- * @returns Final results
- */
-export function completeMockTest(testId: number) {
-  return request.post({
-    url: `${BASE_URL}/${testId}/complete`
-  })
-}
-
-/**
- * Get mock test result
- * @param attemptId Attempt ID
- * @returns Detailed test result with band scores
- */
-export function getMockTestResult(attemptId: number) {
+export function getUserMockTestsPaginated(params?: {
+  page?: number
+  size?: number
+}) {
   return request.get({
-    url: `${BASE_URL}/attempts/${attemptId}/result`
-  })
-}
-
-/**
- * Get mock test history
- * @param params Query parameters
- * @returns List of completed mock tests
- */
-export function getMockTestHistory(params?: { page?: number; size?: number }) {
-  return request.get({
-    url: `${BASE_URL}/history`,
+    url: `${BASE_URL}/paginated`,
     params
   })
 }
 
 /**
- * Get time remaining in mock test
- * @param sessionId Session ID
- * @returns Time remaining in seconds
+ * Get in-progress mock tests
+ * @returns List of in-progress mock tests
  */
-export function getTimeRemaining(sessionId: number) {
+export function getInProgressMockTests() {
   return request.get({
-    url: `${BASE_URL}/sessions/${sessionId}/time`
+    url: `${BASE_URL}/in-progress`
   })
 }
 
 /**
- * Pause mock test
- * @param sessionId Session ID
- * @returns Pause result
+ * Submit skill attempt for mock test
+ * @param mockTestId Mock test ID
+ * @param skillSubmission Skill submission data
+ * @returns Updated mock test
  */
-export function pauseMockTest(sessionId: number) {
+export function submitSkillAttempt(mockTestId: string, skillSubmission: {
+  skill: 'LISTENING' | 'READING' | 'WRITING' | 'SPEAKING'
+  attemptId: string
+}) {
   return request.post({
-    url: `${BASE_URL}/sessions/${sessionId}/pause`
+    url: `${BASE_URL}/${mockTestId}/submit-skill`,
+    params: skillSubmission
   })
 }
 
 /**
- * Resume mock test
- * @param sessionId Session ID
- * @returns Resume result
+ * Complete mock test
+ * @param mockTestId Mock test ID
+ * @returns Final results
  */
-export function resumeMockTest(sessionId: number) {
+export function completeMockTest(mockTestId: string) {
   return request.post({
-    url: `${BASE_URL}/sessions/${sessionId}/resume`
+    url: `${BASE_URL}/${mockTestId}/complete`
+  })
+}
+
+/**
+ * Get mock test result
+ * @param mockTestId Mock test ID
+ * @returns Detailed test result with band scores
+ */
+export function getMockTestResult(mockTestId: string) {
+  return request.get({
+    url: `${BASE_URL}/${mockTestId}/result`
   })
 }

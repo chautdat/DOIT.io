@@ -2,6 +2,7 @@
  * Speaking API
  *
  * API functions for IELTS Speaking tests and practice
+ * Matches BE: SpeakingController
  *
  * @module api/ielts/speaking
  * @author DOIT IELTS Team
@@ -12,52 +13,56 @@ import request from '@/utils/http'
 const BASE_URL = '/api/v1/speaking'
 
 /**
- * Get all speaking topics
+ * Get all speaking exams
  * @param params Query parameters
- * @returns List of speaking topics
+ * @returns List of speaking exams
  */
-export function getSpeakingTopics(params?: { page?: number; size?: number; part?: number }) {
+export function getSpeakingExams(params?: {
+  bandLevel?: string
+  examType?: string
+}) {
   return request.get({
-    url: BASE_URL,
+    url: `${BASE_URL}/exams`,
     params
   })
 }
 
 /**
- * Get speaking topic by ID
- * @param id Topic ID
- * @returns Speaking topic details
+ * Get speaking exam by ID
+ * @param examId Exam ID
+ * @returns Speaking exam details with parts
  */
-export function getSpeakingTopic(id: number) {
-  return request.get<Api.IELTS.SpeakingPart>({
-    url: `${BASE_URL}/${id}`
+export function getSpeakingExam(examId: string) {
+  return request.get({
+    url: `${BASE_URL}/exams/${examId}`
   })
 }
 
 /**
- * Get speaking questions for a part
- * @param partId Part ID
- * @returns List of questions
+ * Start a speaking test attempt
+ * @param examId Exam ID
+ * @returns New attempt info
  */
-export function getSpeakingQuestions(partId: number) {
-  return request.get({
-    url: `${BASE_URL}/${partId}/questions`
+export function startSpeakingAttempt(examId: string) {
+  return request.post({
+    url: `${BASE_URL}/exams/${examId}/start`
   })
 }
 
 /**
  * Upload speaking recording
- * @param topicId Topic ID
+ * @param attemptId Attempt ID
+ * @param part Part number (1, 2, or 3)
  * @param audioFile Audio file blob
  * @returns Upload result
  */
-export function uploadSpeakingRecording(topicId: number, audioFile: Blob) {
+export function uploadSpeakingRecording(attemptId: string, part: number, audioFile: Blob) {
   const formData = new FormData()
   formData.append('audio', audioFile, 'recording.webm')
-  formData.append('topicId', topicId.toString())
+  formData.append('part', part.toString())
 
   return request.post({
-    url: `${BASE_URL}/${topicId}/upload`,
+    url: `${BASE_URL}/attempts/${attemptId}/upload`,
     params: formData,
     headers: {
       'Content-Type': 'multipart/form-data'
@@ -67,47 +72,39 @@ export function uploadSpeakingRecording(topicId: number, audioFile: Blob) {
 
 /**
  * Submit speaking test
- * @param testId Test ID
- * @param recordings Recording IDs for each part
+ * @param attemptId Attempt ID
+ * @param transcript Optional transcript text
  * @returns Submission result
  */
-export function submitSpeakingTest(testId: number, recordings: number[]) {
+export function submitSpeakingTest(attemptId: string, transcript?: string) {
   return request.post({
-    url: `${BASE_URL}/${testId}/submit`,
-    params: { recordings }
+    url: `${BASE_URL}/attempts/${attemptId}/submit`,
+    params: { transcript }
   })
 }
 
 /**
- * Get speaking evaluation
+ * Get speaking evaluation with AI grading
  * @param attemptId Attempt ID
  * @returns Evaluation with band scores and feedback
  */
-export function getSpeakingEvaluation(attemptId: number) {
+export function getSpeakingEvaluation(attemptId: string) {
   return request.get({
     url: `${BASE_URL}/attempts/${attemptId}/evaluation`
   })
 }
 
 /**
- * Get AI speaking feedback
- * @param recordingId Recording ID
- * @returns AI-generated feedback
+ * Get user's speaking attempt history
+ * @param params Pagination parameters
+ * @returns List of past attempts
  */
-export function getAISpeakingFeedback(recordingId: number) {
+export function getSpeakingHistory(params?: {
+  page?: number
+  size?: number
+}) {
   return request.get({
-    url: `${BASE_URL}/recordings/${recordingId}/ai-feedback`
-  })
-}
-
-/**
- * Start speaking practice session
- * @param partNumber Part number (1, 2, or 3)
- * @returns Practice session info with random topic
- */
-export function startSpeakingPractice(partNumber: number) {
-  return request.post({
-    url: `${BASE_URL}/practice/start`,
-    params: { partNumber }
+    url: `${BASE_URL}/history`,
+    params
   })
 }

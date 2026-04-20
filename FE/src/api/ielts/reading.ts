@@ -2,6 +2,7 @@
  * Reading API
  *
  * API functions for IELTS Reading tests and practice
+ * Matches BE: ReadingController
  *
  * @module api/ielts/reading
  * @author DOIT IELTS Team
@@ -12,82 +13,88 @@ import request from '@/utils/http'
 const BASE_URL = '/api/v1/reading'
 
 /**
- * Get all reading tests
+ * Get all reading exams
  * @param params Query parameters
- * @returns List of reading tests
+ * @returns List of reading exams
  */
-export function getReadingTests(params?: { page?: number; size?: number; difficulty?: string }) {
+export function getReadingExams(params?: {
+  bandLevel?: string
+  examType?: string
+}) {
   return request.get({
-    url: BASE_URL,
+    url: `${BASE_URL}/exams`,
     params
   })
 }
 
 /**
- * Get reading test by ID
- * @param id Test ID
- * @returns Reading test details
+ * Get reading exam by ID
+ * @param examId Exam ID
+ * @returns Reading exam details
  */
-export function getReadingTest(id: number) {
+export function getReadingExam(examId: string) {
   return request.get({
-    url: `${BASE_URL}/${id}`
+    url: `${BASE_URL}/exams/${examId}`
   })
 }
 
 /**
- * Get reading passages for a test
- * @param testId Test ID
- * @returns List of passages
+ * Start a reading test attempt
+ * @param examId Exam ID
+ * @returns New attempt info
  */
-export function getReadingPassages(testId: number) {
-  return request.get<Api.IELTS.ReadingPassage[]>({
-    url: `${BASE_URL}/${testId}/passages`
+export function startReadingAttempt(examId: string) {
+  return request.post({
+    url: `${BASE_URL}/exams/${examId}/start`
   })
 }
 
 /**
- * Get questions for a reading passage
- * @param passageId Passage ID
- * @returns List of questions
+ * Get reading passages for an exam
+ * @param examId Exam ID
+ * @returns List of passages with questions
  */
-export function getReadingQuestions(passageId: number) {
-  return request.get<Api.IELTS.Question[]>({
-    url: `${BASE_URL}/passages/${passageId}/questions`
+export function getReadingPassages(examId: string) {
+  return request.get({
+    url: `${BASE_URL}/exams/${examId}/passages`
   })
 }
 
 /**
  * Submit reading test answers
- * @param testId Test ID
+ * @param attemptId Attempt ID
  * @param answers User answers
- * @returns Submission result
+ * @returns Submission result with score
  */
-export function submitReadingAnswers(testId: number, answers: Api.IELTS.UserAnswer[]) {
+export function submitReadingAnswers(attemptId: string, answers: Record<string, string>) {
   return request.post({
-    url: `${BASE_URL}/${testId}/submit`,
+    url: `${BASE_URL}/attempts/${attemptId}/submit`,
     params: { answers }
   })
 }
 
 /**
- * Get reading test result
+ * Get reading attempt result
  * @param attemptId Attempt ID
- * @returns Test result with score
+ * @returns Detailed result with band score
  */
-export function getReadingResult(attemptId: number) {
+export function getReadingResult(attemptId: string) {
   return request.get({
     url: `${BASE_URL}/attempts/${attemptId}/result`
   })
 }
 
 /**
- * Start a new reading practice session
- * @param passageId Passage ID for practice
- * @returns Practice session info
+ * Get user's reading attempt history
+ * @param params Pagination parameters
+ * @returns List of past attempts
  */
-export function startReadingPractice(passageId: number) {
-  return request.post({
-    url: `${BASE_URL}/practice/start`,
-    params: { passageId }
+export function getReadingHistory(params?: {
+  page?: number
+  size?: number
+}) {
+  return request.get({
+    url: `${BASE_URL}/history`,
+    params
   })
 }
