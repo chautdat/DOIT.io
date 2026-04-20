@@ -12,8 +12,8 @@
       watermarkColor="#ff0000"
       :showPreview="true"
       :originalGraph="false"
-      :title="'图片裁剪'"
-      :previewTitle="'预览效果'"
+      :title="'Image crop'"
+      :previewTitle="'Preview'"
       @error="handleError"
       @imageLoadComplete="handleLoadComplete"
       @imageLoadError="handleLoadError"
@@ -26,34 +26,19 @@
 
   defineOptions({ name: 'WidgetsImageCrop' })
 
-  /**
-   * 图片 URL
-   */
   const imageUrl = ref(lockImg)
 
-  /**
-   * 处理裁剪错误
-   * @param error 错误对象
-   */
   const handleError = (error: Error) => {
-    console.error('裁剪错误:', error)
-    ElMessage.error('图片裁剪失败')
+    console.error('Crop error:', error)
+    ElMessage.error('Image crop failed')
   }
 
-  /**
-   * 处理图片加载完成
-   * @param result 加载结果
-   */
   const handleLoadComplete = (result: { url: string; width: number; height: number }) => {
-    console.log('图片加载完成:', result)
+    console.log('Image loaded:', result)
   }
 
-  /**
-   * 处理图片加载错误
-   * @param error 错误对象
-   */
   const handleLoadError = (error: Error) => {
-    console.error('图片加载失败:', error)
-    ElMessage.error('图片加载失败')
+    console.error('Image load failed:', error)
+    ElMessage.error('Image load failed')
   }
 </script>

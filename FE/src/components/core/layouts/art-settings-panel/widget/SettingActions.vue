@@ -1,4 +1,3 @@
-<!-- 设置操作按钮 -->
 <template>
   <div
     class="mt-10 flex gap-8 border-t border-[var(--default-border)] bg-[var(--art-bg-color)] pt-5"
@@ -28,7 +27,6 @@
   const { copy, copied } = useClipboard()
   const { switchThemeStyles } = useTheme()
 
-  /** 枚举映射表 */
   const ENUM_MAPS = {
     menuType: {
       left: 'MenuTypeEnum.LEFT',
@@ -52,7 +50,6 @@
     }
   } as const
 
-  /** 配置项定义 */
   interface ConfigItem {
     comment: string
     key: keyof typeof settingStore
@@ -61,59 +58,51 @@
   }
 
   const CONFIG_ITEMS: ConfigItem[] = [
-    { comment: '菜单类型', key: 'menuType', enumMap: ENUM_MAPS.menuType },
-    { comment: '菜单展开宽度', key: 'menuOpenWidth' },
-    { comment: '菜单是否展开', key: 'menuOpen' },
-    { comment: '双菜单是否显示文本', key: 'dualMenuShowText' },
-    { comment: '系统主题类型', key: 'systemThemeType', enumMap: ENUM_MAPS.systemTheme },
-    { comment: '系统主题模式', key: 'systemThemeMode', enumMap: ENUM_MAPS.systemTheme },
-    { comment: '菜单风格', key: 'menuThemeType', enumMap: ENUM_MAPS.menuTheme },
-    { comment: '系统主题颜色', key: 'systemThemeColor' },
-    { comment: '是否显示菜单按钮', key: 'showMenuButton' },
-    { comment: '是否显示快速入口', key: 'showFastEnter' },
-    { comment: '是否显示刷新按钮', key: 'showRefreshButton' },
-    { comment: '是否显示面包屑', key: 'showCrumbs' },
-    { comment: '是否显示工作台标签', key: 'showWorkTab' },
-    { comment: '是否显示语言切换', key: 'showLanguage' },
-    { comment: '是否显示进度条', key: 'showNprogress' },
-    { comment: '是否显示设置引导', key: 'showSettingGuide' },
-    { comment: '是否显示节日文本', key: 'showFestivalText' },
-    { comment: '是否显示水印', key: 'watermarkVisible' },
-    { comment: '是否自动关闭', key: 'autoClose' },
-    { comment: '是否唯一展开', key: 'uniqueOpened' },
-    { comment: '是否色弱模式', key: 'colorWeak' },
-    { comment: '是否刷新', key: 'refresh' },
-    { comment: '是否加载节日烟花', key: 'holidayFireworksLoaded' },
-    { comment: '边框模式', key: 'boxBorderMode' },
-    { comment: '页面过渡效果', key: 'pageTransition' },
-    { comment: '标签页样式', key: 'tabStyle' },
-    { comment: '自定义圆角', key: 'customRadius' },
-    { comment: '容器宽度', key: 'containerWidth', enumMap: ENUM_MAPS.containerWidth },
-    { comment: '节日日期', key: 'festivalDate', forceValue: '' }
+    { comment: 'Menu type', key: 'menuType', enumMap: ENUM_MAPS.menuType },
+    { comment: 'Menu expanded width', key: 'menuOpenWidth' },
+    { comment: 'Menu open state', key: 'menuOpen' },
+    { comment: 'Show text in dual menu', key: 'dualMenuShowText' },
+    { comment: 'System theme type', key: 'systemThemeType', enumMap: ENUM_MAPS.systemTheme },
+    { comment: 'System theme mode', key: 'systemThemeMode', enumMap: ENUM_MAPS.systemTheme },
+    { comment: 'Menu style', key: 'menuThemeType', enumMap: ENUM_MAPS.menuTheme },
+    { comment: 'System theme color', key: 'systemThemeColor' },
+    { comment: 'Show menu button', key: 'showMenuButton' },
+    { comment: 'Show quick enter', key: 'showFastEnter' },
+    { comment: 'Show refresh button', key: 'showRefreshButton' },
+    { comment: 'Show breadcrumbs', key: 'showCrumbs' },
+    { comment: 'Show work tab', key: 'showWorkTab' },
+    { comment: 'Show language switch', key: 'showLanguage' },
+    { comment: 'Show progress bar', key: 'showNprogress' },
+    { comment: 'Show settings guide', key: 'showSettingGuide' },
+    { comment: 'Show festival text', key: 'showFestivalText' },
+    { comment: 'Show watermark', key: 'watermarkVisible' },
+    { comment: 'Auto close', key: 'autoClose' },
+    { comment: 'Only one submenu expanded', key: 'uniqueOpened' },
+    { comment: 'Color weak mode', key: 'colorWeak' },
+    { comment: 'Refresh', key: 'refresh' },
+    { comment: 'Load holiday fireworks', key: 'holidayFireworksLoaded' },
+    { comment: 'Border mode', key: 'boxBorderMode' },
+    { comment: 'Page transition effect', key: 'pageTransition' },
+    { comment: 'Tab style', key: 'tabStyle' },
+    { comment: 'Custom radius', key: 'customRadius' },
+    { comment: 'Container width', key: 'containerWidth', enumMap: ENUM_MAPS.containerWidth },
+    { comment: 'Holiday date', key: 'festivalDate', forceValue: '' }
   ]
 
-  /**
-   * 将值转换为代码字符串
-   */
   const valueToCode = (value: any, enumMap?: Record<string, string>): string => {
     if (value === null) return 'null'
     if (value === undefined) return 'undefined'
 
-    // 优先查找枚举映射
     if (enumMap && typeof value === 'string' && enumMap[value]) {
       return enumMap[value]
     }
 
-    // 其他类型处理
     if (typeof value === 'string') return `'${value}'`
     if (typeof value === 'boolean' || typeof value === 'number') return String(value)
 
     return JSON.stringify(value)
   }
 
-  /**
-   * 生成配置代码
-   */
   const generateConfigCode = (): string => {
     const lines = ['export const SETTING_DEFAULT_CONFIG = {']
 
@@ -127,9 +116,6 @@
     return lines.join('\n')
   }
 
-  /**
-   * 复制配置到剪贴板
-   */
   const handleCopyConfig = async () => {
     try {
       const configText = generateConfigCode()
@@ -142,14 +128,11 @@
         })
       }
     } catch (error) {
-      console.error('复制配置失败:', error)
+      console.error('Failed to copy config:', error)
       ElMessage.error(t('setting.actions.copyFailed'))
     }
   }
 
-  /**
-   * 切换布尔值配置（如果当前值与默认值不同）
-   */
   const toggleIfDifferent = (
     currentValue: boolean,
     defaultValue: boolean,
@@ -160,30 +143,23 @@
     }
   }
 
-  /**
-   * 重置配置为默认值
-   */
   const handleResetConfig = async () => {
     try {
       const config = SETTING_DEFAULT_CONFIG
 
-      // 菜单相关
       settingStore.switchMenuLayouts(config.menuType)
       settingStore.setMenuOpenWidth(config.menuOpenWidth)
       settingStore.setMenuOpen(config.menuOpen)
       settingStore.setDualMenuShowText(config.dualMenuShowText)
 
-      // 主题相关 - 使用 switchThemeStyles 确保正确处理 AUTO 模式
       switchThemeStyles(config.systemThemeMode)
 
-      // 等待主题切换完成后，根据实际应用的主题设置菜单主题
       await nextTick()
       const menuTheme = settingStore.isDark ? MenuThemeEnum.DARK : config.menuThemeType
       settingStore.switchMenuStyles(menuTheme)
 
       settingStore.setElementTheme(config.systemThemeColor)
 
-      // 界面显示（切换类方法）
       toggleIfDifferent(settingStore.showMenuButton, config.showMenuButton, () =>
         settingStore.setButton()
       )
@@ -201,19 +177,16 @@
         settingStore.setNprogress()
       )
 
-      // 界面显示（直接设置类方法）
       settingStore.setWorkTab(config.showWorkTab)
       settingStore.setShowFestivalText(config.showFestivalText)
       settingStore.setWatermarkVisible(config.watermarkVisible)
 
-      // 功能设置
       toggleIfDifferent(settingStore.autoClose, config.autoClose, () => settingStore.setAutoClose())
       toggleIfDifferent(settingStore.uniqueOpened, config.uniqueOpened, () =>
         settingStore.setUniqueOpened()
       )
       toggleIfDifferent(settingStore.colorWeak, config.colorWeak, () => settingStore.setColorWeak())
 
-      // 样式设置
       toggleIfDifferent(settingStore.boxBorderMode, config.boxBorderMode, () =>
         settingStore.setBorderMode()
       )
@@ -222,13 +195,12 @@
       settingStore.setCustomRadius(config.customRadius)
       settingStore.setContainerWidth(config.containerWidth)
 
-      // 节日相关
       settingStore.setFestivalDate(config.festivalDate)
       settingStore.setholidayFireworksLoaded(config.holidayFireworksLoaded)
 
       location.reload()
     } catch (error) {
-      console.error('重置配置失败:', error)
+      console.error('Failed to reset config:', error)
       ElMessage.error(t('setting.actions.resetFailed'))
     }
   }

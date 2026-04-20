@@ -1,27 +1,28 @@
 <template>
   <div class="space-y-5 mb-5">
-    <div class="text-2xl font-medium mt-5 max-sm:text-2xl max-sm:mt-3">图标</div>
+    <div class="text-2xl font-medium mt-5 max-sm:text-2xl max-sm:mt-3">Icons</div>
     <div class="text-g-800">
-      v.3.0 版本图标库升级为 iconify，可在
+      v.3.0 icon library upgraded to iconify, you can search on
       <a href="https://icones.js.org/" target="_blank" class="text-theme hover:underline"
         >Iconify</a
       >
-      中查找，支持多种图标库，如 Remix Icon, Solar, Tabler Icons 等。
+      , supports multiple icon libraries such as Remix Icon, Solar, Tabler Icons, etc.
     </div>
     <div class="text-g-800">
-      为确保系统图标风格统一，项目全部采用 Remix Icon 图标库，可在
+      To ensure consistent icon style across the system, the project uses Remix Icon library, you
+      can search on
       <a
         href="https://icones.js.org/collection/ri"
         target="_blank"
         class="text-theme hover:underline"
         >Iconify</a
       >
-      或<a href="https://remixicon.com/" target="_blank" class="text-theme hover:underline">
-        Remix Icon 官网 </a
-      >搜索使用。
+      or<a href="https://remixicon.com/" target="_blank" class="text-theme hover:underline">
+        Remix Icon Official Website </a
+      >.
     </div>
 
-    <!-- Iconify 图标 -->
+    <!-- Iconify Icons -->
     <div class="art-card-sm p-5">
       <div class="text-lg font-semibold mb-4">Iconify</div>
       <div class="flex items-center gap-6">
@@ -70,30 +71,30 @@
       </div>
     </div>
 
-    <!-- 使用示例 -->
+    <!-- Usage Examples -->
     <div class="art-card-sm p-5">
-      <div class="text-lg font-semibold mb-4">使用示例</div>
+      <div class="text-lg font-semibold mb-4">Usage Examples</div>
       <div class="space-y-4">
         <div>
-          <div class="text-sm text-g-600 mb-2">基础使用</div>
+          <div class="text-sm text-g-600 mb-2">Basic Usage</div>
           <div class="bg-g-200 dark:bg-g-300/30 p-4 rounded font-mono text-sm text-g-800">
             &lt;ArtSvgIcon icon="ri:home-line" /&gt;
           </div>
         </div>
         <div>
-          <div class="text-sm text-g-600 mb-2">自定义大小</div>
+          <div class="text-sm text-g-600 mb-2">Custom Size</div>
           <div class="bg-g-200 dark:bg-g-300/30 p-4 rounded font-mono text-sm text-g-800">
             &lt;ArtSvgIcon icon="ri:user-line" class="text-2xl" /&gt;
           </div>
         </div>
         <div>
-          <div class="text-sm text-g-600 mb-2">自定义颜色</div>
+          <div class="text-sm text-g-600 mb-2">Custom Color</div>
           <div class="bg-g-200 dark:bg-g-300/30 p-4 rounded font-mono text-sm text-g-800">
             &lt;ArtSvgIcon icon="ri:heart-fill" class="text-red-500" /&gt;
           </div>
         </div>
         <div>
-          <div class="text-sm text-g-600 mb-2">组合使用</div>
+          <div class="text-sm text-g-600 mb-2">Combined Usage</div>
           <div class="bg-g-200 dark:bg-g-300/30 p-4 rounded font-mono text-sm text-g-800">
             &lt;ArtSvgIcon icon="ri:star-fill" class="text-4xl text-yellow-500" /&gt;
           </div>
@@ -104,7 +105,7 @@
 </template>
 
 <script setup lang="ts">
-  import ArtSvgIcon from '@/components/core/base/art-svg-icon/index.vue'
+  import ArtSvgIcon from '@/components/core/base/ArtSvgIcon.vue'
 
   defineOptions({ name: 'IconPage' })
 </script>

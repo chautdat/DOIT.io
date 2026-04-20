@@ -5,7 +5,7 @@
         <span class="text-g-700 text-sm">{{ item.des }}</span>
         <ArtCountTo class="text-[26px] font-medium mt-2" :target="item.num" :duration="1300" />
         <div class="flex-c mt-1">
-          <span class="text-xs text-g-600">较上周</span>
+          <span class="text-xs text-g-600">Compared with last week</span>
           <span
             class="ml-1 text-xs font-semibold"
             :class="[item.change.indexOf('+') === -1 ? 'text-danger' : 'text-success']"
@@ -33,13 +33,9 @@
     change: string
   }
 
-  /**
-   * 卡片统计数据列表
-   * 展示总访问次数、在线访客数、点击量和新用户等核心数据指标
-   */
   const dataList = reactive<CardDataItem[]>([
     {
-      des: '总访问次数',
+      des: 'Total visits',
       icon: 'ri:pie-chart-line',
       startVal: 0,
       duration: 1000,
@@ -47,7 +43,7 @@
       change: '+20%'
     },
     {
-      des: '在线访客数',
+      des: 'Online visitors',
       icon: 'ri:group-line',
       startVal: 0,
       duration: 1000,
@@ -55,7 +51,7 @@
       change: '+10%'
     },
     {
-      des: '点击量',
+      des: 'Clicks',
       icon: 'ri:fire-line',
       startVal: 0,
       duration: 1000,
@@ -63,7 +59,7 @@
       change: '-12%'
     },
     {
-      des: '新用户',
+      des: 'New users',
       icon: 'ri:progress-2-line',
       startVal: 0,
       duration: 1000,

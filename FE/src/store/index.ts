@@ -1,23 +1,23 @@
 /**
- * Pinia Store 配置模块
+ * Pinia Store Configuration Module
  *
- * 提供全局状态管理的初始化和配置
+ * Provides global state management initialization and configuration
  *
- * ## 主要功能
+ * ## Main Features
  *
- * - Pinia Store 实例创建
- * - 持久化插件配置（pinia-plugin-persistedstate）
- * - 版本化存储键管理
- * - 自动数据迁移（跨版本）
- * - LocalStorage 序列化配置
- * - Store 初始化函数
+ * - Pinia Store instance creation
+ * - Persistence plugin configuration (pinia-plugin-persistedstate)
+ * - Versioned storage key management
+ * - Automatic data migration (cross-version)
+ * - LocalStorage serialization configuration
+ * - Store initialization function
  *
- * ## 持久化策略
+ * ## Persistence Strategy
  *
- * - 使用 StorageKeyManager 生成版本化的存储键
- * - 格式：sys-v{version}-{storeId}
- * - 自动迁移旧版本数据到当前版本
- * - 使用 localStorage 作为存储介质
+ * - Uses StorageKeyManager to generate versioned storage keys
+ * - Format: sys-v{version}-{storeId}
+ * - Automatically migrates old version data to current version
+ * - Uses localStorage as storage medium
  *
  * @module store/index
  * @author Art Design Pro Team
@@ -29,10 +29,10 @@ import { StorageKeyManager } from '@/utils/storage/storage-key-manager'
 
 export const store = createPinia()
 
-// 创建存储键管理器实例
+// Create storage key manager instance
 const storageKeyManager = new StorageKeyManager()
 
-// 配置持久化插件
+// Configure persistence plugin
 store.use(
   createPersistedState({
     key: (storeId: string) => storageKeyManager.getStorageKey(storeId),
@@ -45,7 +45,7 @@ store.use(
 )
 
 /**
- * 初始化 Store
+ * Initialize Store
  */
 export function initStore(app: App<Element>): void {
   app.use(store)

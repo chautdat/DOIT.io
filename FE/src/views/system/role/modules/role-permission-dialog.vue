@@ -1,7 +1,7 @@
 <template>
   <ElDialog
     v-model="visible"
-    title="菜单权限"
+    title="Menu Permissions"
     width="520px"
     align-center
     class="el-dialog-border"
@@ -29,13 +29,15 @@
       </ElTree>
     </ElScrollbar>
     <template #footer>
-      <ElButton @click="outputSelectedData" style="margin-left: 8px">获取选中数据</ElButton>
+      <ElButton @click="outputSelectedData" style="margin-left: 8px">Get Selected Data</ElButton>
 
-      <ElButton @click="toggleExpandAll">{{ isExpandAll ? '全部收起' : '全部展开' }}</ElButton>
-      <ElButton @click="toggleSelectAll" style="margin-left: 8px">{{
-        isSelectAll ? '取消全选' : '全部选择'
+      <ElButton @click="toggleExpandAll">{{
+        isExpandAll ? 'Collapse All' : 'Expand All'
       }}</ElButton>
-      <ElButton type="primary" @click="savePermission">保存</ElButton>
+      <ElButton @click="toggleSelectAll" style="margin-left: 8px">{{
+        isSelectAll ? 'Deselect All' : 'Select All'
+      }}</ElButton>
+      <ElButton type="primary" @click="savePermission">Save</ElButton>
     </template>
   </ElDialog>
 </template>
@@ -69,7 +71,7 @@
   const isSelectAll = ref(false)
 
   /**
-   * 弹窗显示状态双向绑定
+   * Dialog visibility two-way binding
    */
   const visible = computed({
     get: () => props.modelValue,
@@ -77,7 +79,7 @@
   })
 
   /**
-   * 菜单节点类型
+   * Menu node type
    */
   interface MenuNode {
     id?: string | number
@@ -96,14 +98,14 @@
   }
 
   /**
-   * 处理菜单数据，将 authList 转换为树形子节点
-   * 递归处理菜单树，将权限列表展开为可选择的子节点
+   * Process menu data, convert authList to tree child nodes
+   * Recursively process menu tree, expand permission list into selectable child nodes
    */
   const processedMenuList = computed(() => {
     const processNode = (node: MenuNode): MenuNode => {
       const processed = { ...node }
 
-      // 如果有 authList，将其转换为子节点
+      // If has authList, convert to child nodes
       if (node.meta?.authList?.length) {
         const authNodes = node.meta.authList.map((auth) => ({
           id: `${node.id}_${auth.authMark}`,
@@ -117,7 +119,7 @@
         processed.children = processed.children ? [...processed.children, ...authNodes] : authNodes
       }
 
-      // 递归处理子节点
+      // Recursively process child nodes
       if (processed.children) {
         processed.children = processed.children.map(processNode)
       }
@@ -129,7 +131,7 @@
   })
 
   /**
-   * 树形组件配置
+   * Tree component configuration
    */
   const defaultProps = {
     children: 'children',
@@ -137,20 +139,20 @@
   }
 
   /**
-   * 监听弹窗打开，初始化权限数据
+   * Watch dialog open, initialize permission data
    */
   watch(
     () => props.modelValue,
     (newVal) => {
       if (newVal && props.roleData) {
-        // TODO: 根据角色加载对应的权限数据
-        console.log('设置权限:', props.roleData)
+        // TODO: Load permission data based on role
+        console.log('Set permissions:', props.roleData)
       }
     }
   )
 
   /**
-   * 关闭弹窗并清空选中状态
+   * Close dialog and clear selected state
    */
   const handleClose = () => {
     visible.value = false
@@ -158,24 +160,24 @@
   }
 
   /**
-   * 保存权限配置
+   * Save permission configuration
    */
   const savePermission = () => {
-    // TODO: 调用保存权限接口
-    ElMessage.success('权限保存成功')
+    // TODO: Call save permission API
+    ElMessage.success('Permissions saved successfully')
     emit('success')
     handleClose()
   }
 
   /**
-   * 切换全部展开/收起状态
+   * Toggle expand/collapse all state
    */
   const toggleExpandAll = () => {
     const tree = treeRef.value
     if (!tree) return
 
     const nodes = tree.store.nodesMap
-    // 这里保留 any，因为 Element Plus 的内部节点类型较复杂
+    // Keep any here as Element Plus internal node types are complex
     Object.values(nodes).forEach((node: any) => {
       node.expanded = !isExpandAll.value
     })
@@ -184,7 +186,7 @@
   }
 
   /**
-   * 切换全选/取消全选状态
+   * Toggle select/deselect all state
    */
   const toggleSelectAll = () => {
     const tree = treeRef.value
@@ -201,9 +203,9 @@
   }
 
   /**
-   * 递归获取所有节点的 key
-   * @param nodes 节点列表
-   * @returns 所有节点的 key 数组
+   * Recursively get all node keys
+   * @param nodes Node list
+   * @returns All node key array
    */
   const getAllNodeKeys = (nodes: MenuNode[]): string[] => {
     const keys: string[] = []
@@ -218,8 +220,8 @@
   }
 
   /**
-   * 处理树节点选中状态变化
-   * 同步更新全选按钮状态
+   * Handle tree node check state change
+   * Sync update select all button state
    */
   const handleTreeCheck = () => {
     const tree = treeRef.value
@@ -232,8 +234,8 @@
   }
 
   /**
-   * 输出选中的权限数据到控制台
-   * 用于调试和查看当前选中的权限配置
+   * Output selected permission data to console
+   * For debugging and viewing current selected permission configuration
    */
   const outputSelectedData = () => {
     const tree = treeRef.value
@@ -248,7 +250,9 @@
       totalHalfChecked: tree.getHalfCheckedKeys().length
     }
 
-    console.log('=== 选中的权限数据 ===', selectedData)
-    ElMessage.success(`已输出选中数据到控制台，共选中 ${selectedData.totalChecked} 个节点`)
+    console.log('=== Selected permission data ===', selectedData)
+    ElMessage.success(
+      `Output selected data to console, total ${selectedData.totalChecked} nodes selected`
+    )
   }
 </script>

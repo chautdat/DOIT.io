@@ -24,13 +24,9 @@
   defineOptions({ name: 'ArtResultPage' })
 
   interface ResultPageProps {
-    /** 成功/失败 */
     type: 'success' | 'fail'
-    /** 标题 */
     title: string
-    /** 消息 */
     message: string
-    /** 图标 */
     iconCode: string
   }
 

@@ -1,4 +1,3 @@
-<!-- 工作台页面 -->
 <template>
   <div>
     <CardList></CardList>

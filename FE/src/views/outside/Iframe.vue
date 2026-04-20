@@ -20,10 +20,6 @@
   const iframeUrl = ref('')
   const iframeRef = ref<HTMLIFrameElement | null>(null)
 
-  /**
-   * 初始化 iframe URL
-   * 从路由配置中获取对应的外部链接地址
-   */
   onMounted(() => {
     const iframeRoute = IframeRouteManager.getInstance().findByPath(route.path)
 
@@ -32,10 +28,6 @@
     }
   })
 
-  /**
-   * 处理 iframe 加载完成事件
-   * 隐藏加载状态
-   */
   const handleIframeLoad = (): void => {
     isLoading.value = false
   }

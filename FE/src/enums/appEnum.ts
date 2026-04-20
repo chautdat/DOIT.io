@@ -1,81 +1,79 @@
 /**
- * 系统级别枚举定义模块
+ * System-level Enum Definitions
  *
- * ## 主要功能
+ * ## Main Features
  *
- * - 菜单类型枚举（左侧、顶部、混合、双栏）
- * - 主题类型枚举（亮色、暗色、自动）
- * - 菜单主题枚举（设计、亮色、暗色）
- * - 语言类型枚举（中文、英文）
- * - 容器宽度枚举（全屏、固定）
- * - 菜单宽度枚举（收起宽度）
+ * - Menu type enum (left, top, mixed, dual-column)
+ * - Theme type enum (light, dark, auto)
+ * - Menu theme enum (design, light, dark)
+ * - Language type enum (English)
+ * - Container width enum (full screen, fixed)
+ * - Menu width enum (collapsed width)
  *
  * @module enums/appEnum
- * @author Art Design Pro Team
+ * @author DOIT IELTS Team
  */
 
 /**
- * 菜单类型
+ * Menu Type
  */
 export enum MenuTypeEnum {
-  /** 左侧菜单 */
+  /** Left menu */
   LEFT = 'left',
-  /** 顶部菜单 */
+  /** Top menu */
   TOP = 'top',
-  /** 顶部+左侧菜单 */
+  /** Top + Left menu */
   TOP_LEFT = 'top-left',
-  /** 双栏菜单 */
+  /** Dual-column menu */
   DUAL_MENU = 'dual-menu'
 }
 
 /**
- * 系统主题
+ * System Theme
  */
 export enum SystemThemeEnum {
-  /** 暗色主题 */
+  /** Dark theme */
   DARK = 'dark',
-  /** 亮色主题 */
+  /** Light theme */
   LIGHT = 'light',
-  /** 自动主题（跟随系统） */
+  /** Auto theme (follow system) */
   AUTO = 'auto'
 }
 
 /**
- * 菜单主题
+ * Menu Theme
  */
 export enum MenuThemeEnum {
-  /** 暗色主题 */
+  /** Dark theme */
   DARK = 'dark',
-  /** 亮色主题 */
+  /** Light theme */
   LIGHT = 'light',
-  /** 设计主题 */
+  /** Design theme */
   DESIGN = 'design'
 }
 
 /**
- * 菜单宽度
+ * Menu Width
  */
 export enum MenuWidth {
-  /** 收起宽度 */
+  /** Collapsed width */
   CLOSE = '64px'
 }
 
 /**
- * 语言类型
+ * Language Type
  */
 export enum LanguageEnum {
-  /** 中文 */
-  ZH = 'zh',
-  /** 英文 */
+  /** English */
   EN = 'en'
 }
 
 /**
- * 容器宽度
+ * Container Width
  */
 export enum ContainerWidthEnum {
-  /** 全屏宽度 */
+  /** Full width */
   FULL = '100%',
-  /** 固定宽度 */
+  /** Fixed width */
   BOXED = '1200px'
 }

@@ -22,30 +22,25 @@
   const props = defineProps<Props>()
   const emit = defineEmits<Emits>()
 
-  // 表单数据双向绑定
   const searchBarRef = ref()
   const formData = computed({
     get: () => props.modelValue,
     set: (val) => emit('update:modelValue', val)
   })
 
-  // 校验规则
   const rules = {
-    // userName: [{ required: true, message: '请输入用户名', trigger: 'blur' }]
   }
 
-  // 动态 options
   const statusOptions = ref<{ label: string; value: string; disabled?: boolean }[]>([])
 
-  // 模拟接口返回状态数据
   function fetchStatusOptions(): Promise<typeof statusOptions.value> {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve([
-          { label: '在线', value: '1' },
-          { label: '离线', value: '2' },
-          { label: '异常', value: '3' },
-          { label: '注销', value: '4' }
+          { label: 'Online', value: '1' },
+          { label: 'Offline', value: '2' },
+          { label: 'Error', value: '3' },
+          { label: 'Disabled', value: '4' }
         ])
       }, 1000)
     })
@@ -55,58 +50,56 @@
     statusOptions.value = await fetchStatusOptions()
   })
 
-  // 表单配置
   const formItems = computed(() => [
     {
-      label: '用户名',
+      label: 'Username',
       key: 'userName',
       type: 'input',
-      placeholder: '请输入用户名',
+      placeholder: 'Please enter a username',
       clearable: true
     },
     {
-      label: '手机号',
+      label: 'Phone',
       key: 'userPhone',
       type: 'input',
-      props: { placeholder: '请输入手机号', maxlength: '11' }
+      props: { placeholder: 'Please enter a phone number', maxlength: '11' }
     },
     {
-      label: '邮箱',
+      label: 'Email',
       key: 'userEmail',
       type: 'input',
-      props: { placeholder: '请输入邮箱' }
+      props: { placeholder: 'Please enter an email' }
     },
     {
-      label: '状态',
+      label: 'Status',
       key: 'status',
       type: 'select',
       props: {
-        placeholder: '请选择状态',
+        placeholder: 'Please select a status',
         options: statusOptions.value
       }
     },
     {
-      label: '性别',
+      label: 'Gender',
       key: 'userGender',
       type: 'radiogroup',
       props: {
         options: [
-          { label: '男', value: '1' },
-          { label: '女', value: '2' }
+          { label: 'Male', value: '1' },
+          { label: 'Female', value: '2' }
         ]
       }
     }
   ])
 
-  // 事件
   function handleReset() {
-    console.log('重置表单')
+    console.log('Reset form')
     emit('reset')
   }
 
   async function handleSearch(params: Api.SystemManage.UserSearchParams) {
     await searchBarRef.value.validate()
     emit('search', params)
-    console.log('表单数据', params)
+    console.log('Form data', params)
   }
 </script>

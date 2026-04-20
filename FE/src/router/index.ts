@@ -5,19 +5,19 @@ import { configureNProgress } from '@/utils/router'
 import { setupBeforeEachGuard } from './guards/beforeEach'
 import { setupAfterEachGuard } from './guards/afterEach'
 
-// 创建路由实例
+// Create router instance
 export const router = createRouter({
   history: createWebHashHistory(),
-  routes: staticRoutes // 静态路由
+  routes: staticRoutes // Static routes
 })
 
-// 初始化路由
+// Initialize router
 export function initRouter(app: App<Element>): void {
-  configureNProgress() // 顶部进度条
-  setupBeforeEachGuard(router) // 路由前置守卫
-  setupAfterEachGuard(router) // 路由后置守卫
+  configureNProgress() // Top progress bar
+  setupBeforeEachGuard(router) // Router before guard
+  setupAfterEachGuard(router) // Router after guard
   app.use(router)
 }
 
-// 主页路径，默认使用菜单第一个有效路径，配置后使用此路径
+// Home page path, uses first valid menu path by default, uses this path when configured
 export const HOME_PAGE_PATH = ''

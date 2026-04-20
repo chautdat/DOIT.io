@@ -2,8 +2,8 @@
   <div class="art-card h-128 p-5 mb-5 max-sm:mb-4">
     <div class="art-card-header">
       <div class="title">
-        <h4>动态</h4>
-        <p>新增<span class="text-success">+6</span></p>
+        <h4>Activity</h4>
+        <p>New <span class="text-success">+6</span></p>
       </div>
     </div>
 
@@ -30,50 +30,46 @@
     target: string
   }
 
-  /**
-   * 用户动态列表
-   * 记录用户的关注、发文、提问、兑换等各类活动
-   */
   const list = reactive<DynamicItem[]>([
     {
-      username: '中小鱼',
-      type: '关注了',
-      target: '誶誶淰'
+      username: 'River',
+      type: 'followed',
+      target: 'Muse'
     },
     {
-      username: '何小荷',
-      type: '发表文章',
-      target: 'Vue3 + Typescript + Vite 项目实战笔记'
+      username: 'Holly',
+      type: 'published an article',
+      target: 'Vue 3 + TypeScript + Vite project notes'
     },
     {
-      username: '中小鱼',
-      type: '关注了',
-      target: '誶誶淰'
+      username: 'River',
+      type: 'followed',
+      target: 'Muse'
     },
     {
-      username: '何小荷',
-      type: '发表文章',
-      target: 'Vue3 + Typescript + Vite 项目实战笔记'
+      username: 'Holly',
+      type: 'published an article',
+      target: 'Vue 3 + TypeScript + Vite project notes'
     },
     {
-      username: '誶誶淰',
-      type: '提出问题',
-      target: '主题可以配置吗'
+      username: 'Muse',
+      type: 'asked a question',
+      target: 'Can the theme be configured?'
     },
     {
-      username: '发呆草',
-      type: '兑换了物品',
-      target: '《奇特的一生》'
+      username: 'Poppy',
+      type: 'redeemed an item',
+      target: 'The Novel of a Lifetime'
     },
     {
-      username: '甜筒',
-      type: '关闭了问题',
-      target: '发呆草'
+      username: 'Cone',
+      type: 'closed a question',
+      target: 'Poppy'
     },
     {
-      username: '冷月呆呆',
-      type: '兑换了物品',
-      target: '《高效人士的七个习惯》'
+      username: 'Moon',
+      type: 'redeemed an item',
+      target: 'The 7 Habits of Highly Effective People'
     }
   ])
 </script>

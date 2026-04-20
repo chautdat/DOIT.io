@@ -2,7 +2,7 @@
   <div class="art-card h-82 p-5 mb-5 max-sm:mb-4">
     <div class="art-card-header">
       <div class="title">
-        <h4>业务量与服务水平</h4>
+        <h4>Volume & Service Level</h4>
       </div>
     </div>
 
@@ -27,23 +27,23 @@
   }
 
   /**
-   * 服务类别数据
-   * 不同产品的分类标签
+   * Service category data
+   * Product category labels
    */
-  const serviceCategories = ref(['产品A', '产品B', '产品C', '产品D', '产品E'])
+  const serviceCategories = ref(['Product A', 'Product B', 'Product C', 'Product D', 'Product E'])
 
   /**
-   * 业务量与服务量数据
-   * 展示各产品的业务量和服务量对比，使用堆叠柱状图展示
+   * Volume and service data
+   * Shows volume and service comparison for each product using stacked bar chart
    */
   const volumeServiceData = ref<VolumeServiceDataItem[]>([
     {
-      name: '业务量',
+      name: 'Volume',
       data: [20, 25, 30, 35, 40],
       stack: 'total'
     },
     {
-      name: '服务量',
+      name: 'Service',
       data: [30, 35, 40, 45, 50],
       stack: 'total'
     }

@@ -1,33 +1,33 @@
 <template>
   <ElDialog
     v-model="visible"
-    :title="dialogType === 'add' ? '新增角色' : '编辑角色'"
+    :title="dialogType === 'add' ? 'Add Role' : 'Edit Role'"
     width="30%"
     align-center
     @close="handleClose"
   >
     <ElForm ref="formRef" :model="form" :rules="rules" label-width="120px">
-      <ElFormItem label="角色名称" prop="roleName">
-        <ElInput v-model="form.roleName" placeholder="请输入角色名称" />
+      <ElFormItem label="Role Name" prop="roleName">
+        <ElInput v-model="form.roleName" placeholder="Enter role name" />
       </ElFormItem>
-      <ElFormItem label="角色编码" prop="roleCode">
-        <ElInput v-model="form.roleCode" placeholder="请输入角色编码" />
+      <ElFormItem label="Role Code" prop="roleCode">
+        <ElInput v-model="form.roleCode" placeholder="Enter role code" />
       </ElFormItem>
-      <ElFormItem label="描述" prop="description">
+      <ElFormItem label="Description" prop="description">
         <ElInput
           v-model="form.description"
           type="textarea"
           :rows="3"
-          placeholder="请输入角色描述"
+          placeholder="Enter role description"
         />
       </ElFormItem>
-      <ElFormItem label="启用">
+      <ElFormItem label="Enabled">
         <ElSwitch v-model="form.enabled" />
       </ElFormItem>
     </ElForm>
     <template #footer>
-      <ElButton @click="handleClose">取消</ElButton>
-      <ElButton type="primary" @click="handleSubmit">提交</ElButton>
+      <ElButton @click="handleClose">Cancel</ElButton>
+      <ElButton type="primary" @click="handleSubmit">Submit</ElButton>
     </template>
   </ElDialog>
 </template>
@@ -59,7 +59,7 @@
   const formRef = ref<FormInstance>()
 
   /**
-   * 弹窗显示状态双向绑定
+   * Dialog visibility two-way binding
    */
   const visible = computed({
     get: () => props.modelValue,
@@ -67,22 +67,22 @@
   })
 
   /**
-   * 表单验证规则
+   * Form validation rules
    */
   const rules = reactive<FormRules>({
     roleName: [
-      { required: true, message: '请输入角色名称', trigger: 'blur' },
-      { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
+      { required: true, message: 'Please enter role name', trigger: 'blur' },
+      { min: 2, max: 20, message: 'Length should be 2 to 20 characters', trigger: 'blur' }
     ],
     roleCode: [
-      { required: true, message: '请输入角色编码', trigger: 'blur' },
-      { min: 2, max: 50, message: '长度在 2 到 50 个字符', trigger: 'blur' }
+      { required: true, message: 'Please enter role code', trigger: 'blur' },
+      { min: 2, max: 50, message: 'Length should be 2 to 50 characters', trigger: 'blur' }
     ],
-    description: [{ required: true, message: '请输入角色描述', trigger: 'blur' }]
+    description: [{ required: true, message: 'Please enter description', trigger: 'blur' }]
   })
 
   /**
-   * 表单数据
+   * Form data
    */
   const form = reactive<RoleListItem>({
     roleId: 0,
@@ -94,7 +94,7 @@
   })
 
   /**
-   * 监听弹窗打开，初始化表单数据
+   * Watch dialog open, initialize form data
    */
   watch(
     () => props.modelValue,
@@ -104,7 +104,7 @@
   )
 
   /**
-   * 监听角色数据变化，更新表单
+   * Watch role data change, update form
    */
   watch(
     () => props.roleData,
@@ -115,8 +115,8 @@
   )
 
   /**
-   * 初始化表单数据
-   * 根据弹窗类型填充表单或重置表单
+   * Initialize form data
+   * Fill form based on dialog type or reset form
    */
   const initForm = () => {
     if (props.dialogType === 'edit' && props.roleData) {
@@ -134,7 +134,7 @@
   }
 
   /**
-   * 关闭弹窗并重置表单
+   * Close dialog and reset form
    */
   const handleClose = () => {
     visible.value = false
@@ -142,21 +142,21 @@
   }
 
   /**
-   * 提交表单
-   * 验证通过后调用接口保存数据
+   * Submit form
+   * Validate and call API to save data
    */
   const handleSubmit = async () => {
     if (!formRef.value) return
 
     try {
       await formRef.value.validate()
-      // TODO: 调用新增/编辑接口
-      const message = props.dialogType === 'add' ? '新增成功' : '修改成功'
+      // TODO: Call add/edit API
+      const message = props.dialogType === 'add' ? 'Added successfully' : 'Updated successfully'
       ElMessage.success(message)
       emit('success')
       handleClose()
     } catch (error) {
-      console.log('表单验证失败:', error)
+      console.log('Form validation failed:', error)
     }
   }
 </script>

@@ -2,12 +2,12 @@
   <div class="art-card h-82 p-5 mb-5 overflow-hidden max-lg:h-auto max-sm:mb-4">
     <div class="art-card-header pr-0">
       <div class="title">
-        <h4>今日销售</h4>
-        <p>销售总结</p>
+        <h4>Today's Sales</h4>
+        <p>Sales Summary</p>
       </div>
       <div class="flex-cc h-7.5 min-w-17 border border-g-300 rounded-lg text-g-500 c-p">
         <ArtSvgIcon icon="ri:arrow-up-line" class="text-base mr-1.5" />
-        <span class="text-xs">导出</span>
+        <span class="text-xs">Export</span>
       </div>
     </div>
 
@@ -25,7 +25,7 @@
               <ArtCountTo class="text-2xl font-medium" :target="item.value" :duration="1500" />
               <p class="mt-2 text-base text-g-600 max-sm:mt-1">{{ item.label }}</p>
               <small class="text-g-500 mt-1 max-sm:mt-0.5">
-                较昨天
+                vs Yesterday
                 <span
                   class="font-medium"
                   :class="[item.change.indexOf('+') === -1 ? 'text-danger' : 'text-success']"
@@ -50,33 +50,33 @@
   }
 
   /**
-   * 今日销售数据统计
-   * 包含销售额、订单量、产品销量和新客户数等关键指标
+   * Today's sales statistics
+   * Contains key metrics such as sales amount, order volume, product sales and new customers
    */
   const salesData = ref<SalesDataItem[]>([
     {
-      label: '总销售额',
+      label: 'Total Sales',
       value: 999,
       change: '+10%',
       icon: 'ri:bar-chart-box-ai-line',
       class: 'bg-theme'
     },
     {
-      label: '总订单量',
+      label: 'Total Orders',
       value: 300,
       change: '+15%',
       icon: 'ri:bar-chart-grouped-line',
       class: 'bg-warning'
     },
     {
-      label: '产品销售量',
+      label: 'Products Sold',
       value: 56,
       change: '-5%',
       icon: 'ri:bar-chart-2-line',
       class: 'bg-error'
     },
     {
-      label: '新客户数',
+      label: 'New Customers',
       value: 68,
       change: '+8%',
       icon: 'ri:user-add-line',

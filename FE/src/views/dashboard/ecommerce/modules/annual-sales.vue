@@ -2,8 +2,8 @@
   <div class="art-card p-5 h-[28.2rem] mb-5 max-sm:mb-4">
     <div class="art-card-header">
       <div class="title">
-        <h4>年度销售额</h4>
-        <p>按季度统计</p>
+        <h4>Annual Sales</h4>
+        <p>By Quarter</p>
       </div>
     </div>
 
@@ -21,8 +21,8 @@
           <ArtSvgIcon icon="ri:money-cny-circle-line" class="text-xl" />
         </div>
         <div>
-          <p class="text-lg">¥200,858</p>
-          <span class="text-sm">线上销售</span>
+          <p class="text-lg">$200,858</p>
+          <span class="text-sm">Online Sales</span>
         </div>
       </div>
       <div class="flex-c">
@@ -30,8 +30,8 @@
           <ArtSvgIcon icon="ri:heart-3-line" class="text-xl" />
         </div>
         <div>
-          <p class="text-lg">¥102,927</p>
-          <span class="text-sm">线下销售</span>
+          <p class="text-lg">$102,927</p>
+          <span class="text-sm">Offline Sales</span>
         </div>
       </div>
     </div>

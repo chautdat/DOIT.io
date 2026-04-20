@@ -1,8 +1,8 @@
 <template>
   <div class="page-content">
-    <ElButton @contextmenu.prevent="showMenu"> 右键触发菜单 </ElButton>
+    <ElButton @contextmenu.prevent="showMenu"> Right-click to trigger menu </ElButton>
 
-    <!-- 右键菜单组件 -->
+    <!-- Context menu component -->
     <ArtMenuRight
       ref="menuRef"
       :menu-items="menuItems"
@@ -18,8 +18,8 @@
 
 <script setup lang="ts">
   import { computed, nextTick } from 'vue'
-  import ArtMenuRight from '@/components/core/others/art-menu-right/index.vue'
-  import type { MenuItemType } from '@/components/core/others/art-menu-right/index.vue'
+  import ArtMenuRight from '@/components/core/others/art-menu-right/ArtMenuRight.vue'
+  import type { MenuItemType } from '@/components/core/others/art-menu-right/ArtMenuRight.vue'
 
   defineOptions({ name: 'TemplateContextMenu' })
 
@@ -27,89 +27,89 @@
   const lastAction = ref('')
 
   /**
-   * 右键菜单选项配置
+   * Context menu options configuration
    */
   const menuItems = computed((): MenuItemType[] => [
     {
       key: 'copy',
-      label: '复制',
+      label: 'Copy',
       icon: 'ri:file-copy-line'
     },
     {
       key: 'paste',
-      label: '粘贴',
+      label: 'Paste',
       icon: 'ri:capsule-line'
     },
     {
       key: 'cut',
-      label: '剪切',
+      label: 'Cut',
       icon: 'ri:clipboard-line',
       showLine: true
     },
     {
       key: 'export',
-      label: '导出选项',
+      label: 'Export Options',
       icon: 'ri:export-line',
       children: [
         {
           key: 'exportExcel',
-          label: '导出 Excel',
+          label: 'Export Excel',
           icon: 'ri:file-excel-2-line'
         },
         {
           key: 'exportPdf',
-          label: '导出 PDF',
+          label: 'Export PDF',
           icon: 'ri:file-pdf-2-line'
         }
       ]
     },
     {
       key: 'edit',
-      label: '编辑选项',
+      label: 'Edit Options',
       icon: 'ri:edit-2-line',
       children: [
         {
           key: 'rename',
-          label: '重命名'
+          label: 'Rename'
         },
         {
           key: 'duplicate',
-          label: '复制副本'
+          label: 'Duplicate'
         }
       ]
     },
     {
       key: 'share',
-      label: '分享',
+      label: 'Share',
       icon: 'ri:share-forward-line',
       showLine: true
     },
     {
       key: 'delete',
-      label: '删除',
+      label: 'Delete',
       icon: 'ri:delete-bin-line'
     },
     {
       key: 'disabled',
-      label: '禁用选项',
+      label: 'Disabled Option',
       icon: 'ri:close-circle-line',
       disabled: true
     }
   ])
 
   /**
-   * 处理菜单项选择
-   * @param item 选中的菜单项
+   * Handle menu item selection
+   * @param item Selected menu item
    */
   const handleSelect = (item: MenuItemType) => {
     lastAction.value = `${item.label} (${item.key})`
-    ElMessage.success(`执行操作: ${item.label}`)
-    console.log('选择了菜单项:', item)
+    ElMessage.success(`Action: ${item.label}`)
+    console.log('Selected menu item:', item)
   }
 
   /**
-   * 显示右键菜单
-   * @param e 鼠标事件
+   * Show context menu
+   * @param e Mouse event
    */
   const showMenu = (e: MouseEvent) => {
     e.preventDefault()
@@ -121,16 +121,16 @@
   }
 
   /**
-   * 菜单显示回调
+   * Menu show callback
    */
   const onMenuShow = () => {
-    console.log('菜单显示')
+    console.log('Menu shown')
   }
 
   /**
-   * 菜单隐藏回调
+   * Menu hide callback
    */
   const onMenuHide = () => {
-    console.log('菜单隐藏')
+    console.log('Menu hidden')
   }
 </script>

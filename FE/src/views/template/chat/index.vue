@@ -1,4 +1,4 @@
-<!-- 聊天页 -->
+<!-- Chat Page -->
 <template>
   <div class="page-content flex !p-0 max-md:flex-col" :style="{ height: containerMinHeight }">
     <ElRow>
@@ -21,20 +21,25 @@
           </div>
         </div>
         <div class="mt-3">
-          <ElInput v-model="searchQuery" placeholder="搜索联系人" prefix-icon="Search" clearable />
+          <ElInput
+            v-model="searchQuery"
+            placeholder="Search contacts"
+            prefix-icon="Search"
+            clearable
+          />
         </div>
         <ElDropdown trigger="click" placement="bottom-start">
           <span class="mt-5 c-p">
-            排序方式
+            Sort by
             <ElIcon class="el-icon--right">
               <arrow-down />
             </ElIcon>
           </span>
           <template #dropdown>
             <ElDropdownMenu>
-              <ElDropdownItem>按时间排序</ElDropdownItem>
-              <ElDropdownItem>按名称排序</ElDropdownItem>
-              <ElDropdownItem>全部标为已读</ElDropdownItem>
+              <ElDropdownItem>Sort by time</ElDropdownItem>
+              <ElDropdownItem>Sort by name</ElDropdownItem>
+              <ElDropdownItem>Mark all as read</ElDropdownItem>
             </ElDropdownMenu>
           </template>
         </ElDropdown>
@@ -79,7 +84,7 @@
               class="w-2 h-2 rounded-full"
               :class="isOnline ? 'bg-success/100' : 'bg-danger/100'"
             ></div>
-            <span class="text-xs text-g-600">{{ isOnline ? '在线' : '离线' }}</span>
+            <span class="text-xs text-g-600">{{ isOnline ? 'Online' : 'Offline' }}</span>
           </div>
         </div>
         <div class="flex-c gap-2">
@@ -89,7 +94,7 @@
         </div>
       </div>
       <div class="flex flex-col h-[calc(100%-85px)]">
-        <!-- 聊天消息区域 -->
+        <!-- Chat messages area -->
         <div
           class="flex-1 py-7.5 px-4 overflow-y-auto border-t-d [&::-webkit-scrollbar]:!w-1"
           ref="messageContainer"
@@ -123,13 +128,13 @@
           </template>
         </div>
 
-        <!-- 聊天输入区域 -->
+        <!-- Chat input area -->
         <div class="p-4">
           <ElInput
             v-model="messageText"
             type="textarea"
             :rows="3"
-            placeholder="输入消息"
+            placeholder="Enter message"
             resize="none"
             @keyup.enter.prevent="sendMessage"
           >
@@ -137,7 +142,7 @@
               <div class="flex gap-2 py-2">
                 <ElButton :icon="Paperclip" circle plain />
                 <ElButton :icon="Picture" circle plain />
-                <ElButton type="primary" @click="sendMessage" v-ripple>发送</ElButton>
+                <ElButton type="primary" @click="sendMessage" v-ripple>Send</ElButton>
               </div>
             </template>
           </ElInput>
@@ -146,7 +151,7 @@
               <ArtSvgIcon icon="ri:image-line" class="mr-5 c-p text-g-600 text-lg" />
               <ArtSvgIcon icon="ri:emotion-happy-line" class="mr-5 c-p text-g-600 text-lg" />
             </div>
-            <ElButton type="primary" @click="sendMessage" v-ripple class="min-w-20">发送</ElButton>
+            <ElButton type="primary" @click="sendMessage" v-ripple class="min-w-20">Send</ElButton>
           </div>
         </div>
       </div>
@@ -175,7 +180,7 @@
   const { containerMinHeight } = useAutoLayoutHeight()
 
   /**
-   * 联系人类型定义
+   * Contact type definition
    */
   interface Person {
     id: number
@@ -197,144 +202,144 @@
   const messageContainer = ref<HTMLElement | null>(null)
 
   /**
-   * 联系人列表数据
+   * Contact list data
    */
   const personList = ref<Person[]>([
     {
       id: 1,
-      name: '梅洛迪·梅西',
+      name: 'Melody Messi',
       email: 'melody@altbox.com',
       avatar: meAvatar,
       online: true,
-      lastTime: '20小时前',
+      lastTime: '20 hours ago',
       unread: 0
     },
     {
       id: 2,
-      name: '马克·史密斯',
+      name: 'Mark Smith',
       email: 'max@kt.com',
       avatar: avatar2,
       online: true,
-      lastTime: '2周前',
+      lastTime: '2 weeks ago',
       unread: 6
     },
     {
       id: 3,
-      name: '肖恩·宾',
+      name: 'Sean Bean',
       email: 'sean@dellito.com',
       avatar: avatar3,
       online: false,
-      lastTime: '5小时前',
+      lastTime: '5 hours ago',
       unread: 5
     },
     {
       id: 4,
-      name: '爱丽丝·约翰逊',
+      name: 'Alice Johnson',
       email: 'alice@domain.com',
       avatar: avatar4,
       online: true,
-      lastTime: '1小时前',
+      lastTime: '1 hour ago',
       unread: 2
     },
     {
       id: 5,
-      name: '鲍勃·布朗',
+      name: 'Bob Brown',
       email: 'bob@domain.com',
       avatar: avatar5,
       online: false,
-      lastTime: '3天前',
+      lastTime: '3 days ago',
       unread: 1
     },
     {
       id: 6,
-      name: '查理·戴维斯',
+      name: 'Charlie Davis',
       email: 'charlie@domain.com',
       avatar: avatar6,
       online: true,
-      lastTime: '10分钟前',
+      lastTime: '10 minutes ago',
       unread: 0
     },
     {
       id: 7,
-      name: '戴安娜·普林斯',
+      name: 'Diana Prince',
       email: 'diana@domain.com',
       avatar: avatar7,
       online: true,
-      lastTime: '15分钟前',
+      lastTime: '15 minutes ago',
       unread: 3
     },
     {
       id: 8,
-      name: '伊桑·亨特',
+      name: 'Ethan Hunt',
       email: 'ethan@domain.com',
       avatar: avatar8,
       online: true,
-      lastTime: '5分钟前',
+      lastTime: '5 minutes ago',
       unread: 0
     },
     {
       id: 9,
-      name: '杰西卡·琼斯',
+      name: 'Jessica Jones',
       email: 'jessica@domain.com',
       avatar: avatar9,
       online: false,
-      lastTime: '1天前',
+      lastTime: '1 day ago',
       unread: 4
     },
     {
       id: 10,
-      name: '彼得·帕克',
+      name: 'Peter Parker',
       email: 'peter@domain.com',
       avatar: avatar10,
       online: true,
-      lastTime: '2小时前',
+      lastTime: '2 hours ago',
       unread: 1
     },
     {
       id: 11,
-      name: '克拉克·肯特',
+      name: 'Clark Kent',
       email: 'clark@domain.com',
       avatar: avatar3,
       online: true,
-      lastTime: '30分钟前',
+      lastTime: '30 minutes ago',
       unread: 2
     },
     {
       id: 12,
-      name: '布鲁斯·韦恩',
+      name: 'Bruce Wayne',
       email: 'bruce@domain.com',
       avatar: avatar5,
       online: false,
-      lastTime: '3天前',
+      lastTime: '3 days ago',
       unread: 0
     },
     {
       id: 13,
-      name: '韦德·威尔逊',
+      name: 'Wade Wilson',
       email: 'wade@domain.com',
       avatar: avatar6,
       online: true,
-      lastTime: '10分钟前',
+      lastTime: '10 minutes ago',
       unread: 5
     }
   ])
 
   /**
-   * 选择联系人
-   * @param person 联系人对象
+   * Select contact
+   * @param person Contact object
    */
   const selectPerson = (person: Person) => {
     selectedPerson.value = person
   }
 
   /**
-   * 消息列表数据
+   * Message list data
    */
   const messages = ref([
     {
       id: 1,
       sender: 'Art Bot',
-      content: '你好！我是你的AI助手，有什么我可以帮你的吗？',
+      content: 'Hello! I am your AI assistant. How can I help you?',
       time: '10:00',
       isMe: false,
       avatar: aiAvatar
@@ -342,7 +347,7 @@
     {
       id: 2,
       sender: 'Ricky',
-      content: '我想了解一下系统的使用方法。',
+      content: 'I would like to learn about how to use the system.',
       time: '10:01',
       isMe: true,
       avatar: meAvatar
@@ -350,7 +355,8 @@
     {
       id: 3,
       sender: 'Art Bot',
-      content: '好的，我来为您介绍系统的主要功能。首先，您可以通过左侧菜单访问不同的功能模块...',
+      content:
+        'Sure, let me introduce the main features of the system. First, you can access different modules through the left menu...',
       time: '10:02',
       isMe: false,
       avatar: aiAvatar
@@ -358,7 +364,7 @@
     {
       id: 4,
       sender: 'Ricky',
-      content: '听起来很不错，能具体讲讲数据分析部分吗？',
+      content: 'Sounds great! Can you tell me more about the data analysis part?',
       time: '10:05',
       isMe: true,
       avatar: meAvatar
@@ -366,7 +372,8 @@
     {
       id: 5,
       sender: 'Art Bot',
-      content: '当然可以。数据分析模块可以帮助您实时监控关键指标，并生成详细的报表...',
+      content:
+        'Of course. The data analysis module can help you monitor key metrics in real-time and generate detailed reports...',
       time: '10:06',
       isMe: false,
       avatar: aiAvatar
@@ -374,7 +381,7 @@
     {
       id: 6,
       sender: 'Ricky',
-      content: '太好了，那我如何开始使用呢？',
+      content: 'Great! How do I get started?',
       time: '10:08',
       isMe: true,
       avatar: meAvatar
@@ -382,7 +389,8 @@
     {
       id: 7,
       sender: 'Art Bot',
-      content: '您可以先创建一个项目，然后在项目中添加相关的数据源，系统会自动进行分析。',
+      content:
+        'You can start by creating a project, then add related data sources, and the system will automatically analyze them.',
       time: '10:09',
       isMe: false,
       avatar: aiAvatar
@@ -390,7 +398,7 @@
     {
       id: 8,
       sender: 'Ricky',
-      content: '明白了，谢谢你的帮助！',
+      content: 'Got it, thank you for your help!',
       time: '10:10',
       isMe: true,
       avatar: meAvatar
@@ -398,7 +406,7 @@
     {
       id: 9,
       sender: 'Art Bot',
-      content: '不客气，有任何问题随时联系我。',
+      content: 'You are welcome! Feel free to contact me anytime.',
       time: '10:11',
       isMe: false,
       avatar: aiAvatar
@@ -406,8 +414,8 @@
   ])
 
   /**
-   * 发送消息
-   * 添加新消息到消息列表并滚动到底部
+   * Send message
+   * Add new message to list and scroll to bottom
    */
   const sendMessage = () => {
     const text = messageText.value.trim()
@@ -427,7 +435,7 @@
   }
 
   /**
-   * 滚动到消息列表底部
+   * Scroll to message list bottom
    */
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -438,7 +446,7 @@
   }
 
   /**
-   * 打开聊天窗口
+   * Open chat window
    */
   const openChat = () => {
     isDrawerVisible.value = true

@@ -1,6 +1,6 @@
 <template>
   <div class="page-content mb-5">
-    <!-- 日历主体 -->
+    <!-- Calendar main body -->
     <ElCalendar v-model="currentDate">
       <template #date-cell="{ data }">
         <div
@@ -8,10 +8,10 @@
           :class="{ 'is-selected': data.isSelected }"
           @click="handleCellClick(data.day)"
         >
-          <!-- 日期显示 -->
+          <!-- Date display -->
           <p class="absolute top-1 right-1 text-sm">{{ formatDate(data.day) }}</p>
 
-          <!-- 事件列表 -->
+          <!-- Event list -->
           <div class="flex flex-col gap-1 w-full max-h-21 pr-1 mt-6 overflow-y-auto">
             <div
               v-for="event in getEvents(data.day)"
@@ -30,35 +30,35 @@
       </template>
     </ElCalendar>
 
-    <!-- 事件编辑弹窗 -->
+    <!-- Event edit dialog -->
     <ElDialog v-model="dialogVisible" :title="dialogTitle" width="600px" @closed="resetForm">
-      <ElForm :model="eventForm" label-width="80px">
-        <ElFormItem label="活动标题" required>
-          <ElInput v-model="eventForm.content" placeholder="请输入活动标题" />
+      <ElForm :model="eventForm" label-width="100px">
+        <ElFormItem label="Event Title" required>
+          <ElInput v-model="eventForm.content" placeholder="Enter event title" />
         </ElFormItem>
-        <ElFormItem label="事件颜色">
+        <ElFormItem label="Event Color">
           <ElRadioGroup v-model="eventForm.type">
             <ElRadio v-for="type in eventTypes" :key="type.value" :value="type.value">
               {{ type.label }}
             </ElRadio>
           </ElRadioGroup>
         </ElFormItem>
-        <ElFormItem label="开始日期" required>
+        <ElFormItem label="Start Date" required>
           <ElDatePicker
             style="width: 100%"
             v-model="eventForm.date"
             type="date"
-            placeholder="选择日期"
+            placeholder="Select date"
             format="YYYY-MM-DD"
             value-format="YYYY-MM-DD"
           />
         </ElFormItem>
-        <ElFormItem label="结束日期">
+        <ElFormItem label="End Date">
           <ElDatePicker
             style="width: 100%"
             v-model="eventForm.endDate"
             type="date"
-            placeholder="选择结束日期"
+            placeholder="Select end date"
             format="YYYY-MM-DD"
             value-format="YYYY-MM-DD"
             :min-date="eventForm.date"
@@ -67,9 +67,9 @@
       </ElForm>
       <template #footer>
         <span class="dialog-footer">
-          <ElButton v-if="isEditing" type="danger" @click="handleDeleteEvent"> 删除 </ElButton>
+          <ElButton v-if="isEditing" type="danger" @click="handleDeleteEvent"> Delete </ElButton>
           <ElButton type="primary" @click="handleSaveEvent">
-            {{ isEditing ? '更新' : '添加' }}
+            {{ isEditing ? 'Update' : 'Add' }}
           </ElButton>
         </span>
       </template>
@@ -81,7 +81,7 @@
   defineOptions({ name: 'TemplateCalendar' })
 
   /**
-   * 日历事件类型定义
+   * Calendar event type definition
    */
   interface CalendarEvent {
     date: string
@@ -93,42 +93,42 @@
   }
 
   /**
-   * 事件类型选项
+   * Event type options
    */
   const eventTypes = [
-    { label: '基本', value: 'primary' },
-    { label: '成功', value: 'success' },
-    { label: '警告', value: 'warning' },
-    { label: '危险', value: 'danger' }
+    { label: 'Primary', value: 'primary' },
+    { label: 'Success', value: 'success' },
+    { label: 'Warning', value: 'warning' },
+    { label: 'Danger', value: 'danger' }
   ] as const
 
   const currentDate = ref(new Date('2025-02-07'))
   const dialogVisible = ref(false)
-  const dialogTitle = ref('添加事件')
+  const dialogTitle = ref('Add Event')
   const editingEventIndex = ref<number>(-1)
 
   /**
-   * 事件列表数据
+   * Event list data
    */
   const events = ref<CalendarEvent[]>([
-    { date: '2025-02-01', content: '产品需求评审', type: 'primary' },
+    { date: '2025-02-01', content: 'Product Requirements Review', type: 'primary' },
     {
       date: '2025-02-03',
       endDate: '2025-02-05',
-      content: '项目周报会议（跨日期）',
+      content: 'Weekly Project Meeting (Multi-day)',
       type: 'primary'
     },
-    { date: '2025-02-10', content: '瑜伽课程', type: 'success' },
-    { date: '2025-02-15', content: '团队建设活动', type: 'primary' },
-    { date: '2025-02-20', content: '健身训练', type: 'success' },
-    { date: '2025-02-20', content: '代码评审', type: 'danger' },
-    { date: '2025-02-20', content: '团队午餐', type: 'primary' },
-    { date: '2025-02-20', content: '项目进度汇报', type: 'warning' },
-    { date: '2025-02-28', content: '月度总结会', type: 'warning' }
+    { date: '2025-02-10', content: 'Yoga Class', type: 'success' },
+    { date: '2025-02-15', content: 'Team Building Activity', type: 'primary' },
+    { date: '2025-02-20', content: 'Fitness Training', type: 'success' },
+    { date: '2025-02-20', content: 'Code Review', type: 'danger' },
+    { date: '2025-02-20', content: 'Team Lunch', type: 'primary' },
+    { date: '2025-02-20', content: 'Project Progress Report', type: 'warning' },
+    { date: '2025-02-28', content: 'Monthly Summary Meeting', type: 'warning' }
   ])
 
   /**
-   * 事件表单数据
+   * Event form data
    */
   const eventForm = ref<CalendarEvent>({
     date: '',
@@ -138,21 +138,21 @@
   })
 
   /**
-   * 是否处于编辑模式
+   * Whether in edit mode
    */
   const isEditing = computed(() => editingEventIndex.value >= 0)
 
   /**
-   * 格式化日期，只显示日
-   * @param date 完整日期字符串
-   * @returns 日期中的日部分
+   * Format date, show only day
+   * @param date Full date string
+   * @returns Day part of the date
    */
   const formatDate = (date: string) => date.split('-')[2]
 
   /**
-   * 获取事件类型对应的样式类名
-   * @param type 事件类型
-   * @returns 包含背景和文字颜色的类名对象
+   * Get style classes for event type
+   * @param type Event type
+   * @returns Object containing background and text color classes
    */
   const getEventClasses = (type: CalendarEvent['type'] = 'primary') => {
     const classMap = {
@@ -165,10 +165,10 @@
   }
 
   /**
-   * 获取指定日期的所有事件
-   * 支持跨日期事件的显示
-   * @param day 日期字符串
-   * @returns 该日期的事件列表
+   * Get all events for a specific date
+   * Supports multi-day events display
+   * @param day Date string
+   * @returns Event list for that date
    */
   const getEvents = (day: string) => {
     return events.value
@@ -186,7 +186,7 @@
   }
 
   /**
-   * 重置表单数据
+   * Reset form data
    */
   const resetForm = () => {
     eventForm.value = {
@@ -199,12 +199,12 @@
   }
 
   /**
-   * 处理日历单元格点击事件
-   * 打开添加事件弹窗
-   * @param day 点击的日期
+   * Handle calendar cell click event
+   * Opens add event dialog
+   * @param day Clicked date
    */
   const handleCellClick = (day: string) => {
-    dialogTitle.value = '添加事件'
+    dialogTitle.value = 'Add Event'
     eventForm.value = {
       date: day,
       content: '',
@@ -215,12 +215,12 @@
   }
 
   /**
-   * 处理事件点击
-   * 打开编辑事件弹窗
-   * @param event 点击的事件对象
+   * Handle event click
+   * Opens edit event dialog
+   * @param event Clicked event object
    */
   const handleEventClick = (event: CalendarEvent) => {
-    dialogTitle.value = '编辑事件'
+    dialogTitle.value = 'Edit Event'
     eventForm.value = { ...event }
     editingEventIndex.value = events.value.findIndex(
       (e) => e.date === event.date && e.content === event.content
@@ -229,8 +229,8 @@
   }
 
   /**
-   * 保存事件
-   * 根据编辑模式决定是新增还是更新
+   * Save event
+   * Decides to add or update based on edit mode
    */
   const handleSaveEvent = () => {
     if (!eventForm.value.content || !eventForm.value.date) return
@@ -246,7 +246,7 @@
   }
 
   /**
-   * 删除事件
+   * Delete event
    */
   const handleDeleteEvent = () => {
     if (isEditing.value) {

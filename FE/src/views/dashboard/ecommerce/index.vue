@@ -1,4 +1,4 @@
-<!-- 电子商务页面 -->
+<!-- E-commerce Page -->
 <template>
   <div class="ecommerce">
     <ElRow :gutter="20">

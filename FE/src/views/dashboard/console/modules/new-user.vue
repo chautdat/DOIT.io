@@ -2,13 +2,13 @@
   <div class="art-card p-5 h-128 overflow-hidden mb-5 max-sm:mb-4">
     <div class="art-card-header">
       <div class="title">
-        <h4>新用户</h4>
-        <p>这个月增长<span class="text-success">+20%</span></p>
+        <h4>New users</h4>
+        <p>Growth this month <span class="text-success">+20%</span></p>
       </div>
       <ElRadioGroup v-model="radio2">
-        <ElRadioButton value="本月" label="本月"></ElRadioButton>
-        <ElRadioButton value="上月" label="上月"></ElRadioButton>
-        <ElRadioButton value="今年" label="今年"></ElRadioButton>
+        <ElRadioButton value="This month" label="This month"></ElRadioButton>
+        <ElRadioButton value="Last month" label="Last month"></ElRadioButton>
+        <ElRadioButton value="This year" label="This year"></ElRadioButton>
       </ElRadioGroup>
     </div>
     <ArtTable
@@ -21,7 +21,7 @@
       :header-cell-style="{ background: 'transparent' }"
     >
       <template #default>
-        <ElTableColumn label="头像" prop="avatar" width="150px">
+        <ElTableColumn label="Avatar" prop="avatar" width="150px">
           <template #default="scope">
             <div style="display: flex; align-items: center">
               <img class="size-9 rounded-lg" :src="scope.row.avatar" alt="avatar" />
@@ -29,21 +29,21 @@
             </div>
           </template>
         </ElTableColumn>
-        <ElTableColumn label="地区" prop="province" />
-        <ElTableColumn label="性别" prop="avatar">
+        <ElTableColumn label="Region" prop="province" />
+        <ElTableColumn label="Gender" prop="avatar">
           <template #default="scope">
             <div style="display: flex; align-items: center">
-              <span style="margin-left: 10px">{{ scope.row.sex === 1 ? '男' : '女' }}</span>
+              <span style="margin-left: 10px">{{ scope.row.sex === 1 ? 'Male' : 'Female' }}</span>
             </div>
           </template>
         </ElTableColumn>
-        <ElTableColumn label="进度" width="240">
+        <ElTableColumn label="Progress" width="240">
           <template #default="scope">
             <ElProgress
               :percentage="scope.row.pro"
               :color="scope.row.color"
               :stroke-width="4"
-              :aria-label="`${scope.row.username}的完成进度: ${scope.row.pro}%`"
+              :aria-label="`${scope.row.username} completion progress: ${scope.row.pro}%`"
             />
           </template>
         </ElTableColumn>
@@ -73,16 +73,12 @@
 
   const ANIMATION_DELAY = 100
 
-  const radio2 = ref('本月')
+  const radio2 = ref('This month')
 
-  /**
-   * 新用户表格数据
-   * 包含用户基本信息和完成进度
-   */
   const tableData = reactive<UserTableItem[]>([
     {
-      username: '中小鱼',
-      province: '北京',
+      username: 'River',
+      province: 'Beijing',
       sex: 0,
       age: 22,
       percentage: 60,
@@ -91,8 +87,8 @@
       avatar: avatar1
     },
     {
-      username: '何小荷',
-      province: '深圳',
+      username: 'Holly',
+      province: 'Shenzhen',
       sex: 1,
       age: 21,
       percentage: 20,
@@ -101,8 +97,8 @@
       avatar: avatar2
     },
     {
-      username: '誶誶淰',
-      province: '上海',
+      username: 'Muse',
+      province: 'Shanghai',
       sex: 1,
       age: 23,
       percentage: 60,
@@ -111,8 +107,8 @@
       avatar: avatar3
     },
     {
-      username: '发呆草',
-      province: '长沙',
+      username: 'Poppy',
+      province: 'Changsha',
       sex: 0,
       age: 28,
       percentage: 50,
@@ -121,8 +117,8 @@
       avatar: avatar4
     },
     {
-      username: '甜筒',
-      province: '浙江',
+      username: 'Cone',
+      province: 'Zhejiang',
       sex: 1,
       age: 26,
       percentage: 70,
@@ -131,8 +127,8 @@
       avatar: avatar5
     },
     {
-      username: '冷月呆呆',
-      province: '湖北',
+      username: 'Moon',
+      province: 'Hubei',
       sex: 1,
       age: 25,
       percentage: 90,
@@ -142,10 +138,6 @@
     }
   ])
 
-  /**
-   * 添加进度条动画效果
-   * 延迟后将进度值从 0 更新到目标百分比，触发动画
-   */
   const addAnimation = (): void => {
     setTimeout(() => {
       tableData.forEach((item) => {

@@ -1,7 +1,7 @@
-<!-- 表格搜索栏示例 -->
+<!-- Search Bar Example -->
 <template>
   <div class="pb-5">
-    <h2 class="mb-1 text-lg font-medium">基础示例（默认收起）</h2>
+    <h2 class="mb-1 text-lg font-medium">Basic Example (Collapsed by default)</h2>
     <ArtSearchBar
       ref="searchBarBasicRef"
       v-model="formDataBasic"
@@ -11,7 +11,7 @@
     >
     </ArtSearchBar>
 
-    <h2 class="mb-1 mt-3.5 text-lg font-medium">完整示例（默认展开）</h2>
+    <h2 class="mb-1 mt-3.5 text-lg font-medium">Full Example (Expanded by default)</h2>
     <ArtSearchBar
       ref="searchBarAdvancedRef"
       v-model="formDataAdvanced"
@@ -26,7 +26,7 @@
       @search="handleAdvancedSearch"
     >
       <template #slots>
-        <ElInput v-model="formDataAdvanced.slots" placeholder="我是插槽渲染出来的组件" />
+        <ElInput v-model="formDataAdvanced.slots" placeholder="I am a component rendered by slot" />
       </template>
     </ArtSearchBar>
 
@@ -35,28 +35,28 @@
     </div>
 
     <div class="mt-3.5">
-      <h3 class="mb-2 text-base font-medium">动态表单操作</h3>
+      <h3 class="mb-2 text-base font-medium">Dynamic Form Operations</h3>
       <ElSpace wrap class="mb-3">
-        <ElButton @click="getLevelOptions"> 获取用户等级数据 </ElButton>
-        <ElButton @click="addFormItem"> 新增表单项 </ElButton>
-        <ElButton @click="updateFormItem"> 修改表单项 </ElButton>
-        <ElButton @click="deleteFormItem"> 删除表单项 </ElButton>
-        <ElButton @click="batchAddFormItems"> 批量新增 </ElButton>
-        <ElButton @click="resetDynamicItems"> 重置动态项 </ElButton>
+        <ElButton @click="getLevelOptions"> Get User Level Data </ElButton>
+        <ElButton @click="addFormItem"> Add Form Item </ElButton>
+        <ElButton @click="updateFormItem"> Update Form Item </ElButton>
+        <ElButton @click="deleteFormItem"> Delete Form Item </ElButton>
+        <ElButton @click="batchAddFormItems"> Batch Add </ElButton>
+        <ElButton @click="resetDynamicItems"> Reset Dynamic Items </ElButton>
       </ElSpace>
 
-      <h3 class="mb-2 text-base font-medium">其他操作</h3>
+      <h3 class="mb-2 text-base font-medium">Other Operations</h3>
       <ElSpace wrap>
-        <ElButton @click="advancedValidate"> 校验表单 </ElButton>
-        <ElButton @click="advancedReset"> 重置 </ElButton>
-        <ElButton v-if="showUserName" @click="updateUserName"> 修改用户名 </ElButton>
-        <ElButton v-if="showUserName" @click="deleteUserName"> 删除用户名 </ElButton>
-        <ElButton @click="labelWidthAdvanced = 120"> 修改 label 宽度 </ElButton>
-        <ElButton @click="spanAdvanced = 8"> 设置一行显示的组件数 </ElButton>
-        <ElButton @click="gutterAdvanced = 50"> 修改 gutter </ElButton>
-        <ElButton @click="labelPositionAdvanced = 'left'"> label 左对齐 </ElButton>
-        <ElButton @click="labelPositionAdvanced = 'right'"> label 右对齐 </ElButton>
-        <ElButton @click="labelPositionAdvanced = 'top'"> label 顶部对齐 </ElButton>
+        <ElButton @click="advancedValidate"> Validate Form </ElButton>
+        <ElButton @click="advancedReset"> Reset </ElButton>
+        <ElButton v-if="showUserName" @click="updateUserName"> Update Username </ElButton>
+        <ElButton v-if="showUserName" @click="deleteUserName"> Delete Username </ElButton>
+        <ElButton @click="labelWidthAdvanced = 120"> Change Label Width </ElButton>
+        <ElButton @click="spanAdvanced = 8"> Set Components Per Row </ElButton>
+        <ElButton @click="gutterAdvanced = 50"> Change Gutter </ElButton>
+        <ElButton @click="labelPositionAdvanced = 'left'"> Label Left Align </ElButton>
+        <ElButton @click="labelPositionAdvanced = 'right'"> Label Right Align </ElButton>
+        <ElButton @click="labelPositionAdvanced = 'top'"> Label Top Align </ElButton>
       </ElSpace>
     </div>
   </div>
@@ -64,7 +64,7 @@
 
 <script setup lang="ts">
   import { ElInput } from 'element-plus'
-  import { SearchFormItem } from '@/components/core/forms/art-search-bar/index.vue'
+  import { SearchFormItem } from '@/components/core/forms/ArtSearchBar.vue'
 
   interface Emits {
     (e: 'update:modelValue', value: Record<string, any>): void
@@ -105,7 +105,7 @@
   const searchBarAdvancedRef = ref()
 
   /**
-   * 基础示例表单数据
+   * Basic form data
    */
   const formDataBasic = ref<BasicFormData>({
     name: undefined,
@@ -118,7 +118,7 @@
   })
 
   /**
-   * 完整示例表单数据
+   * Full example form data
    */
   const formDataAdvanced = ref<AdvancedFormData>({
     name: undefined,
@@ -137,17 +137,17 @@
   })
 
   /**
-   * 完整示例校验规则
+   * Full example validation rules
    */
   const rulesAdvanced = {
-    name: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+    name: [{ required: true, message: 'Please enter username', trigger: 'blur' }],
     phone: [
-      { required: true, message: '请输入手机号', trigger: 'blur' },
-      { min: 11, max: 11, message: '请输入11位手机号', trigger: 'blur' },
-      { pattern: /^1[3456789]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' }
+      { required: true, message: 'Please enter phone number', trigger: 'blur' },
+      { min: 11, max: 11, message: 'Please enter 11-digit phone number', trigger: 'blur' },
+      { pattern: /^1[3456789]\d{9}$/, message: 'Please enter valid phone number', trigger: 'blur' }
     ],
-    level: [{ required: true, message: '请选择等级', trigger: 'change' }],
-    address: [{ required: true, message: '请输入地址', trigger: 'blur' }]
+    level: [{ required: true, message: 'Please select level', trigger: 'change' }],
+    address: [{ required: true, message: 'Please enter address', trigger: 'blur' }]
   }
 
   const labelWidthAdvanced = ref(100)
@@ -158,35 +158,35 @@
   const levelOptions = ref<OptionItem[]>([])
 
   /**
-   * 用户等级选项
+   * User level options
    */
   const LEVEL_OPTIONS: OptionItem[] = [
-    { label: '普通用户', value: 'normal' },
-    { label: 'VIP用户', value: 'vip' },
-    { label: '高级VIP', value: 'svip' },
-    { label: '企业用户', value: 'enterprise', disabled: true }
+    { label: 'Regular User', value: 'normal' },
+    { label: 'VIP User', value: 'vip' },
+    { label: 'Premium VIP', value: 'svip' },
+    { label: 'Enterprise User', value: 'enterprise', disabled: true }
   ]
 
   /**
-   * 性别选项
+   * Gender options
    */
   const GENDER_OPTIONS: OptionItem[] = [
-    { label: '男', value: '1' },
-    { label: '女', value: '2' }
+    { label: 'Male', value: '1' },
+    { label: 'Female', value: '2' }
   ]
 
   /**
-   * 日期快捷选项
+   * Date shortcut options
    */
   const DATE_SHORTCUTS = [
-    { text: '今日', value: new Date() },
-    { text: '昨日', value: () => new Date(Date.now() - 86400000) },
-    { text: '一周前', value: () => new Date(Date.now() - 604800000) }
+    { text: 'Today', value: new Date() },
+    { text: 'Yesterday', value: () => new Date(Date.now() - 86400000) },
+    { text: 'A week ago', value: () => new Date(Date.now() - 604800000) }
   ]
 
   /**
-   * 模拟接口获取用户等级数据
-   * @returns 用户等级选项列表
+   * Simulate API to fetch user level data
+   * @returns User level options list
    */
   const fetchLevelOptions = (): Promise<OptionItem[]> => {
     return new Promise((resolve) => {
@@ -197,17 +197,17 @@
   }
 
   /**
-   * 获取用户等级数据
+   * Get user level data
    */
   const getLevelOptions = async (): Promise<void> => {
     levelOptions.value = await fetchLevelOptions()
     if (levelOptions.value.length) {
-      ElMessage.success('成功获取到数据')
+      ElMessage.success('Data fetched successfully')
     }
   }
 
   /**
-   * 表单项配置类型
+   * Form item configuration type
    */
   interface FormItemConfig {
     label: string
@@ -220,54 +220,54 @@
   }
 
   /**
-   * 创建表单项的工厂函数
+   * Factory function to create form items
    */
   const createFormItem = (config: FormItemConfig) => config
 
-  // 基础表单项配置
+  // Basic form item configuration
   const baseFormItems = {
     username: createFormItem({
-      label: '用户名',
+      label: 'Username',
       key: 'name',
       type: 'input',
-      placeholder: '请输入用户名',
+      placeholder: 'Please enter username',
       clearable: true
     }),
     phone: createFormItem({
-      label: '手机号',
+      label: 'Phone',
       key: 'phone',
       type: 'input',
-      props: { placeholder: '请输入手机号', maxlength: '11' }
+      props: { placeholder: 'Please enter phone number', maxlength: '11' }
     }),
     level: createFormItem({
-      label: '用户等级',
+      label: 'User Level',
       key: 'level',
       type: 'select',
       props: {
-        placeholder: '请选择等级',
+        placeholder: 'Please select level',
         options: LEVEL_OPTIONS
       }
     }),
     address: createFormItem({
-      label: '地址',
+      label: 'Address',
       key: 'address',
       type: 'input',
-      placeholder: '请输入地址'
+      placeholder: 'Please enter address'
     }),
     date: createFormItem({
-      label: '日期',
+      label: 'Date',
       key: 'date',
       type: 'datetime',
       props: {
         style: { width: '100%' },
-        placeholder: '请选择日期',
+        placeholder: 'Please select date',
         type: 'date',
         valueFormat: 'YYYY-MM-DD',
         shortcuts: DATE_SHORTCUTS
       }
     }),
     gender: createFormItem({
-      label: '性别',
+      label: 'Gender',
       key: 'userGender',
       type: 'radiogroup',
       props: {
@@ -276,16 +276,16 @@
     })
   }
 
-  // 表单配置
+  // Form configuration
   const formItemsBasic = computed(() => [
     baseFormItems.username,
     {
-      label: '密码',
+      label: 'Password',
       key: 'password',
       type: 'input',
       props: {
         type: 'password',
-        placeholder: '请输入密码',
+        placeholder: 'Please enter password',
         clearable: true
       }
     },
@@ -297,180 +297,180 @@
   ])
 
   const userItem = ref<SearchFormItem>({
-    label: '用户名',
+    label: 'Username',
     key: 'name',
     type: 'input',
     props: {
-      placeholder: '请输入用户名',
+      placeholder: 'Please enter username',
       clearable: true
     }
   })
 
-  // 控制用户名字段是否显示
+  // Control whether username field is displayed
   const showUserName = ref(true)
 
-  // 动态表单项列表
+  // Dynamic form items list
   const dynamicFormItems = ref<SearchFormItem[]>([])
 
-  // 动态表单项计数器（用于生成唯一 key）
+  // Dynamic form item counter (used to generate unique key)
   let dynamicItemCounter = 0
 
-  // 级联选择器数据
+  // Cascader data
   const cascaderOptions = [
     {
       value: 'guide',
-      label: '指南',
+      label: 'Guide',
       children: [
         {
           value: 'disciplines',
-          label: '规范',
+          label: 'Standards',
           children: [
-            { value: 'consistency', label: '一致性' },
-            { value: 'feedback', label: '反馈' },
-            { value: 'efficiency', label: '效率' },
-            { value: 'controllability', label: '可控性' }
+            { value: 'consistency', label: 'Consistency' },
+            { value: 'feedback', label: 'Feedback' },
+            { value: 'efficiency', label: 'Efficiency' },
+            { value: 'controllability', label: 'Controllability' }
           ]
         }
       ]
     },
     {
       value: 'components',
-      label: '组件',
+      label: 'Components',
       children: [
         {
           value: 'basic',
-          label: '基础组件',
+          label: 'Basic Components',
           children: [
-            { value: 'button', label: '按钮' },
-            { value: 'form', label: '表单' },
-            { value: 'table', label: '表格' }
+            { value: 'button', label: 'Button' },
+            { value: 'form', label: 'Form' },
+            { value: 'table', label: 'Table' }
           ]
         }
       ]
     }
   ]
 
-  // 树选择器数据
+  // Tree select data
   const treeSelectData = [
     {
       value: '1',
-      label: '一级 1',
+      label: 'Level 1',
       children: [
         {
           value: '1-1',
-          label: '二级 1-1',
-          children: [{ value: '1-1-1', label: '三级 1-1-1' }]
+          label: 'Level 1-1',
+          children: [{ value: '1-1-1', label: 'Level 1-1-1' }]
         }
       ]
     },
     {
       value: '2',
-      label: '一级 2',
+      label: 'Level 2',
       children: [
         {
           value: '2-1',
-          label: '二级 2-1',
-          children: [{ value: '2-1-1', label: '三级 2-1-1' }]
+          label: 'Level 2-1',
+          children: [{ value: '2-1-1', label: 'Level 2-1-1' }]
         },
         {
           value: '2-2',
-          label: '二级 2-2',
-          children: [{ value: '2-2-1', label: '三级 2-2-1' }]
+          label: 'Level 2-2',
+          children: [{ value: '2-2-1', label: 'Level 2-2-1' }]
         }
       ]
     }
   ]
 
-  // 复选框选项
+  // Checkbox options
   const checkboxOptions = [
-    { label: '选项1', value: 'option1' },
-    { label: '选项2', value: 'option2' },
-    { label: '选项3', value: 'option3' },
-    { label: '选项4', value: 'option4' },
-    { label: '选项5（disabled）', value: 'option5', disabled: true }
+    { label: 'Option 1', value: 'option1' },
+    { label: 'Option 2', value: 'option2' },
+    { label: 'Option 3', value: 'option3' },
+    { label: 'Option 4', value: 'option4' },
+    { label: 'Option 5 (disabled)', value: 'option5', disabled: true }
   ]
 
-  // 完整示例表单配置
+  // Full example form configuration
   const formItemsAdvanced = computed(() => [
     ...(showUserName.value ? [userItem.value] : []),
-    // 动态表单项
+    // Dynamic form items
     ...dynamicFormItems.value,
     {
       ...baseFormItems.phone
     },
     {
       ...baseFormItems.level,
-      props: { placeholder: '请选择等级', options: levelOptions.value }
+      props: { placeholder: 'Please select level', options: levelOptions.value }
     },
     baseFormItems.address,
     baseFormItems.date,
-    // 日期时间
+    // Date time
     {
-      label: '日期时间',
+      label: 'Date Time',
       key: 'datetime',
       type: 'datetime',
       props: {
         style: { width: '100%' },
-        placeholder: '请选择日期时间',
+        placeholder: 'Please select date time',
         type: 'datetime',
         valueFormat: 'YYYY-MM-DD HH:mm:ss'
       }
     },
     {
-      label: '日期范围',
+      label: 'Date Range',
       key: 'daterange',
       type: 'datetime',
       props: {
         type: 'daterange',
         valueFormat: 'YYYY-MM-DD',
-        rangeSeparator: '至',
-        startPlaceholder: '开始日期',
-        endPlaceholder: '结束日期'
+        rangeSeparator: 'to',
+        startPlaceholder: 'Start date',
+        endPlaceholder: 'End date'
       }
     },
-    // 日期时间范围
+    // Date time range
     {
-      label: '日期时间范围',
+      label: 'Date Time Range',
       key: 'datetimerange',
       type: 'datetime',
       props: {
         type: 'datetimerange',
         valueFormat: 'YYYY-MM-DD HH:mm:ss',
-        rangeSeparator: '至',
-        startPlaceholder: '开始日期时间',
-        endPlaceholder: '结束日期时间'
+        rangeSeparator: 'to',
+        startPlaceholder: 'Start date time',
+        endPlaceholder: 'End date time'
       }
     },
-    // 时间选择
+    // Time select
     {
-      label: '时间选择',
+      label: 'Time Select',
       key: 'timeselect',
       type: 'timeselect',
       props: {
-        placeholder: '请选择时间',
+        placeholder: 'Please select time',
         type: 'time',
         valueFormat: 'HH:mm:ss'
       }
     },
-    // 时间选择器
+    // Time picker
     {
-      label: '时间选择器',
+      label: 'Time Picker',
       key: 'timepicker',
       type: 'timepicker',
       props: {
         style: { width: '100%' },
-        placeholder: '请选择时间',
+        placeholder: 'Please select time',
         type: 'time',
         valueFormat: 'HH:mm:ss'
       }
     },
-    // 级联选择
+    // Cascader
     {
-      label: '级联选择',
+      label: 'Cascader',
       key: 'cascader',
       type: 'cascader',
       props: {
-        placeholder: '请选择级联选择器',
+        placeholder: 'Please select cascader',
         clearable: true,
         style: { width: '100%' },
         collapseTags: true,
@@ -479,9 +479,9 @@
         options: cascaderOptions
       }
     },
-    // 树型选择器
+    // Tree select
     {
-      label: '树型选择器',
+      label: 'Tree Select',
       key: 'treeSelect',
       type: 'treeselect',
       props: {
@@ -491,14 +491,14 @@
         data: treeSelectData
       }
     },
-    { label: '插槽', key: 'slots', type: 'input', placeholder: '请输入邮箱' },
+    { label: 'Slot', key: 'slots', type: 'input', placeholder: 'Please enter email' },
     {
-      label: '渲染组件',
+      label: 'Render Component',
       key: 'iconSelector',
-      render: () => h(ElInput, { placeholder: '渲染自定义 input' })
+      render: () => h(ElInput, { placeholder: 'Render custom input' })
     },
     {
-      label: '自定义组件',
+      label: 'Custom Component',
       key: 'customComponent',
       render: () =>
         h(
@@ -507,11 +507,11 @@
             style:
               'color: var(--art-gray-600); border: 1px solid var(--default-border-dashed); padding: 0px 15px; border-radius: 6px'
           },
-          '我是一个自定义组件'
+          'I am a custom component'
         )
     },
     {
-      label: '复选框',
+      label: 'Checkbox',
       key: 'checkboxgroup',
       type: 'checkboxgroup',
       span: 12,
@@ -524,78 +524,78 @@
     },
 
     {
-      label: '是否启用',
+      label: 'Enable',
       key: 'isEnabled',
       type: 'switch',
       props: {
-        placeholder: '请选择是否启用'
+        placeholder: 'Please select to enable'
       }
     },
     {
-      label: '年龄',
+      label: 'Age',
       key: 'age',
       type: 'number',
       slots: {
-        suffix: () => h('span', { style: 'color: #909399; font-size: 12px' }, '岁')
+        suffix: () => h('span', { style: 'color: #909399; font-size: 12px' }, 'years')
       }
     },
     {
-      label: '网站地址',
+      label: 'Website URL',
       key: 'website',
       type: 'input',
-      placeholder: '请输入网站名称',
+      placeholder: 'Please enter website name',
       slots: {
         prepend: () => h('span', 'https://'),
         append: () => h('span', '.com')
       }
     },
     {
-      label: '事件演示',
+      label: 'Event Demo',
       key: 'event',
       type: 'input',
       props: {
-        placeholder: '输入内容触发事件，控制台查看',
+        placeholder: 'Type to trigger event, check console',
         clearable: true,
         prefixIcon: 'Search',
         // prefix: () => h('span', {}, '123'),
-        // 事件必须以 on 开头，然后驼峰式命名拼接 ElementPlus 事件名
+        // Events must start with "on", then camelCase the ElementPlus event name
         onInput(val: string) {
-          console.log('输入事件', val)
+          console.log('Input event', val)
         },
         onClear() {
-          console.log('清空事件')
+          console.log('Clear event')
         }
       }
     },
 
     {
-      label: '多行输入',
+      label: 'Multiline Input',
       key: 'remark',
       type: 'input',
       props: {
-        placeholder: '请输入备注',
+        placeholder: 'Please enter remarks',
         type: 'textarea',
         rows: 2
       }
     },
     {
-      label: '评分',
+      label: 'Rating',
       key: 'rate',
       type: 'rate',
       props: {
         size: 'large',
-        placeholder: '请选择评分'
+        placeholder: 'Please select rating'
       }
     },
     {
-      label: '禁用',
+      label: 'Disabled',
       key: 'diaabled',
       type: 'input',
-      placeholder: '我被禁用了',
-      disabled: true // 禁用
+      placeholder: 'I am disabled',
+      disabled: true // Disabled
     },
     {
-      label: '滑块',
+      label: 'Slider',
       key: 'slider',
       type: 'slider'
       // props: {
@@ -605,106 +605,106 @@
     },
 
     {
-      label: '隐藏',
+      label: 'Hidden',
       key: 'email',
       type: 'input',
       hidden: true
     },
-    // 根据条件隐藏
+    // Hide based on condition
     {
-      label: '根据条件隐藏',
+      label: 'Conditional Hidden',
       key: 'systemName',
       type: 'input',
       hidden: formDataAdvanced.value.systemName === 'mac',
-      placeholder: '输入 mac 组件隐藏'
+      placeholder: 'Type mac to hide this component'
     },
     {
-      label: '栅格布局',
+      label: 'Grid Layout',
       key: 'sg1',
       type: 'input',
       span: 12,
-      placeholder: '示例：栅格 span=12 占容器一半宽度，span=24 占满容器'
+      placeholder: 'Example: span=12 takes half width, span=24 takes full width'
     }
   ])
 
   /**
-   * 创建统一的表单处理函数
-   * @param ref 表单引用
-   * @param formData 表单数据
-   * @param type 表单类型描述
+   * Create unified form handler function
+   * @param ref Form reference
+   * @param formData Form data
+   * @param type Form type description
    */
   const createFormHandler = (ref: Ref<any>, formData: Record<string, any>, type: string) => ({
     reset: () => {
-      console.log(`重置${type}表单`)
+      console.log(`Reset ${type} form`)
       emit('reset')
     },
     search: async () => {
       await ref.value.validate()
       emit('search', formData.value)
-      console.log(`${type}表单数据`, formData.value)
+      console.log(`${type} form data`, formData.value)
     },
     validate: () => ref.value.validate()
   })
 
   /**
-   * 基础表单处理器
+   * Basic form handler
    */
   const basicFormHandler = computed(() =>
-    createFormHandler(searchBarBasicRef, formDataBasic, '基础')
+    createFormHandler(searchBarBasicRef, formDataBasic, 'Basic')
   )
 
   /**
-   * 完整表单处理器
+   * Full form handler
    */
   const advancedFormHandler = computed(() =>
-    createFormHandler(searchBarAdvancedRef, formDataAdvanced, '完整')
+    createFormHandler(searchBarAdvancedRef, formDataAdvanced, 'Full')
   )
 
   /**
-   * 处理基础表单重置事件
+   * Handle basic form reset event
    */
   const handleBasicReset = () => basicFormHandler.value.reset()
 
   /**
-   * 处理基础表单搜索事件
+   * Handle basic form search event
    */
   const handleBasicSearch = () => basicFormHandler.value.search()
 
   /**
-   * 处理完整表单重置事件
+   * Handle full form reset event
    */
   const handleAdvancedReset = () => advancedFormHandler.value.reset()
 
   /**
-   * 处理完整表单搜索事件
+   * Handle full form search event
    */
   const handleAdvancedSearch = () => advancedFormHandler.value.search()
 
   /**
-   * 校验完整表单
+   * Validate full form
    */
   const advancedValidate = () => advancedFormHandler.value.validate()
 
   /**
-   * 重置完整表单
+   * Reset full form
    */
   const advancedReset = () => searchBarAdvancedRef.value.reset()
 
   /**
-   * 更新用户名字段配置
+   * Update username field configuration
    */
   const updateUserName = (): void => {
     userItem.value = {
       ...userItem.value,
-      label: '昵称',
+      label: 'Nickname',
       props: {
-        placeholder: '请输入昵称'
+        placeholder: 'Please enter nickname'
       }
     }
   }
 
   /**
-   * 删除用户名字段
+   * Delete username field
    */
   const deleteUserName = (): void => {
     showUserName.value = false
@@ -712,104 +712,104 @@
   }
 
   /**
-   * 新增表单项
+   * Add form item
    */
   const addFormItem = (): void => {
     dynamicItemCounter++
     const newItem: SearchFormItem = {
-      label: `动态字段${dynamicItemCounter}`,
+      label: `Dynamic Field ${dynamicItemCounter}`,
       key: `dynamic_${dynamicItemCounter}`,
       type: 'input',
       props: {
-        placeholder: `请输入动态字段${dynamicItemCounter}`,
+        placeholder: `Please enter dynamic field ${dynamicItemCounter}`,
         clearable: true
       }
     }
     dynamicFormItems.value.push(newItem)
-    ElMessage.success(`已新增表单项：${newItem.label}`)
+    ElMessage.success(`Added form item: ${newItem.label}`)
   }
 
   /**
-   * 修改表单项（修改最后一个动态表单项）
+   * Update form item (update the last dynamic form item)
    */
   const updateFormItem = (): void => {
     if (dynamicFormItems.value.length === 0) {
-      ElMessage.warning('没有可修改的动态表单项，请先新增')
+      ElMessage.warning('No dynamic form items to update, please add one first')
       return
     }
 
     const lastIndex = dynamicFormItems.value.length - 1
     const lastItem = dynamicFormItems.value[lastIndex]
 
-    // 修改最后一个表单项的配置
+    // Update the last form item configuration
     dynamicFormItems.value[lastIndex] = {
       ...lastItem,
-      label: `已修改`,
+      label: `Updated`,
       type: 'select',
       props: {
-        placeholder: '修改为下拉选择',
+        placeholder: 'Changed to dropdown select',
         options: [
-          { label: '选项A', value: 'a' },
-          { label: '选项B', value: 'b' },
-          { label: '选项C', value: 'c' }
+          { label: 'Option A', value: 'a' },
+          { label: 'Option B', value: 'b' },
+          { label: 'Option C', value: 'c' }
         ]
       }
     }
 
-    ElMessage.success(`已修改表单项：${lastItem.label}`)
+    ElMessage.success(`Updated form item: ${lastItem.label}`)
   }
 
   /**
-   * 删除表单项（删除最后一个动态表单项）
+   * Delete form item (delete the last dynamic form item)
    */
   const deleteFormItem = (): void => {
     if (dynamicFormItems.value.length === 0) {
-      ElMessage.warning('没有可删除的动态表单项')
+      ElMessage.warning('No dynamic form items to delete')
       return
     }
 
     const deletedItem = dynamicFormItems.value.pop()
     if (deletedItem) {
-      // 清除对应的表单数据
+      // Clear the corresponding form data
       delete formDataAdvanced.value[deletedItem.key as keyof AdvancedFormData]
-      ElMessage.success(`已删除表单项：${deletedItem.label}`)
+      ElMessage.success(`Deleted form item: ${deletedItem.label}`)
     }
   }
 
   /**
-   * 批量新增表单项
+   * Batch add form items
    */
   const batchAddFormItems = (): void => {
     const batchItems: SearchFormItem[] = [
       {
-        label: '公司名称',
+        label: 'Company Name',
         key: `company_${++dynamicItemCounter}`,
         type: 'input',
         props: {
-          placeholder: '请输入公司名称',
+          placeholder: 'Please enter company name',
           clearable: true
         }
       },
       {
-        label: '部门',
+        label: 'Department',
         key: `department_${++dynamicItemCounter}`,
         type: 'select',
         props: {
-          placeholder: '请选择部门',
+          placeholder: 'Please select department',
           options: [
-            { label: '技术部', value: 'tech' },
-            { label: '产品部', value: 'product' },
-            { label: '运营部', value: 'operation' }
+            { label: 'Technology', value: 'tech' },
+            { label: 'Product', value: 'product' },
+            { label: 'Operations', value: 'operation' }
           ]
         }
       },
       {
-        label: '入职日期',
+        label: 'Join Date',
         key: `joinDate_${++dynamicItemCounter}`,
         type: 'datetime',
         props: {
           style: { width: '100%' },
-          placeholder: '请选择入职日期',
+          placeholder: 'Please select join date',
           type: 'date',
           valueFormat: 'YYYY-MM-DD'
         }
@@ -817,25 +817,25 @@
     ]
 
     dynamicFormItems.value.push(...batchItems)
-    ElMessage.success(`已批量新增 ${batchItems.length} 个表单项`)
+    ElMessage.success(`Batch added ${batchItems.length} form items`)
   }
 
   /**
-   * 重置动态表单项
+   * Reset dynamic form items
    */
   const resetDynamicItems = (): void => {
     if (dynamicFormItems.value.length === 0) {
-      ElMessage.info('当前没有动态表单项')
+      ElMessage.info('No dynamic form items currently')
       return
     }
 
-    // 清除所有动态表单项的数据
+    // Clear all dynamic form items data
     dynamicFormItems.value.forEach((item) => {
       delete formDataAdvanced.value[item.key as keyof AdvancedFormData]
     })
 
     dynamicFormItems.value = []
     dynamicItemCounter = 0
-    ElMessage.success('已重置所有动态表单项')
+    ElMessage.success('Reset all dynamic form items')
   }
 </script>

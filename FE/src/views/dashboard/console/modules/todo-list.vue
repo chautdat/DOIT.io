@@ -2,8 +2,8 @@
   <div class="art-card h-128 p-5 mb-5 max-sm:mb-4">
     <div class="art-card-header">
       <div class="title">
-        <h4>代办事项</h4>
-        <p>待处理<span class="text-danger">3</span></p>
+        <h4>To-do list</h4>
+        <p>Pending<span class="text-danger">3</span></p>
       </div>
     </div>
 
@@ -32,39 +32,35 @@
     complate: boolean
   }
 
-  /**
-   * 待办事项列表
-   * 记录每日工作任务及完成状态
-   */
   const list = reactive<TodoItem[]>([
     {
-      username: '查看今天工作内容',
-      date: '上午 09:30',
+      username: 'Review today’s tasks',
+      date: '09:30 AM',
       complate: true
     },
     {
-      username: '回复邮件',
-      date: '上午 10:30',
+      username: 'Reply to emails',
+      date: '10:30 AM',
       complate: true
     },
     {
-      username: '工作汇报整理',
-      date: '上午 11:00',
+      username: 'Prepare work report',
+      date: '11:00 AM',
       complate: true
     },
     {
-      username: '产品需求会议',
-      date: '下午 02:00',
+      username: 'Product requirements meeting',
+      date: '02:00 PM',
       complate: false
     },
     {
-      username: '整理会议内容',
-      date: '下午 03:30',
+      username: 'Organize meeting notes',
+      date: '03:30 PM',
       complate: false
     },
     {
-      username: '明天工作计划',
-      date: '下午 06:30',
+      username: 'Plan tomorrow’s work',
+      date: '06:30 PM',
       complate: false
     }
   ])

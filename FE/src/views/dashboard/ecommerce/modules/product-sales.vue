@@ -6,7 +6,7 @@
           <span>14.5k</span>
           <ArtSvgIcon icon="ri:arrow-right-up-line" class="text-success text-lg ml-1" />
         </h4>
-        <p>销售量</p>
+        <p>Sales Volume</p>
       </div>
     </div>
 

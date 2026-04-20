@@ -1,4 +1,4 @@
-<!-- 注册页面 -->
+<!-- Register Page -->
 <template>
   <div class="flex w-full h-screen">
     <LoginLeftView />
@@ -110,7 +110,7 @@
   const loading = ref(false)
   const formKey = ref(0)
 
-  // 监听语言切换，重置表单
+  // Watch language switch, reset form
   watch(locale, () => {
     formKey.value++
   })
@@ -123,8 +123,8 @@
   })
 
   /**
-   * 验证密码
-   * 当密码输入后，如果确认密码已填写，则触发确认密码的验证
+   * Validate password
+   * When password is entered, if confirm password is filled, trigger confirm password validation
    */
   const validatePassword = (_rule: any, value: string, callback: (error?: Error) => void) => {
     if (!value) {
@@ -140,8 +140,8 @@
   }
 
   /**
-   * 验证确认密码
-   * 检查确认密码是否与密码一致
+   * Validate confirm password
+   * Check if confirm password matches password
    */
   const validateConfirmPassword = (
     _rule: any,
@@ -162,8 +162,8 @@
   }
 
   /**
-   * 验证用户协议
-   * 确保用户已勾选同意协议
+   * Validate user agreement
+   * Ensure user has checked agree to terms
    */
   const validateAgreement = (_rule: any, value: boolean, callback: (error?: Error) => void) => {
     if (!value) {
@@ -192,8 +192,8 @@
   }))
 
   /**
-   * 注册用户
-   * 验证表单后提交注册请求
+   * Register user
+   * Validate form then submit registration request
    */
   const register = async () => {
     if (!formRef.value) return
@@ -202,31 +202,31 @@
       await formRef.value.validate()
       loading.value = true
 
-      // TODO: 替换为真实 API 调用
+      // TODO: Replace with real API call
       // const params = {
       //   username: formData.username,
       //   password: formData.password
       // }
       // const res = await AuthService.register(params)
       // if (res.code === ApiStatus.success) {
-      //   ElMessage.success('注册成功')
+      //   ElMessage.success('Registration successful')
       //   toLogin()
       // }
 
-      // 模拟注册请求
+      // Simulate registration request
       setTimeout(() => {
         loading.value = false
-        ElMessage.success('注册成功')
+        ElMessage.success('Registration successful')
         toLogin()
       }, REDIRECT_DELAY)
     } catch (error) {
-      console.error('表单验证失败:', error)
+      console.error('Form validation failed:', error)
       loading.value = false
     }
   }
 
   /**
-   * 跳转到登录页面
+   * Navigate to login page
    */
   const toLogin = () => {
     setTimeout(() => {

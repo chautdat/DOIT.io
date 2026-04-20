@@ -1,11 +1,10 @@
-<!-- 左树右表示例页面 -->
 <template>
   <div class="art-full-height">
     <div class="box-border flex gap-4 h-full max-md:block max-md:gap-0 max-md:h-auto">
       <div class="flex-shrink-0 w-58 h-full max-md:w-full max-md:h-auto max-md:mb-5">
         <ElCard class="tree-card art-card-xs flex flex-col h-full mt-0">
           <template #header>
-            <b>分类树</b>
+            <b>Category tree</b>
           </template>
           <ElScrollbar>
             <ElTree
@@ -28,10 +27,10 @@
             <template #left>
               <ElSpace wrap>
                 <ElButton @click="showButtons = !showButtons" v-ripple type="primary" plain
-                  >{{ showButtons ? '收起' : '展开' }}按钮组</ElButton
+                  >{{ showButtons ? 'Collapse' : 'Expand' }} button group</ElButton
                 >
                 <ElButton v-show="showButtons" v-ripple v-for="value in 12" :key="value"
-                  >表格自适应</ElButton
+                  >Responsive table</ElButton
                 >
               </ElSpace>
             </template>
@@ -62,44 +61,43 @@
 
   const showButtons = ref(false)
 
-  // 树形数据 - 组织架构示例
   const treeData = ref([
     {
       id: 1,
-      label: '技术部',
+      label: 'Engineering',
       children: [
         {
           id: 11,
-          label: '前端开发组',
+          label: 'Frontend team',
           children: [
-            { id: 111, label: 'React 团队' },
-            { id: 112, label: 'Vue 团队' },
-            { id: 113, label: '移动端团队' }
+            { id: 111, label: 'React team' },
+            { id: 112, label: 'Vue team' },
+            { id: 113, label: 'Mobile team' }
           ]
         },
         {
           id: 12,
-          label: '后端开发组',
+          label: 'Backend team',
           children: [
-            { id: 121, label: 'Java 团队' },
-            { id: 122, label: 'Node.js 团队' },
-            { id: 123, label: 'Python 团队' }
+            { id: 121, label: 'Java team' },
+            { id: 122, label: 'Node.js team' },
+            { id: 123, label: 'Python team' }
           ]
         },
         {
           id: 13,
-          label: '测试组',
+          label: 'QA team',
           children: [
-            { id: 131, label: '功能测试' },
-            { id: 132, label: '自动化测试' },
-            { id: 133, label: '性能测试' }
+            { id: 131, label: 'Functional testing' },
+            { id: 132, label: 'Automation testing' },
+            { id: 133, label: 'Performance testing' }
           ]
         },
         {
           id: 14,
-          label: '运维组',
+          label: 'Operations team',
           children: [
-            { id: 141, label: '系统运维' },
+            { id: 141, label: 'System operations' },
             { id: 142, label: 'DevOps' }
           ]
         }
@@ -107,61 +105,61 @@
     },
     {
       id: 2,
-      label: '产品部',
+      label: 'Product',
       children: [
         {
           id: 21,
-          label: '产品设计组',
+          label: 'Product design team',
           children: [
-            { id: 211, label: 'UI 设计' },
-            { id: 212, label: 'UX 设计' },
-            { id: 213, label: '交互设计' }
+            { id: 211, label: 'UI design' },
+            { id: 212, label: 'UX design' },
+            { id: 213, label: 'Interaction design' }
           ]
         },
         {
           id: 22,
-          label: '产品运营组',
+          label: 'Product ops team',
           children: [
-            { id: 221, label: '用户运营' },
-            { id: 222, label: '内容运营' },
-            { id: 223, label: '活动运营' }
+            { id: 221, label: 'User operations' },
+            { id: 222, label: 'Content operations' },
+            { id: 223, label: 'Campaign operations' }
           ]
         },
-        { id: 23, label: '数据分析组' }
+        { id: 23, label: 'Data analysis team' }
       ]
     },
     {
       id: 3,
-      label: '市场部',
+      label: 'Marketing',
       children: [
-        { id: 31, label: '品牌推广组' },
-        { id: 32, label: '渠道拓展组' },
+        { id: 31, label: 'Brand promotion team' },
+        { id: 32, label: 'Channel growth team' },
         {
           id: 33,
-          label: '销售组',
+          label: 'Sales team',
           children: [
-            { id: 331, label: '企业客户' },
-            { id: 332, label: '个人客户' }
+            { id: 331, label: 'Enterprise customers' },
+            { id: 332, label: 'Individual customers' }
           ]
         }
       ]
     },
     {
       id: 4,
-      label: '行政部',
+      label: 'Administration',
       children: [
-        { id: 41, label: '人力资源组' },
-        { id: 42, label: '财务组' },
-        { id: 43, label: '行政后勤组' }
+        { id: 41, label: 'HR team' },
+        { id: 42, label: 'Finance team' },
+        { id: 43, label: 'Admin support team' }
       ]
     },
     {
       id: 5,
-      label: '客服部',
+      label: 'Support',
       children: [
-        { id: 51, label: '售前咨询' },
-        { id: 52, label: '售后支持' },
-        { id: 53, label: '客户成功' }
+        { id: 51, label: 'Pre-sales consulting' },
+        { id: 52, label: 'After-sales support' },
+        { id: 53, label: 'Customer success' }
       ]
     }
   ])
@@ -172,11 +170,9 @@
   }
 
   const handleNodeClick = (data: any) => {
-    console.log('选中节点:', data)
-    // 可以根据选中的节点更新右侧表格数据
+    console.log('Selected node:', data)
   }
 
-  // 表单搜索初始值
   const defaultFilter = ref<Api.SystemManage.UserSearchParams>({
     userName: undefined,
     userGender: undefined,
@@ -211,21 +207,21 @@
         },
         {
           prop: 'nickName',
-          label: '昵称'
+          label: 'Nickname'
         },
         {
           prop: 'userGender',
-          label: '性别',
+          label: 'Gender',
           sortable: true,
-          formatter: (row) => row.userGender || '未知'
+          formatter: (row) => row.userGender || 'Unknown'
         },
         {
           prop: 'userPhone',
-          label: '手机号'
+          label: 'Phone'
         },
         {
           prop: 'userEmail',
-          label: '邮箱'
+          label: 'Email'
         }
       ]
     }

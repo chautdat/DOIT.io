@@ -1,4 +1,3 @@
-<!-- 文章列表页面 -->
 <template>
   <div class="page-content !mb-5">
     <ElRow justify="space-between" :gutter="10">
@@ -7,7 +6,7 @@
           v-model="searchVal"
           :prefix-icon="Search"
           clearable
-          placeholder="输入文章标题查询"
+          placeholder="Search by article title"
           @keyup.enter="searchArticle"
         />
       </ElCol>
@@ -17,7 +16,7 @@
         </div>
       </ElCol>
       <ElCol :lg="6" :md="6" :sm="10" :xs="6" style="display: flex; justify-content: end">
-        <ElButton @click="toAddArticle" v-auth="'add'">新增文章</ElButton>
+        <ElButton @click="toAddArticle" v-auth="'add'">Add article</ElButton>
       </ElCol>
     </ElRow>
 
@@ -60,7 +59,7 @@
                 v-auth="'edit'"
                 size="small"
                 @click.stop="toEdit(item)"
-                >编辑</ElButton
+                >Edit</ElButton
               >
             </div>
           </div>
@@ -69,7 +68,7 @@
     </div>
 
     <div style="margin-top: 16vh" v-if="showEmpty">
-      <ElEmpty :description="`未找到相关数据 ${EmojiText[0]}`" />
+      <ElEmpty :description="`No matching data found ${EmojiText[0]}`" />
     </div>
 
     <div style="display: flex; justify-content: center; margin-top: 20px">
@@ -132,7 +131,6 @@
         yearVal.value = 'All'
       }
 
-      // TODO: 替换为真实 API 调用
       // const params = {
       //   page: currentPage.value,
       //   size: pageSize.value,
@@ -147,7 +145,7 @@
         useCommon().scrollToTop()
       }
     } catch (error) {
-      console.error('获取文章列表失败:', error)
+      console.error('Failed to get article list:', error)
     } finally {
       isLoading.value = false
     }

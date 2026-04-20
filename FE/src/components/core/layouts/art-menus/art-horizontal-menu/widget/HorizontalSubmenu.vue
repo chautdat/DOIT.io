@@ -9,7 +9,6 @@
       </div>
     </template>
 
-    <!-- 递归调用自身处理子菜单 -->
     <HorizontalSubmenu
       v-for="child in filteredChildren"
       :key="child.path"
@@ -68,12 +67,10 @@
 
   const emit = defineEmits(['close'])
 
-  // 过滤后的子菜单项（不包含隐藏的）
   const filteredChildren = computed(() => {
     return props.item.children?.filter((child) => !child.meta.isHide) || []
   })
 
-  // 父菜单如果本身就是页面，则即使没有可见子菜单也应该保留为菜单项。
   const isNavigableRoute = computed(() => {
     return !!(
       !props.item.meta.isHide &&
@@ -84,7 +81,6 @@
     )
   })
 
-  // 计算当前项是否有可见的子菜单
   const hasChildren = computed(() => {
     return filteredChildren.value.length > 0
   })

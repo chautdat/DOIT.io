@@ -2,40 +2,36 @@
   <div class="page-content mb-5">
     <div class="mb-15 text-center">
       <h1 class="my-4 text-2xl font-semibold leading-tight"
-        >基于 VueUse useTransition 的 Count-To 组件</h1
+        >Count-to component based on VueUse useTransition</h1
       >
       <p class="m-0 text-base leading-relaxed text-g-700"
-        >高性能数字滚动动画组件，支持完整的动画控制和事件监听</p
+        >High-performance number scrolling animation with full control and event hooks</p
       >
     </div>
 
-    <!-- 基础用法 -->
     <div class="mb-15">
-      <h2 class="m-0 mb-6 text-xl font-medium">基础用法</h2>
+      <h2 class="m-0 mb-6 text-xl font-medium">Basic usage</h2>
       <div class="count">
         <ArtCountTo :target="1000" :duration="2000" />
       </div>
     </div>
 
-    <!-- 带前缀后缀 -->
     <div class="mb-15">
-      <h2 class="m-0 mb-6 text-xl font-medium">带前缀后缀</h2>
+      <h2 class="m-0 mb-6 text-xl font-medium">With prefix and suffix</h2>
       <div class="count">
-        <ArtCountTo :target="20000" :duration="2500" prefix="¥" suffix="元" :decimals="2" />
+        <ArtCountTo :target="20000" :duration="2500" prefix="$" suffix="" :decimals="2" />
       </div>
     </div>
 
-    <!-- 小数点和分隔符 -->
     <div class="mb-15">
-      <h2 class="m-0 mb-6 text-xl font-medium">小数点和分隔符</h2>
+      <h2 class="m-0 mb-6 text-xl font-medium">Decimals and separators</h2>
       <div class="count">
         <ArtCountTo :target="2023.45" :duration="3000" :decimals="2" separator="," />
       </div>
     </div>
 
-    <!-- 动画效果对比 -->
     <div class="mb-15">
-      <h2 class="m-0 mb-6 text-xl font-medium">动画效果对比</h2>
+      <h2 class="m-0 mb-6 text-xl font-medium">Animation comparison</h2>
       <div class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-6 mb-8">
         <div class="text-center" v-for="easing in easingTypes" :key="easing.type">
           <div class="mb-3 text-sm font-medium text-g-700">{{ easing.name }}</div>
@@ -45,13 +41,12 @@
         </div>
       </div>
       <div class="text-center">
-        <ElButton @click="triggerEasing">触发所有动画</ElButton>
+        <ElButton @click="triggerEasing">Trigger all animations</ElButton>
       </div>
     </div>
 
-    <!-- 控制按钮 -->
     <div class="mb-15">
-      <h2 class="m-0 mb-6 text-xl font-medium">控制按钮</h2>
+      <h2 class="m-0 mb-6 text-xl font-medium">Controls</h2>
       <div class="count">
         <ArtCountTo
           ref="countToRef"
@@ -65,16 +60,16 @@
       </div>
 
       <div class="flex gap-3 justify-center">
-        <ElButton @click="startCount">开始</ElButton>
-        <ElButton @click="pauseCount">暂停</ElButton>
-        <ElButton @click="resetCount">重置</ElButton>
+        <ElButton @click="startCount">Start</ElButton>
+        <ElButton @click="pauseCount">Pause</ElButton>
+        <ElButton @click="resetCount">Reset</ElButton>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import ArtCountTo from '@/components/core/text-effect/art-count-to/index.vue'
+  import ArtCountTo from '@/components/core/text-effect/art-count-to/ArtCountTo.vue'
 
   defineOptions({ name: 'TemplateCountTo' })
 
@@ -82,9 +77,6 @@
   const countToRef = ref()
   const easingTarget = ref(0)
 
-  /**
-   * 缓动动画类型配置
-   */
   const easingTypes = [
     { name: 'Linear', type: 'linear' },
     { name: 'Ease Out Cubic', type: 'easeOutCubic' },
@@ -94,67 +86,39 @@
     { name: 'Ease In Quad', type: 'easeInQuad' }
   ] as const
 
-  /**
-   * 开始计数动画
-   */
   const startCount = () => {
     const newTarget = 5000
     controlTarget.value = newTarget
     countToRef.value?.start(newTarget)
   }
 
-  /**
-   * 暂停计数动画
-   */
   const pauseCount = () => {
     countToRef.value?.pause()
   }
 
-  /**
-   * 重置计数动画
-   */
   const resetCount = () => {
     countToRef.value?.reset()
     controlTarget.value = 0
   }
 
-  /**
-   * 触发缓动效果演示
-   * 在 0 和 1000 之间切换
-   */
   const triggerEasing = () => {
     easingTarget.value = easingTarget.value === 0 ? 1000 : 0
   }
 
-  /**
-   * 动画开始回调
-   * @param value 目标值
-   */
   const handleAnimationStarted = (value: number) => {
-    console.log('动画开始，目标值:', value)
+    console.log('Animation started, target value:', value)
   }
 
-  /**
-   * 动画完成回调
-   * @param value 最终值
-   */
   const handleAnimationFinished = (value: number) => {
-    console.log('动画完成，最终值:', value)
+    console.log('Animation finished, final value:', value)
   }
 
-  /**
-   * 动画暂停回调
-   * @param value 当前值
-   */
   const handleAnimationPaused = (value: number) => {
-    console.log('动画暂停，当前值:', value)
+    console.log('Animation paused, current value:', value)
   }
 
-  /**
-   * 动画重置回调
-   */
   const handleAnimationReset = () => {
-    console.log('动画已重置')
+    console.log('Animation reset')
   }
 </script>
 

@@ -2,8 +2,8 @@
   <div class="art-card p-5 h-[27.8rem] mb-5 overflow-hidden max-sm:mb-4">
     <div class="art-card-header">
       <div class="title">
-        <h4>热销产品</h4>
-        <p>本月销售情况</p>
+        <h4>Hot Products</h4>
+        <p>This Month's Sales</p>
       </div>
     </div>
 
@@ -16,7 +16,7 @@
         :header-cell-style="{ background: 'transparent' }"
       >
         <template #default>
-          <ElTableColumn label="产品" prop="product" width="220px">
+          <ElTableColumn label="Product" prop="product" width="220px">
             <template #default="scope">
               <div class="flex-c">
                 <img class="size-12.5 object-cover rounded-md" :src="scope.row.image" />
@@ -27,12 +27,12 @@
               </div>
             </template>
           </ElTableColumn>
-          <ElTableColumn label="价格" prop="price">
+          <ElTableColumn label="Price" prop="price">
             <template #default="scope">
-              <span class="font-semibold">¥{{ scope.row.price.toLocaleString() }}</span>
+              <span class="font-semibold">${{ scope.row.price.toLocaleString() }}</span>
             </template>
           </ElTableColumn>
-          <ElTableColumn label="库存" prop="stock">
+          <ElTableColumn label="Stock" prop="stock">
             <template #default="scope">
               <div
                 class="inline-block px-2 py-1 text-xs font-medium rounded"
@@ -42,8 +42,8 @@
               </div>
             </template>
           </ElTableColumn>
-          <ElTableColumn label="销量" prop="sales" />
-          <ElTableColumn label="销售趋势" width="240">
+          <ElTableColumn label="Sales" prop="sales" />
+          <ElTableColumn label="Sales Trend" width="240">
             <template #default="scope">
               <ElProgress :percentage="scope.row.pro" :color="scope.row.color" :stroke-width="4" />
             </template>
@@ -81,13 +81,13 @@
   } as const
 
   /**
-   * 热销产品表格数据
-   * 包含产品信息、库存、销量和销售趋势
+   * Hot products table data
+   * Contains product info, stock, sales and sales trend
    */
   const tableData = reactive<ProductItem[]>([
     {
-      name: '智能手表 Pro',
-      category: '电子设备',
+      name: 'Smart Watch Pro',
+      category: 'Electronics',
       price: 1299,
       stock: 156,
       sales: 423,
@@ -97,8 +97,8 @@
       image: product1
     },
     {
-      name: '无线蓝牙耳机',
-      category: '音频设备',
+      name: 'Wireless Bluetooth Earbuds',
+      category: 'Audio Equipment',
       price: 499,
       stock: 89,
       sales: 652,
@@ -108,8 +108,8 @@
       image: product2
     },
     {
-      name: '机械键盘',
-      category: '电脑配件',
+      name: 'Mechanical Keyboard',
+      category: 'Computer Accessories',
       price: 399,
       stock: 12,
       sales: 238,
@@ -119,8 +119,8 @@
       image: product3
     },
     {
-      name: '超薄笔记本电脑',
-      category: '电子设备',
+      name: 'Ultra-thin Laptop',
+      category: 'Electronics',
       price: 5999,
       stock: 0,
       sales: 126,
@@ -130,8 +130,8 @@
       image: product4
     },
     {
-      name: '智能音箱',
-      category: '智能家居',
+      name: 'Smart Speaker',
+      category: 'Smart Home',
       price: 799,
       stock: 45,
       sales: 321,
@@ -141,8 +141,8 @@
       image: product5
     },
     {
-      name: '游戏手柄',
-      category: '游戏配件',
+      name: 'Gaming Controller',
+      category: 'Gaming Accessories',
       price: 299,
       stock: 78,
       sales: 489,
@@ -154,21 +154,21 @@
   ])
 
   /**
-   * 根据库存数量获取状态文本
-   * @param stock 库存数量
-   * @returns 库存状态文本
+   * Get stock status text based on stock quantity
+   * @param stock Stock quantity
+   * @returns Stock status text
    */
   const getStockStatus = (stock: number): string => {
-    if (stock === 0) return '缺货'
-    if (stock < STOCK_THRESHOLD.LOW) return '低库存'
-    if (stock < STOCK_THRESHOLD.MEDIUM) return '适中'
-    return '充足'
+    if (stock === 0) return 'Out of Stock'
+    if (stock < STOCK_THRESHOLD.LOW) return 'Low Stock'
+    if (stock < STOCK_THRESHOLD.MEDIUM) return 'Medium'
+    return 'In Stock'
   }
 
   /**
-   * 根据库存数量获取状态样式类名
-   * @param stock 库存数量
-   * @returns CSS 类名
+   * Get stock status CSS class based on stock quantity
+   * @param stock Stock quantity
+   * @returns CSS class name
    */
   const getStockClass = (stock: number): string => {
     if (stock === 0) return 'text-danger bg-danger/12'
@@ -178,8 +178,8 @@
   }
 
   /**
-   * 添加进度条动画效果
-   * 延迟后将进度值从 0 更新到目标百分比，触发动画
+   * Add progress bar animation effect
+   * Update progress value from 0 to target percentage after delay
    */
   const addAnimation = (): void => {
     setTimeout(() => {

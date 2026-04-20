@@ -1,41 +1,45 @@
-<!-- 切换权限页面 -->
+<!-- Switch Permission Page -->
 <template>
   <div class="py-2">
-    <!-- 页面头部 -->
+    <!-- Page Header -->
     <div class="mb-6">
-      <h2 class="m-0 mb-2 text-xl font-medium">权限切换演示</h2>
+      <h2 class="m-0 mb-2 text-xl font-medium">Permission Switch Demo</h2>
       <p class="m-0 leading-[1.6] text-g-700">
-        点击下方按钮切换不同用户身份，模拟不同用户登录系统的效果。切换后会影响整个系统的菜单显示和按钮权限。
+        Click the buttons below to switch between different user roles, simulating different users
+        logging into the system. After switching, it will affect the entire system's menu display
+        and button permissions.
       </p>
     </div>
 
-    <!-- 当前用户信息 -->
+    <!-- Current User Info -->
     <div class="mb-6">
       <ElCard class="art-card-xs">
         <template #header>
           <div class="font-semibold">
-            <span>当前登录用户</span>
+            <span>Current Logged-in User</span>
           </div>
         </template>
         <div>
           <div>
             <div class="flex items-start mb-3 last:mb-0">
-              <span class="min-w-30 font-semibold">用户名：</span>
-              <span>{{ currentUser.userName || '未登录' }}</span>
+              <span class="min-w-30 font-semibold">Username:</span>
+              <span>{{ currentUser.userName || 'Not logged in' }}</span>
             </div>
             <div class="flex items-start mb-3 last:mb-0">
-              <span class="min-w-30 font-semibold">角色：</span>
+              <span class="min-w-30 font-semibold">Role:</span>
               <ElTag :type="getRoleTagType(currentUser.roles?.[0])">
                 {{ getRoleDisplayName(currentUser.roles?.[0]) }}
               </ElTag>
             </div>
             <div class="flex items-start mb-3 last:mb-0">
-              <span class="min-w-30 font-semibold">权限码：</span>
+              <span class="min-w-30 font-semibold">Permission Codes:</span>
               <div class="flex flex-wrap gap-2">
                 <ElTag v-for="button in currentUser.buttons" :key="button" size="small" type="info">
                   {{ button }}
                 </ElTag>
-                <span v-if="!currentUser.buttons?.length" class="italic text-g-500">无权限码</span>
+                <span v-if="!currentUser.buttons?.length" class="italic text-g-500"
+                  >No permission codes</span
+                >
               </div>
             </div>
           </div>
@@ -43,12 +47,12 @@
       </ElCard>
     </div>
 
-    <!-- 用户角色切换 -->
+    <!-- User Role Switch -->
     <div class="mb-6">
       <ElCard class="art-card-xs">
         <template #header>
           <div class="font-semibold">
-            <span>账号切换</span>
+            <span>Account Switch</span>
           </div>
         </template>
         <div class="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
@@ -65,8 +69,8 @@
                 <h4 class="m-0 mb-2 text-base font-semibold">{{ account.label }}</h4>
                 <p class="m-0 mb-2 leading-[1.5] text-g-700">{{ account.description }}</p>
                 <div class="flex flex-col gap-1">
-                  <span class="text-xs text-g-600">用户名: {{ account.userName }}</span>
-                  <span class="text-xs text-g-600">角色: {{ account.roles.join(', ') }}</span>
+                  <span class="text-xs text-g-600">Username: {{ account.userName }}</span>
+                  <span class="text-xs text-g-600">Roles: {{ account.roles.join(', ') }}</span>
                 </div>
               </div>
             </div>
@@ -77,9 +81,9 @@
                 @click="switchRole(account)"
                 :loading="switching"
               >
-                切换到此角色
+                Switch to this role
               </ElButton>
-              <ElTag v-else type="success">当前用户</ElTag>
+              <ElTag v-else type="success">Current User</ElTag>
             </div>
           </div>
         </div>
@@ -99,13 +103,13 @@
   const { t } = useI18n()
   const userStore = useUserStore()
 
-  // 响应式数据
+  // Reactive data
   const switching = ref(false)
 
-  // 当前用户信息
+  // Current user info
   const currentUser = computed(() => userStore.info)
 
-  // 账号列表 - 与登录页面保持一致
+  // Account list - consistent with login page
   const accounts = computed(() => [
     {
       key: 'super',
@@ -114,7 +118,7 @@
       password: '123456',
       roles: ['R_SUPER'],
       color: '#E6A23C',
-      description: '拥有系统最高权限，可以访问所有功能模块'
+      description: 'Has the highest system privileges, can access all functional modules'
     },
     {
       key: 'admin',
@@ -123,7 +127,7 @@
       password: '123456',
       roles: ['R_ADMIN'],
       color: '#409EFF',
-      description: '拥有管理权限，可以管理用户和部分系统设置'
+      description: 'Has management privileges, can manage users and some system settings'
     },
     {
       key: 'user',
@@ -132,11 +136,11 @@
       password: '123456',
       roles: ['R_USER'],
       color: '#67C23A',
-      description: '普通用户权限，只能访问基础功能模块'
+      description: 'Regular user privileges, can only access basic functional modules'
     }
   ])
 
-  // 获取角色标签类型
+  // Get role tag type
   const getRoleTagType = (role?: string): 'info' | 'warning' | 'primary' | 'success' | 'danger' => {
     if (!role) return 'info'
     const roleMap: Record<string, 'info' | 'warning' | 'primary' | 'success' | 'danger'> = {
@@ -147,19 +151,19 @@
     return roleMap[role] || 'info'
   }
 
-  // 获取角色显示名称
+  // Get role display name
   const getRoleDisplayName = (role?: string): string => {
-    if (!role) return '未知角色'
+    if (!role) return 'Unknown role'
     const roleMap: Record<string, string> = {
-      R_SUPER: '超级管理员',
-      R_ADMIN: '管理员',
-      R_USER: '普通用户'
+      R_SUPER: 'Super Admin',
+      R_ADMIN: 'Admin',
+      R_USER: 'Regular User'
     }
-    return roleMap[role] || '未知角色'
+    return roleMap[role] || 'Unknown role'
   }
 
   /**
-   * 账号信息类型
+   * Account info type
    */
   interface AccountInfo {
     userName: string
@@ -170,14 +174,14 @@
   }
 
   /**
-   * 切换角色
-   * @param account 账号信息
+   * Switch role
+   * @param account Account info
    */
   const switchRole = async (account: AccountInfo) => {
     try {
       switching.value = true
 
-      // 模拟登录请求
+      // Simulate login request
       const response = await fetchLogin({
         email: account.userName, // Use userName as email
         password: account.password
@@ -185,23 +189,23 @@
 
       const token = response.accessToken || response.token
 
-      // 验证token
+      // Verify token
       if (!token) {
         throw new Error('Login failed - no token received')
       }
 
-      // 存储token和用户信息
+      // Store token and user info
       userStore.setToken(token, response.refreshToken)
       const userInfo = await fetchGetUserInfo()
       userStore.setUserInfo(userInfo)
 
-      // 延迟刷新页面以应用新权限
+      // Delay page refresh to apply new permissions
       setTimeout(() => {
         window.location.reload()
       }, 100)
     } catch (error) {
       if (error !== 'cancel') {
-        ElMessage.error('切换用户身份失败，请稍后重试')
+        ElMessage.error('Failed to switch user role, please try again later')
         console.error('[SwitchRole] Error:', error)
       }
     } finally {

@@ -34,7 +34,6 @@
 
   const disabled = computed(() => isTopMenu.value || isDualMenu.value || isDark.value)
 
-  // 菜单样式切换
   const switchMenuStyles = (theme: MenuThemeEnum) => {
     if (isDualMenu.value || isTopMenu.value || isDark.value) {
       return

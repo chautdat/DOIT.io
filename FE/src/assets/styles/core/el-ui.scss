@@ -1,20 +1,15 @@
-// 优化 Element Plus 组件库默认样式
 
 :root {
-  // 系统主色
   --main-color: var(--el-color-primary);
   --el-color-white: white !important;
   --el-color-black: white !important;
-  // 输入框边框颜色
   // --el-border-color: #E4E4E7 !important; // DCDFE6
-  // 按钮粗度
   --el-font-weight-primary: 400 !important;
 
   --el-component-custom-height: 36px !important;
 
   --el-component-size: var(--el-component-custom-height) !important;
 
-  // 边框、按钮圆角...
   --el-border-radius-base: calc(var(--custom-radius) / 3 + 2px) !important;
 
   --el-border-radius-small: calc(var(--custom-radius) / 3 + 4px) !important;
@@ -26,23 +21,19 @@
   }
 }
 
-// 优化 el-form-item 标签高度
 .el-form-item__label {
   height: var(--el-component-custom-height) !important;
   line-height: var(--el-component-custom-height) !important;
 }
 
-// 日期选择器
 .el-date-range-picker {
   --el-datepicker-inrange-bg-color: var(--art-gray-200) !important;
 }
 
-// el-card 背景色跟系统背景色保持一致
 html.dark .el-card {
   --el-card-bg-color: var(--default-box-color) !important;
 }
 
-// 修改 el-pagination 大小
 .el-pagination--default {
   & {
     --el-pagination-button-width: 32px !important;
@@ -69,42 +60,33 @@ html.dark .el-card {
   // border: 1px solid red !important;
 }
 
-// 优化菜单折叠展开动画（提升动画流畅度）
 .el-menu.el-menu--inline {
   transition: max-height 0.26s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-// 优化菜单 item hover 动画（提升鼠标跟手感）
 .el-sub-menu__title,
 .el-menu-item {
   transition: background-color 0s !important;
 }
 
-// -------------------------------- 修改 el-size=default 组件默认高度 start --------------------------------
-// 修改 el-button 高度
 .el-button--default {
   height: var(--el-component-custom-height) !important;
 }
 
-// circle 按钮宽度优化
 .el-button--default.is-circle {
   width: var(--el-component-custom-height) !important;
 }
 
-// 修改 el-select 高度
 .el-select--default {
   .el-select__wrapper {
     min-height: var(--el-component-custom-height) !important;
   }
 }
 
-// 修改 el-checkbox-button 高度
 .el-checkbox-button--default .el-checkbox-button__inner,
-// 修改 el-radio-button 高度
 .el-radio-button--default .el-radio-button__inner {
   padding: 10px 15px !important;
 }
-// -------------------------------- 修改 el-size=default 组件默认高度 end --------------------------------
 
 .el-pagination.is-background .btn-next,
 .el-pagination.is-background .btn-prev,
@@ -131,14 +113,12 @@ html.dark .el-card {
 
 .el-dialog__body {
   padding: 25px 0 !important;
-  position: relative; // 为了兼容 el-pagination 样式，需要设置 relative，不然会影响 el-pagination 的样式，比如 el-pagination__jump--small 会被影响，导致 el-pagination__jump--small 按钮无法点击，详见 URL_ADDRESS.com/element-plus/element-plus/issues/5684#issuecomment-1176299275;
+  position: relative;
 }
 
 .el-dialog.el-dialog-border {
   .el-dialog__body {
-    // 上边框
     &::before,
-    // 下边框
     &::after {
       content: '';
       position: absolute;
@@ -158,7 +138,6 @@ html.dark .el-card {
   }
 }
 
-// el-message 样式优化
 .el-message {
   background-color: var(--default-box-color) !important;
   border: 0 !important;
@@ -172,7 +151,6 @@ html.dark .el-card {
   }
 }
 
-// 修改 el-dropdown 样式
 .el-dropdown-menu {
   padding: 6px !important;
   border-radius: 10px !important;
@@ -194,7 +172,6 @@ html.dark .el-card {
   }
 }
 
-// 隐藏 select、dropdown 的三角
 .el-select__popper,
 .el-dropdown__popper {
   margin-top: -6px !important;
@@ -208,7 +185,6 @@ html.dark .el-card {
   outline: none !important;
 }
 
-// 处理移动端组件兼容性
 @media screen and (max-width: 640px) {
   .el-message-box,
   .el-dialog {
@@ -231,7 +207,6 @@ html.dark .el-card {
   }
 }
 
-// 修改el-button样式
 .el-button {
   &.el-button--text {
     background-color: transparent !important;
@@ -243,7 +218,6 @@ html.dark .el-card {
   }
 }
 
-// 修改el-tag样式
 .el-tag {
   font-weight: 500;
   transition: all 0s !important;
@@ -264,7 +238,6 @@ html.dark .el-card {
 }
 
 .el-radio--default {
-  // 优化单选按钮大小
   .el-radio__input {
     .el-radio__inner {
       width: 16px;
@@ -284,7 +257,6 @@ html.dark .el-card {
   }
 }
 
-// 优化复选框样式
 .el-checkbox--default {
   .el-checkbox__inner {
     width: 16px !important;
@@ -320,7 +292,6 @@ html.dark .el-card {
   font-size: 22px !important;
 }
 
-// 修改 el-message-box 样式
 .el-message-box__headerbtn .el-message-box__close,
 .el-dialog__headerbtn .el-dialog__close {
   top: 7px;
@@ -349,12 +320,10 @@ html.dark .el-card {
   margin: -3px 0 0 2px;
 }
 
-// 去除 el-dropdown 鼠标放上去出现的边框
 .el-tooltip__trigger:focus-visible {
   outline: unset;
 }
 
-// ipad 表单右侧按钮优化
 @media screen and (max-width: 1180px) {
   .el-table-fixed-column--right {
     padding-right: 0 !important;
@@ -366,12 +335,10 @@ html.dark .el-card {
   border-radius: 10px !important;
 }
 
-// 修改 dialog 动画
 .dialog-fade-enter-active {
   .el-dialog:not(.is-draggable) {
     animation: dialog-open 0.3s cubic-bezier(0.32, 0.14, 0.15, 0.86);
 
-    // 修复 el-dialog 动画后宽度不自适应问题
     .el-select__selected-item {
       display: inline-block;
     }
@@ -410,7 +377,6 @@ html.dark .el-card {
   }
 }
 
-// 遮罩层动画
 @keyframes fade-out {
   0% {
     opacity: 1;
@@ -421,7 +387,6 @@ html.dark .el-card {
   }
 }
 
-// 修改 el-select 样式
 .el-select__popper:not(.el-tree-select__popper) {
   .el-select-dropdown__list {
     padding: 5px !important;
@@ -450,7 +415,6 @@ html.dark .el-card {
   }
 }
 
-// 修改 el-tree-select 样式
 .el-tree-select__popper {
   .el-select-dropdown__list {
     padding: 5px !important;
@@ -468,25 +432,21 @@ html.dark .el-card {
   }
 }
 
-// 实现水波纹在文字下面效果
 .el-button > span {
   position: relative;
   z-index: 10;
 }
 
-// 优化颜色选择器圆角
 .el-color-picker__color {
   border-radius: 2px !important;
 }
 
-// 优化日期时间选择器底部圆角
 .el-picker-panel {
   .el-picker-panel__footer {
     border-radius: 0 0 var(--el-border-radius-base) var(--el-border-radius-base);
   }
 }
 
-// 优化树型菜单样式
 .el-tree-node__content {
   border-radius: 4px;
   margin-bottom: 4px;
@@ -503,14 +463,12 @@ html.dark .el-card {
   }
 }
 
-// 隐藏折叠菜单弹窗 hover 出现的边框
 .menu-left-popper:focus-within,
 .horizontal-menu-popper:focus-within {
   box-shadow: none !important;
   outline: none !important;
 }
 
-// 数字输入组件右侧按钮高度跟随自定义组件高度
 .el-input-number--default.is-controls-right {
   .el-input-number__decrease,
   .el-input-number__increase {

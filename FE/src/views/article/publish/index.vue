@@ -1,19 +1,19 @@
-<!-- 文章发布页面 -->
+<!-- Article Publish Page -->
 <template>
   <div>
     <div>
       <div class="max-w-250 mx-auto my-5">
-        <!-- 文章标题、类型 -->
+        <!-- Article title, type -->
         <ElRow :gutter="10">
           <ElCol :span="18">
             <ElInput
               v-model.trim="articleName"
-              placeholder="请输入文章标题（最多100个字符）"
+              placeholder="Enter article title (max 100 characters)"
               maxlength="100"
             />
           </ElCol>
           <ElCol :span="6">
-            <ElSelect v-model="articleType" placeholder="请选择文章类型" filterable>
+            <ElSelect v-model="articleType" placeholder="Select article type" filterable>
               <ElOption
                 v-for="item in articleTypes"
                 :key="item.id"
@@ -24,14 +24,14 @@
           </ElCol>
         </ElRow>
 
-        <!-- 富文本编辑器 -->
+        <!-- Rich text editor -->
         <ArtWangEditor class="mt-2.5" v-model="editorHtml" />
 
         <div class="p-5 mt-5 art-card-xs">
-          <h2 class="mb-5 text-xl font-medium">发布设置</h2>
-          <!-- 图片上传 -->
+          <h2 class="mb-5 text-xl font-medium">Publish Settings</h2>
+          <!-- Image upload -->
           <ElForm>
-            <ElFormItem label="封面">
+            <ElFormItem label="Cover">
               <div class="mt-2.5">
                 <ElUpload
                   :action="uploadImageUrl"
@@ -46,21 +46,21 @@
                     class="flex-cc flex-col w-65 h-40 border border-dashed border-[#d9d9d9] rounded-md"
                   >
                     <ElIcon class="!text-xl !text-g-600"><Plus /></ElIcon>
-                    <div class="mt-2 text-sm text-g-600">点击上传封面</div>
+                    <div class="mt-2 text-sm text-g-600">Click to upload cover</div>
                   </div>
                   <img v-else :src="cover" class="block w-65 h-40 object-cover" />
                 </ElUpload>
-                <div class="mt-2 text-xs text-g-700">建议尺寸 16:9，jpg/png 格式</div>
+                <div class="mt-2 text-xs text-g-700">Recommended size 16:9, jpg/png format</div>
               </div>
             </ElFormItem>
-            <ElFormItem label="可见">
+            <ElFormItem label="Visible">
               <ElSwitch v-model="visible" />
             </ElFormItem>
           </ElForm>
 
           <div class="flex justify-end">
             <ElButton type="primary" @click="submit" class="w-25">
-              {{ pageMode === PageModeEnum.Edit ? '保存' : '发布' }}
+              {{ pageMode === PageModeEnum.Edit ? 'Save' : 'Publish' }}
             </ElButton>
           </div>
         </div>
@@ -126,7 +126,7 @@
   const visible = ref(true)
 
   /**
-   * 初始化页面模式（新增或编辑）
+   * Initialize page mode (add or edit)
    */
   const initPageMode = () => {
     const { id } = route.query
@@ -140,7 +140,7 @@
   }
 
   /**
-   * 获取文章分类列表
+   * Get article category list
    */
   const getArticleTypes = async () => {
     try {
@@ -149,11 +149,11 @@
         articleTypes.value = data.data
       }
     } catch (error) {
-      console.error('获取文章分类失败:', error)
-      ElMessage.error('获取文章分类失败')
+      console.error('Failed to get article categories:', error)
+      ElMessage.error('Failed to get article categories')
     }
 
-    // TODO: 替换为真实 API 调用
+    // TODO: Replace with real API call
     // const res = await ArticleService.getArticleTypes({})
     // if (res.code === ApiStatus.success) {
     //   articleTypes.value = res.data
@@ -161,7 +161,7 @@
   }
 
   /**
-   * 获取文章详情（编辑模式）
+   * Get article detail (edit mode)
    */
   const getArticleDetail = async () => {
     try {
@@ -176,39 +176,39 @@
         editorHtml.value = html_content
       }
     } catch (error) {
-      console.error('获取文章详情失败:', error)
-      ElMessage.error('获取文章详情失败')
+      console.error('Failed to get article detail:', error)
+      ElMessage.error('Failed to get article detail')
     }
   }
 
   /**
-   * 格式化日期为 YYYY-MM-DD 格式
+   * Format date to YYYY-MM-DD
    */
   const formatDate = (date: string | Date): string => {
     return useDateFormat(date, 'YYYY-MM-DD').value
   }
 
   /**
-   * 验证文章表单数据
+   * Validate article form data
    */
   const validateArticle = (): boolean => {
     if (!articleName.value.trim()) {
-      ElMessage.error('请输入文章标题')
+      ElMessage.error('Please enter article title')
       return false
     }
 
     if (!articleType.value) {
-      ElMessage.error('请选择文章类型')
+      ElMessage.error('Please select article type')
       return false
     }
 
     if (!editorHtml.value || editorHtml.value === EMPTY_EDITOR_CONTENT) {
-      ElMessage.error('请输入文章内容')
+      ElMessage.error('Please enter article content')
       return false
     }
 
     if (!cover.value) {
-      ElMessage.error('请上传封面图片')
+      ElMessage.error('Please upload cover image')
       return false
     }
 
@@ -216,14 +216,14 @@
   }
 
   /**
-   * 清理代码块中的多余空格
+   * Clean extra spaces in code blocks
    */
   const cleanCodeContent = (content: string): string => {
     return content.replace(/(\s*)<\/code>/g, '</code>')
   }
 
   /**
-   * 新增文章
+   * Add new article
    */
   const addArticle = async () => {
     if (!validateArticle()) return
@@ -231,7 +231,7 @@
     try {
       const cleanedContent = cleanCodeContent(editorHtml.value)
 
-      // TODO: 替换为真实 API 调用
+      // TODO: Replace with real API call
       // const params = {
       //   title: articleName.value,
       //   type: articleType.value,
@@ -241,19 +241,19 @@
       // }
       // const res = await ArticleService.addArticle(params)
       // if (res.code === ApiStatus.success) {
-      //   ElMessage.success('文章发布成功')
+      //   ElMessage.success('Article published successfully')
       //   router.push({ name: 'ArticleList' })
       // }
 
-      console.log('新增文章:', { cleanedContent })
+      console.log('Add article:', { cleanedContent })
     } catch (error) {
-      console.error('发布文章失败:', error)
-      ElMessage.error('发布文章失败')
+      console.error('Failed to publish article:', error)
+      ElMessage.error('Failed to publish article')
     }
   }
 
   /**
-   * 编辑文章
+   * Edit article
    */
   const editArticle = async () => {
     if (!validateArticle()) return
@@ -261,7 +261,7 @@
     try {
       const cleanedContent = cleanCodeContent(editorHtml.value)
 
-      // TODO: 替换为真实 API 调用
+      // TODO: Replace with real API call
       // const params = {
       //   id: route.query.id,
       //   title: articleName.value,
@@ -272,19 +272,19 @@
       // }
       // const res = await ArticleService.editArticle(params)
       // if (res.code === ApiStatus.success) {
-      //   ElMessage.success('文章保存成功')
+      //   ElMessage.success('Article saved successfully')
       //   router.push({ name: 'ArticleList' })
       // }
 
-      console.log('编辑文章:', { cleanedContent })
+      console.log('Edit article:', { cleanedContent })
     } catch (error) {
-      console.error('保存文章失败:', error)
-      ElMessage.error('保存文章失败')
+      console.error('Failed to save article:', error)
+      ElMessage.error('Failed to save article')
     }
   }
 
   /**
-   * 提交表单（新增或编辑）
+   * Submit form (add or edit)
    */
   const submit = () => {
     if (pageMode.value === PageModeEnum.Edit) {
@@ -295,34 +295,34 @@
   }
 
   /**
-   * 图片上传成功回调
+   * Image upload success callback
    */
   const onSuccess = (response: UploadResponse) => {
     cover.value = response.data.url
-    ElMessage.success(`图片上传成功 ${EmojiText[200]}`)
+    ElMessage.success(`Image uploaded successfully ${EmojiText[200]}`)
   }
 
   /**
-   * 图片上传失败回调
+   * Image upload error callback
    */
   const onError = () => {
-    ElMessage.error(`图片上传失败 ${EmojiText[500]}`)
+    ElMessage.error(`Image upload failed ${EmojiText[500]}`)
   }
 
   /**
-   * 上传前的文件校验
+   * File validation before upload
    */
   const beforeUpload = (file: File): boolean => {
     const isImage = file.type.startsWith('image/')
     const isLt2M = file.size / 1024 / 1024 < MAX_IMAGE_SIZE
 
     if (!isImage) {
-      ElMessage.error('只能上传图片文件')
+      ElMessage.error('Only image files can be uploaded')
       return false
     }
 
     if (!isLt2M) {
-      ElMessage.error(`图片大小不能超过 ${MAX_IMAGE_SIZE}MB`)
+      ElMessage.error(`Image size cannot exceed ${MAX_IMAGE_SIZE}MB`)
       return false
     }
 

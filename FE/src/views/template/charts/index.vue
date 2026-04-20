@@ -1,25 +1,12 @@
-<!--
- * 部分属性配置：
- * 图表高度： height="12rem" | height="300px"
- * 柱状图宽度： barWidth="26%"
- * 圆角大小： :borderRadius="4" | :borderRadius="[6, 6, 0, 0]"
- * 颜色配置： :colors=['#409eff', '#95E0FB']
- * 是否显示图例： :showLegend="true"
- * 图例位置： legendPosition="bottom" | "top" | "left" | "right"
- * 是否显示提示框： :showTooltip="true"
- * 堆叠： :stack="true"
- * 数据点大小： :symbolSize="7"
- * 数据点类型： symbol="circle" | "rect" | "roundRect" | "triangle" | "diamond" | "pin" | "arrow" | "none"
--->
 <template>
   <div class="pt-5">
-    <h1 class="page-title">图表</h1>
+    <h1 class="page-title">Charts</h1>
 
     <ElRow :gutter="20">
       <ElCol :xs="24" :md="12" :lg="8" class="mb-5">
         <div class="art-card">
           <div class="pb-3.5">
-            <span class="text-base font-medium">柱状图（单数据）</span>
+            <span class="text-base font-medium">Bar chart (single series)</span>
           </div>
           <ArtBarChart
             :data="singleBarData"
@@ -32,7 +19,7 @@
       <ElCol :xs="24" :md="12" :lg="8" class="mb-5">
         <div class="art-card">
           <div class="pb-3.5">
-            <span class="text-base font-medium">柱状图（多组数据）</span>
+            <span class="text-base font-medium">Bar chart (multiple series)</span>
           </div>
           <ArtBarChart
             :data="multiBarData"
@@ -45,7 +32,7 @@
       <ElCol :xs="24" :md="12" :lg="8" class="mb-5">
         <div class="art-card">
           <div class="pb-3.5">
-            <span class="text-base font-medium">柱状图（堆叠）</span>
+            <span class="text-base font-medium">Bar chart (stacked)</span>
           </div>
           <ArtBarChart
             :data="stackBarData"
@@ -59,11 +46,11 @@
       <ElCol :xs="24" :md="12" :lg="8" class="mb-5">
         <div class="art-card">
           <div class="pb-3.5">
-            <span class="text-base font-medium">折线图</span>
+            <span class="text-base font-medium">Line chart</span>
           </div>
           <ArtLineChart
             :data="[58, 15, 82, 35, 120, 62, 45]"
-            :xAxisData="['一月', '二月', '三月', '四月', '五月', '六月', '七月']"
+            :xAxisData="['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']"
             symbol="none"
             :symbolSize="7"
           />
@@ -72,11 +59,11 @@
       <ElCol :xs="24" :md="12" :lg="8" class="mb-5">
         <div class="art-card">
           <div class="pb-3.5">
-            <span class="text-base font-medium">折线图（渐变背景）</span>
+            <span class="text-base font-medium">Line chart (gradient background)</span>
           </div>
           <ArtLineChart
             :data="[28, 45, 82, 35, 100, 32, 55]"
-            :xAxisData="['一月', '二月', '三月', '四月', '五月', '六月', '七月']"
+            :xAxisData="['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']"
             :showAreaColor="true"
           />
         </div>
@@ -84,11 +71,11 @@
       <ElCol :xs="24" :md="12" :lg="8" class="mb-5">
         <div class="art-card">
           <div class="pb-3.5">
-            <span class="text-base font-medium">折线图（多组数据）</span>
+            <span class="text-base font-medium">Line chart (multiple series)</span>
           </div>
           <ArtLineChart
             :data="multiLineData"
-            :xAxisData="['1月', '2月', '3月', '4月', '5月', '6月']"
+            :xAxisData="['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']"
             :showLegend="true"
           />
         </div>
@@ -97,26 +84,26 @@
       <ElCol :xs="24" :md="12" :lg="8" class="mb-5">
         <div class="art-card">
           <div class="pb-3.5">
-            <span class="text-base font-medium">柱状图（水平）</span>
+            <span class="text-base font-medium">Horizontal bar chart</span>
           </div>
           <ArtHBarChart
             :data="[50, 80, 120, 90, 60]"
-            :xAxisData="['产品A', '产品B', '产品C', '产品D', '产品E']"
+            :xAxisData="['Product A', 'Product B', 'Product C', 'Product D', 'Product E']"
           />
         </div>
       </ElCol>
       <ElCol :xs="24" :md="12" :lg="8" class="mb-5">
         <div class="art-card">
           <div class="pb-3.5">
-            <span class="text-base font-medium">柱状图（水平）</span>
+            <span class="text-base font-medium">Horizontal bar chart</span>
           </div>
 
           <ArtHBarChart
             :data="[
-              { name: '系列1', data: [10, 20, 30] },
-              { name: '系列2', data: [15, 25, 35] }
+              { name: 'Series 1', data: [10, 20, 30] },
+              { name: 'Series 2', data: [15, 25, 35] }
             ]"
-            :xAxisData="['类目1', '类目2', '类目3']"
+            :xAxisData="['Category 1', 'Category 2', 'Category 3']"
             :showLegend="true"
             barWidth="30%"
           />
@@ -125,14 +112,14 @@
       <ElCol :xs="24" :md="12" :lg="8" class="mb-5">
         <div class="art-card">
           <div class="pb-3.5">
-            <span class="text-base font-medium">柱状图（水平堆叠）</span>
+            <span class="text-base font-medium">Horizontal stacked bar chart</span>
           </div>
           <ArtHBarChart
             :data="[
-              { name: '系列1', data: [10, 20, 30] },
-              { name: '系列2', data: [15, 25, 35] }
+              { name: 'Series 1', data: [10, 20, 30] },
+              { name: 'Series 2', data: [15, 25, 35] }
             ]"
-            :xAxisData="['类目1', '类目2', '类目3']"
+            :xAxisData="['Category 1', 'Category 2', 'Category 3']"
             :showLegend="true"
             :stack="true"
             barWidth="30%"
@@ -143,13 +130,13 @@
       <ElCol :xs="24" :md="12" :lg="8" class="mb-5">
         <div class="art-card">
           <div class="pb-3.5">
-            <span class="text-base font-medium">环形图</span>
+            <span class="text-base font-medium">Donut chart</span>
           </div>
           <ArtRingChart
             :data="[
-              { value: 35, name: '分类A' },
-              { value: 28, name: '分类B' },
-              { value: 42, name: '分类C' }
+              { value: 35, name: 'Group A' },
+              { value: 28, name: 'Group B' },
+              { value: 42, name: 'Group C' }
             ]"
             :radius="['54%', '70%']"
             legendPosition="bottom"
@@ -160,16 +147,16 @@
       <ElCol :xs="24" :md="12" :lg="8" class="mb-5">
         <div class="art-card">
           <div class="pb-3.5">
-            <span class="text-base font-medium">环形图</span>
+            <span class="text-base font-medium">Donut chart</span>
           </div>
           <ArtRingChart
             :data="[
-              { value: 35, name: '分类A' },
-              { value: 28, name: '分类B' },
-              { value: 42, name: '分类C' },
-              { value: 32, name: '分类D' },
-              { value: 26, name: '分类E' },
-              { value: 37, name: '分类F' }
+              { value: 35, name: 'Group A' },
+              { value: 28, name: 'Group B' },
+              { value: 42, name: 'Group C' },
+              { value: 32, name: 'Group D' },
+              { value: 26, name: 'Group E' },
+              { value: 37, name: 'Group F' }
             ]"
             :radius="['54%', '70%']"
             :borderRadius="0"
@@ -182,13 +169,13 @@
       <ElCol :xs="24" :md="12" :lg="8" class="mb-5">
         <div class="art-card">
           <div class="pb-3.5">
-            <span class="text-base font-medium">饼图</span>
+            <span class="text-base font-medium">Pie chart</span>
           </div>
           <ArtRingChart
             :data="[
-              { value: 30, name: '分类A' },
-              { value: 25, name: '分类B' },
-              { value: 45, name: '分类C' }
+              { value: 30, name: 'Group A' },
+              { value: 25, name: 'Group B' },
+              { value: 45, name: 'Group C' }
             ]"
             :radius="['0%', '70%']"
             :showLegend="true"
@@ -199,7 +186,7 @@
       <ElCol :xs="24" :md="12" :lg="8" class="mb-5">
         <div class="art-card">
           <div class="pb-3.5">
-            <span class="text-base font-medium">散点图</span>
+            <span class="text-base font-medium">Scatter chart</span>
           </div>
           <ArtScatterChart
             :data="[
@@ -223,23 +210,23 @@
       <ElCol :xs="24" :md="12" :lg="8" class="mb-5">
         <div class="art-card">
           <div class="pb-3.5">
-            <span class="text-base font-medium">雷达图</span>
+            <span class="text-base font-medium">Radar chart</span>
           </div>
           <ArtRadarChart
             :indicator="[
-              { name: '销售', max: 100 },
-              { name: '管理', max: 100 },
-              { name: '技术', max: 100 },
-              { name: '客服', max: 100 },
-              { name: '开发', max: 100 }
+              { name: 'Sales', max: 100 },
+              { name: 'Management', max: 100 },
+              { name: 'Tech', max: 100 },
+              { name: 'Support', max: 100 },
+              { name: 'Development', max: 100 }
             ]"
             :data="[
               {
-                name: '预算分配',
+                name: 'Budget allocation',
                 value: [80, 70, 90, 85, 75]
               },
               {
-                name: '实际开销',
+                name: 'Actual spend',
                 value: [70, 75, 85, 80, 70]
               }
             ]"
@@ -249,7 +236,7 @@
       <ElCol :xs="24" :md="12" :lg="8" class="mb-5">
         <div class="art-card">
           <div class="pb-3.5">
-            <span class="text-base font-medium">k线图</span>
+            <span class="text-base font-medium">Candlestick chart</span>
           </div>
           <ArtKLineChart
             :data="[
@@ -266,23 +253,23 @@
       <ElCol :xs="24" :md="12" :lg="8" class="mb-5">
         <div class="art-card">
           <div class="pb-3.5">
-            <span class="text-base font-medium">双向堆叠柱状图</span>
+            <span class="text-base font-medium">Bi-directional stacked bar chart</span>
           </div>
           <ArtDualBarCompareChart
             :positiveData="[50, 28, 80, 65, 68, 70, 60, 55]"
             :negativeData="[50, 28, 40, 45, 38, 50, 42, 48]"
             :xAxisData="[
-              '0-4岁',
-              '5-14岁',
-              '15-24岁',
-              '25-34岁',
-              '35-44岁',
-              '45-54岁',
-              '55-64岁',
-              '65岁以上'
+              '0-4',
+              '5-14',
+              '15-24',
+              '25-34',
+              '35-44',
+              '45-54',
+              '55-64',
+              '65+'
             ]"
-            positiveName="男性年龄分布"
-            negativeName="女性年龄分布"
+            positiveName="Male age distribution"
+            negativeName="Female age distribution"
           />
         </div>
       </ElCol>
@@ -295,12 +282,9 @@
 
   defineOptions({ name: 'TemplateCharts' })
 
-  /**
-   * 多组数据折线图示例数据
-   */
   const multiLineData: LineDataItem[] = [
     {
-      name: '销售额',
+      name: 'Revenue',
       data: [120, 132, 101, 134, 90, 130],
       areaStyle: {
         startOpacity: 0.1,
@@ -308,7 +292,7 @@
       }
     },
     {
-      name: '利润',
+      name: 'Profit',
       data: [80, 92, 71, 94, 60, 80],
       areaStyle: {
         startOpacity: 0.1,
@@ -317,29 +301,20 @@
     }
   ]
 
-  /**
-   * 单数据柱状图示例数据
-   */
   const singleBarData = ref([120, 200, 150, 80, 70, 110, 130])
-  const xAxisData = ref(['周一', '周二', '周三', '周四', '周五', '周六', '周日'])
+  const xAxisData = ref(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'])
 
-  /**
-   * 多数据柱状图示例数据
-   */
   const multiBarData = ref([
-    { name: '销售额', data: [120, 200, 150, 80, 70, 110, 130] },
-    { name: '利润', data: [20, 50, 30, 15, 10, 25, 35] }
+    { name: 'Revenue', data: [120, 200, 150, 80, 70, 110, 130] },
+    { name: 'Profit', data: [20, 50, 30, 15, 10, 25, 35] }
   ])
 
-  /**
-   * 堆叠柱状图示例数据
-   */
   const stackBarData = ref([
     { name: 'Q1', data: [20, 25, 30, 35, 40], stack: 'total' },
     { name: 'Q2', data: [30, 35, 40, 45, 50], stack: 'total' }
   ])
 
-  const stackXAxisData = ref(['产品A', '产品B', '产品C', '产品D', '产品E'])
+  const stackXAxisData = ref(['Product A', 'Product B', 'Product C', 'Product D', 'Product E'])
 </script>
 
 <style scoped>

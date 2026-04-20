@@ -1,24 +1,24 @@
 <template>
   <ArtResultPage
     type="fail"
-    title="提交失败"
-    message="请核对并修改以下信息后，再重新提交。"
+    title="Submission Failed"
+    message="Please verify and modify the following information before resubmitting."
     iconCode="ri:close-fill"
   >
     <template #content>
-      <p>您提交的内容有如下错误：</p>
+      <p>Your submission contains the following errors:</p>
       <p>
         <ArtSvgIcon icon="ri:close-circle-line" class="text-red-500 mr-1" />
-        <span>您的账户已被冻结</span>
+        <span>Your account has been frozen</span>
       </p>
       <p>
         <ArtSvgIcon icon="ri:close-circle-line" class="text-red-500 mr-1" />
-        <span>您的账户还不具备申请资格</span>
+        <span>Your account is not eligible to apply</span>
       </p>
     </template>
     <template #buttons>
-      <ElButton type="primary" v-ripple>返回修改</ElButton>
-      <ElButton v-ripple>查看</ElButton>
+      <ElButton type="primary" v-ripple>Edit</ElButton>
+      <ElButton v-ripple>View</ElButton>
     </template>
   </ArtResultPage>
 </template>

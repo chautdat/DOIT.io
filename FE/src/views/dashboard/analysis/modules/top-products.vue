@@ -2,7 +2,7 @@
   <div class="art-card h-82 p-5 mb-5 overflow-hidden max-sm:mb-4">
     <div class="art-card-header">
       <div class="title">
-        <h4>热门产品</h4>
+        <h4>Top Products</h4>
       </div>
     </div>
     <div class="overflow-auto h-full">
@@ -14,8 +14,8 @@
         :stripe="false"
         :header-cell-style="{ background: 'transparent' }"
       >
-        <ElTableColumn prop="name" label="产品名称" width="200" />
-        <ElTableColumn prop="popularity" label="销量">
+        <ElTableColumn prop="name" label="Product Name" width="200" />
+        <ElTableColumn prop="popularity" label="Popularity">
           <template #default="scope">
             <ElProgress
               :percentage="scope.row.popularity"
@@ -25,7 +25,7 @@
             />
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="sales" label="销量" width="80">
+        <ElTableColumn prop="sales" label="Sales" width="80">
           <template #default="scope">
             <span
               :style="{
@@ -68,22 +68,22 @@
   } as const
 
   /**
-   * 热门产品列表数据
-   * 包含产品名称、热度和销量信息
+   * Top products list data
+   * Contains product name, popularity and sales info
    */
   const products = computed<Product[]>(() => [
-    { name: '智能手机', popularity: 10, sales: '100' },
-    { name: '笔记本电脑', popularity: 29, sales: '100' },
-    { name: '平板电脑', popularity: 65, sales: '100' },
-    { name: '智能手表', popularity: 32, sales: '100' },
-    { name: '无线耳机', popularity: 78, sales: '100' },
-    { name: '智能音箱', popularity: 41, sales: '100' }
+    { name: 'Smartphone', popularity: 10, sales: '100' },
+    { name: 'Laptop', popularity: 29, sales: '100' },
+    { name: 'Tablet', popularity: 65, sales: '100' },
+    { name: 'Smart Watch', popularity: 32, sales: '100' },
+    { name: 'Wireless Earbuds', popularity: 78, sales: '100' },
+    { name: 'Smart Speaker', popularity: 41, sales: '100' }
   ])
 
   /**
-   * 根据热度百分比获取对应的颜色
-   * @param percentage 热度百分比 (0-100)
-   * @returns 对应的颜色值
+   * Get color based on popularity percentage
+   * @param percentage Popularity percentage (0-100)
+   * @returns Corresponding color value
    */
   const getColor = (percentage: number): string => {
     if (percentage < COLOR_THRESHOLDS.LOW) return POPULARITY_COLORS.LOW

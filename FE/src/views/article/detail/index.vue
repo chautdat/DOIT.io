@@ -1,4 +1,4 @@
-<!-- 文章详情页面 -->
+<!-- Article Detail Page -->
 <template>
   <div class="article-detail page-content">
     <div class="max-w-200 m-auto mt-15">
@@ -48,8 +48,8 @@
         articleHtml.value = data.data.html_content
       }
     } catch (err) {
-      error.value = '文章加载失败'
-      console.error('获取文章详情失败:', err)
+      error.value = 'Failed to load article'
+      console.error('Failed to get article detail:', err)
     } finally {
       loading.value = false
     }

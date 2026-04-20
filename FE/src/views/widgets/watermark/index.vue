@@ -1,35 +1,31 @@
 <template>
   <div class="page-content mb-5">
-    <!-- 基础文字水印 -->
     <ElCard class="mb-7.5">
-      <template #header>基础文字水印</template>
+      <template #header>Basic text watermark</template>
       <ElWatermark content="Art Design Pro" :font="{ color: 'rgba(128, 128, 128, 0.2)' }">
         <div style="height: 200px"></div>
       </ElWatermark>
     </ElCard>
 
-    <!-- 多行文字水印 -->
     <ElCard class="mb-7.5">
-      <template #header>多行文字水印</template>
+      <template #header>Multi-line text watermark</template>
       <ElWatermark
-        :content="['Art Design Pro', '专注用户体验，视觉设计']"
+        :content="['Art Design Pro', 'Focused on user experience and visual design']"
         :font="{ fontSize: 16, color: 'rgba(128, 128, 128, 0.2)' }"
       >
         <div style="height: 200px"></div>
       </ElWatermark>
     </ElCard>
 
-    <!-- 图片水印 -->
     <ElCard class="mb-7.5">
-      <template #header>图片水印</template>
+      <template #header>Image watermark</template>
       <ElWatermark :image="watermarkImage" :opacity="0.2" :width="80" :height="20">
         <div style="height: 200px"></div>
       </ElWatermark>
     </ElCard>
 
-    <!-- 自定义样式水印 -->
     <ElCard class="mb-7.5">
-      <template #header>自定义样式水印</template>
+      <template #header>Custom style watermark</template>
       <ElWatermark
         content="Art Design Pro"
         :font="{
@@ -48,7 +44,7 @@
       :type="settingStore.watermarkVisible ? 'danger' : 'primary'"
       @click="handleWatermarkVisible"
     >
-      {{ settingStore.watermarkVisible ? '隐藏全局水印' : '显示全局水印' }}
+      {{ settingStore.watermarkVisible ? 'Hide global watermark' : 'Show global watermark' }}
     </ElButton>
   </div>
 </template>
@@ -60,16 +56,10 @@
 
   const settingStore = useSettingStore()
 
-  /**
-   * 水印图片 URL
-   */
   const watermarkImage = ref('https://element-plus.org/images/element-plus-logo.svg')
 
-  /**
-   * 切换全局水印显示状态
-   */
   const handleWatermarkVisible = () => {
     useSettingStore().setWatermarkVisible(!settingStore.watermarkVisible)
-    ElMessage.success(settingStore.watermarkVisible ? '已显示全局水印' : '已隐藏全局水印')
+    ElMessage.success(settingStore.watermarkVisible ? 'Global watermark shown' : 'Global watermark hidden')
   }
 </script>

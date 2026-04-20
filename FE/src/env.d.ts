@@ -30,5 +30,4 @@ declare module 'qrcode.vue' {
   export default QrcodeVue
 }
 
-// 全局变量声明
-declare const __APP_VERSION__: string // 版本号
+declare const __APP_VERSION__: string

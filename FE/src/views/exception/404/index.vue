@@ -1,4 +1,3 @@
-<!-- 404页面 -->
 <template>
   <ArtException
     :data="{

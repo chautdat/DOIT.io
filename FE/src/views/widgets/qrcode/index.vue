@@ -32,17 +32,17 @@
   defineOptions({ name: 'WidgetsQrcode' })
 
   /**
-   * 二维码内容
+   * QR code content
    */
   const qrValue = ref('https://www.artd.pro')
   const isShowLogo = ref(false)
 
   /**
-   * 预设二维码样式配置
+   * Preset QR code style configuration
    */
   const qrcodePresets = [
     {
-      title: '渲染成 svg 标签',
+      title: 'Render as SVG tag',
       config: {
         size: 160,
         level: 'H' as Level,
@@ -53,7 +53,7 @@
       }
     },
     {
-      title: '渲染成 canvas 标签',
+      title: 'Render as Canvas tag',
       config: {
         size: 160,
         level: 'H' as Level,
@@ -64,7 +64,7 @@
       }
     },
     {
-      title: '自定义颜色',
+      title: 'Custom Color',
       config: {
         size: 160,
         level: 'H' as Level,
@@ -75,7 +75,7 @@
       }
     },
     {
-      title: '带有Logo',
+      title: 'With Logo',
       config: {
         size: 160,
         level: 'H' as Level,
@@ -94,7 +94,7 @@
   ]
 
   /**
-   * 二维码配置
+   * QR code configuration
    */
   const qrcodeConfig = reactive({
     size: 160,
@@ -112,8 +112,8 @@
   })
 
   /**
-   * 监听是否显示 logo
-   * 根据状态动态设置二维码中心的 logo 图片
+   * Watch whether to show logo
+   * Dynamically set QR code center logo image based on state
    */
   watch(isShowLogo, (val) => {
     if (!val) {

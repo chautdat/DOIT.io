@@ -31,7 +31,7 @@
   const searchBarRef = ref()
 
   /**
-   * 表单数据双向绑定
+   * Form data two-way binding
    */
   const formData = computed({
     get: () => props.modelValue,
@@ -39,84 +39,84 @@
   })
 
   /**
-   * 表单校验规则
+   * Form validation rules
    */
   const rules = {}
 
   /**
-   * 角色状态选项
+   * Role status options
    */
   const statusOptions = ref([
-    { label: '启用', value: true },
-    { label: '禁用', value: false }
+    { label: 'Enabled', value: true },
+    { label: 'Disabled', value: false }
   ])
 
   /**
-   * 搜索表单配置项
+   * Search form configuration items
    */
   const formItems = computed(() => [
     {
-      label: '角色名称',
+      label: 'Role Name',
       key: 'roleName',
       type: 'input',
-      placeholder: '请输入角色名称',
+      placeholder: 'Enter role name',
       clearable: true
     },
     {
-      label: '角色编码',
+      label: 'Role Code',
       key: 'roleCode',
       type: 'input',
-      placeholder: '请输入角色编码',
+      placeholder: 'Enter role code',
       clearable: true
     },
     {
-      label: '角色描述',
+      label: 'Description',
       key: 'description',
       type: 'input',
-      placeholder: '请输入角色描述',
+      placeholder: 'Enter description',
       clearable: true
     },
     {
-      label: '角色状态',
+      label: 'Status',
       key: 'enabled',
       type: 'select',
       props: {
-        placeholder: '请选择状态',
+        placeholder: 'Select status',
         options: statusOptions.value,
         clearable: true
       }
     },
     {
-      label: '创建日期',
+      label: 'Created Date',
       key: 'daterange',
       type: 'datetime',
       props: {
         style: { width: '100%' },
-        placeholder: '请选择日期范围',
+        placeholder: 'Select date range',
         type: 'daterange',
-        rangeSeparator: '至',
-        startPlaceholder: '开始日期',
-        endPlaceholder: '结束日期',
+        rangeSeparator: 'to',
+        startPlaceholder: 'Start date',
+        endPlaceholder: 'End date',
         valueFormat: 'YYYY-MM-DD',
         shortcuts: [
-          { text: '今日', value: [new Date(), new Date()] },
-          { text: '最近一周', value: [new Date(Date.now() - 604800000), new Date()] },
-          { text: '最近一个月', value: [new Date(Date.now() - 2592000000), new Date()] }
+          { text: 'Today', value: [new Date(), new Date()] },
+          { text: 'Last week', value: [new Date(Date.now() - 604800000), new Date()] },
+          { text: 'Last month', value: [new Date(Date.now() - 2592000000), new Date()] }
         ]
       }
     }
   ])
 
   /**
-   * 处理重置事件
+   * Handle reset event
    */
   const handleReset = () => {
     emit('reset')
   }
 
   /**
-   * 处理搜索事件
-   * 验证表单后触发搜索
+   * Handle search event
+   * Validate form before triggering search
    */
   const handleSearch = async (params: RoleSearchFormParams) => {
     await searchBarRef.value.validate()

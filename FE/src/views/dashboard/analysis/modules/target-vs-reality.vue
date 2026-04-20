@@ -2,7 +2,7 @@
   <div class="art-card h-100 p-5 mb-5 max-sm:mb-4">
     <div class="art-card-header">
       <div class="title">
-        <h4>目标与实际</h4>
+        <h4>Target vs Reality</h4>
       </div>
     </div>
 
@@ -40,38 +40,38 @@
   }
 
   /**
-   * 一周的日期标签
+   * Week day labels
    */
-  const weekDays = ref(['周一', '周二', '周三', '周四', '周五', '周六', '周日'])
+  const weekDays = ref(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'])
 
   /**
-   * 目标与实际销售数据
-   * 展示一周内的线上销售情况
+   * Target vs actual sales data
+   * Shows weekly online sales performance
    */
   const revenueData = ref<RevenueDataItem[]>([
     {
-      name: '线上销售',
+      name: 'Online Sales',
       data: [12, 13, 5, 15, 10, 15, 18]
     }
   ])
 
   /**
-   * 统计项数据
+   * Statistics items data
    */
   const totalItems = [
     {
       icon: 'ri:shopping-bag-line',
       iconClass: 'text-theme bg-theme/12',
-      label: '实际销售额',
-      subLabel: '全球',
+      label: 'Actual Sales',
+      subLabel: 'Global',
       value: '8,823',
       valueClass: 'text-theme'
     },
     {
       icon: 'ri:money-dollar-circle-line',
       iconClass: 'text-theme bg-theme/12',
-      label: '目标销售额',
-      subLabel: '商业',
+      label: 'Target Sales',
+      subLabel: 'Commercial',
       value: '12,122',
       valueClass: 'text-theme'
     }

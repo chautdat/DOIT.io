@@ -1,15 +1,16 @@
 <template>
   <div class="pt-24 px-20 max-md:!pt-15 max-sm:!px-5 max-md:!px-8 bg-transparent !border-none">
     <div class="mb-10 text-center">
-      <h1 class="mb-2 text-4xl font-medium max-sm:text-3xl">超过 53,476 位信赖的开发者</h1>
-      <h2 class="mb-2.5 text-2xl font-normal text-g-600 max-sm:text-2xl">
-        以及众多科技巨头的选择
-      </h2>
+      <h1 class="mb-2 text-4xl font-medium max-sm:text-3xl">Trusted by Over 53,476 Developers</h1>
+      <h2 class="mb-2.5 text-2xl font-normal text-g-600 max-sm:text-2xl"> And Many Tech Giants </h2>
       <div class="gap-2 flex-cc mt-2.5 max-sm:mt-3.5 max-sm:!block">
         <p class="text-sm italic text-g-600 max-sm:text-sm">
-          本项目基于 MIT 协议开源免费，当前页面为定价模板，仅作演示用途
+          This project is open source and free under MIT license. This pricing page is a demo
+          template only
         </p>
-        <ElTag type="success" size="large" round class="max-sm:mt-3.5">免费商用</ElTag>
+        <ElTag type="success" size="large" round class="max-sm:mt-3.5"
+          >Free for Commercial Use</ElTag
+        >
       </div>
     </div>
 
@@ -25,8 +26,8 @@
                 {{ plan.description }}
               </p>
               <div class="mt-7.5">
-                <span class="text-3xl font-medium">¥{{ plan.price }}</span>
-                <span class="ml-2.5 text-sm text-g-600">/一次性付款</span>
+                <span class="text-3xl font-medium">${{ plan.price }}</span>
+                <span class="ml-2.5 text-sm text-g-600">/one-time payment</span>
               </div>
             </div>
 
@@ -45,7 +46,7 @@
             </div>
 
             <div class="mt-auto text-center">
-              <ElButton type="primary" class="w-full h-10" v-ripple>立即购买</ElButton>
+              <ElButton type="primary" class="w-full h-10" v-ripple>Buy Now</ElButton>
             </div>
           </ElCard>
         </ElCol>
@@ -76,58 +77,58 @@
   const pricingPlans = ref<PricingPlan[]>([
     {
       type: 'single',
-      title: '单次使用版',
-      description: '适用于单个最终产品，最终用户无需付费。',
-      price: 349,
+      title: 'Single Use License',
+      description: 'For a single end product where end users are not charged.',
+      price: 49,
       features: [
-        { text: '完整源代码', available: true },
-        { text: '技术文档', available: true },
-        { text: 'SaaS应用授权', available: false },
-        { text: '单个项目使用', available: true },
-        { text: '一年技术支持', available: true },
-        { text: '一年免费更新', available: true }
+        { text: 'Full Source Code', available: true },
+        { text: 'Technical Documentation', available: true },
+        { text: 'SaaS Application License', available: false },
+        { text: 'Single Project Use', available: true },
+        { text: '1 Year Technical Support', available: true },
+        { text: '1 Year Free Updates', available: true }
       ]
     },
     {
       type: 'multiple',
-      title: '多次使用版',
-      description: '适用于无限个最终产品，最终用户无需付费。',
-      price: 629,
+      title: 'Multiple Use License',
+      description: 'For unlimited end products where end users are not charged.',
+      price: 89,
       features: [
-        { text: '完整源代码', available: true },
-        { text: '技术文档', available: true },
-        { text: 'SaaS应用授权', available: false },
-        { text: '无限项目使用', available: true },
-        { text: '一年技术支持', available: true },
-        { text: '一年免费更新', available: true }
+        { text: 'Full Source Code', available: true },
+        { text: 'Technical Documentation', available: true },
+        { text: 'SaaS Application License', available: false },
+        { text: 'Unlimited Project Use', available: true },
+        { text: '1 Year Technical Support', available: true },
+        { text: '1 Year Free Updates', available: true }
       ]
     },
     {
       type: 'extended',
-      title: '扩展授权版',
-      description: '适用于单个最终产品，最终用户需要付费。',
-      price: 2099,
+      title: 'Extended License',
+      description: 'For a single end product where end users are charged.',
+      price: 299,
       features: [
-        { text: '完整源代码', available: true },
-        { text: '技术文档', available: true },
-        { text: 'SaaS应用授权', available: true },
-        { text: '单个项目使用', available: true },
-        { text: '一年技术支持', available: true },
-        { text: '一年免费更新', available: true }
+        { text: 'Full Source Code', available: true },
+        { text: 'Technical Documentation', available: true },
+        { text: 'SaaS Application License', available: true },
+        { text: 'Single Project Use', available: true },
+        { text: '1 Year Technical Support', available: true },
+        { text: '1 Year Free Updates', available: true }
       ]
     },
     {
       type: 'unlimited',
-      title: '无限授权版',
-      description: '适用于无限个最终产品，最终用户需要付费。',
-      price: 3499,
+      title: 'Unlimited License',
+      description: 'For unlimited end products where end users are charged.',
+      price: 499,
       features: [
-        { text: '完整源代码', available: true },
-        { text: '技术文档', available: true },
-        { text: 'SaaS应用授权', available: true },
-        { text: '无限项目使用', available: true },
-        { text: '一年技术支持', available: true },
-        { text: '一年免费更新', available: true }
+        { text: 'Full Source Code', available: true },
+        { text: 'Technical Documentation', available: true },
+        { text: 'SaaS Application License', available: true },
+        { text: 'Unlimited Project Use', available: true },
+        { text: '1 Year Technical Support', available: true },
+        { text: '1 Year Free Updates', available: true }
       ]
     }
   ])

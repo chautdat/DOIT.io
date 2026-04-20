@@ -1,7 +1,7 @@
-<!-- 菜单管理页面 -->
+<!-- Menu Management Page -->
 <template>
   <div class="menu-page art-full-height">
-    <!-- 搜索栏 -->
+    <!-- Search Bar -->
     <ArtSearchBar
       v-model="formFilters"
       :items="formItems"
@@ -11,7 +11,7 @@
     />
 
     <ElCard class="art-table-card">
-      <!-- 表格头部 -->
+      <!-- Table Header -->
       <ArtTableHeader
         :showZebra="false"
         :loading="loading"
@@ -19,9 +19,9 @@
         @refresh="handleRefresh"
       >
         <template #left>
-          <ElButton v-auth="'add'" @click="handleAddMenu" v-ripple> 添加菜单 </ElButton>
+          <ElButton v-auth="'add'" @click="handleAddMenu" v-ripple> Add Menu </ElButton>
           <ElButton @click="toggleExpand" v-ripple>
-            {{ isExpanded ? '收起' : '展开' }}
+            {{ isExpanded ? 'Collapse' : 'Expand' }}
           </ElButton>
         </template>
       </ArtTableHeader>
@@ -37,7 +37,6 @@
         :default-expand-all="false"
       />
 
-      <!-- 菜单弹窗 -->
       <MenuDialog
         v-model:visible="dialogVisible"
         :type="dialogType"
@@ -51,7 +50,7 @@
 
 <script setup lang="ts">
   import { formatMenuTitle } from '@/utils/router'
-  import ArtButtonTable from '@/components/core/forms/art-button-table/index.vue'
+  import ArtButtonTable from '@/components/core/forms/ArtButtonTable.vue'
   import { useTableColumns } from '@/hooks/core/useTableColumns'
   import type { AppRouteRecord } from '@/types/router'
   import MenuDialog from './modules/menu-dialog.vue'
@@ -60,18 +59,18 @@
 
   defineOptions({ name: 'Menus' })
 
-  // 状态管理
+  // State management
   const loading = ref(false)
   const isExpanded = ref(false)
   const tableRef = ref()
 
-  // 弹窗相关
+  // Dialog related
   const dialogVisible = ref(false)
   const dialogType = ref<'menu' | 'button'>('menu')
   const editData = ref<AppRouteRecord | any>(null)
   const lockMenuType = ref(false)
 
-  // 搜索相关
+  // Search related
   const initialSearchState = {
     name: '',
     route: ''
@@ -82,13 +81,13 @@
 
   const formItems = computed(() => [
     {
-      label: '菜单名称',
+      label: 'Menu Name',
       key: 'name',
       type: 'input',
       props: { clearable: true }
     },
     {
-      label: '路由地址',
+      label: 'Route Path',
       key: 'route',
       type: 'input',
       props: { clearable: true }
@@ -100,7 +99,7 @@
   })
 
   /**
-   * 获取菜单列表数据
+   * Get menu list data
    */
   const getMenuList = async (): Promise<void> => {
     loading.value = true
@@ -109,16 +108,16 @@
       const list = await fetchGetMenuList()
       tableData.value = list
     } catch (error) {
-      throw error instanceof Error ? error : new Error('获取菜单失败')
+      throw error instanceof Error ? error : new Error('Failed to get menu list')
     } finally {
       loading.value = false
     }
   }
 
   /**
-   * 获取菜单类型标签颜色
-   * @param row 菜单行数据
-   * @returns 标签颜色类型
+   * Get menu type tag color
+   * @param row Menu row data
+   * @returns Tag color type
    */
   const getMenuTypeTag = (
     row: AppRouteRecord
@@ -132,37 +131,37 @@
   }
 
   /**
-   * 获取菜单类型文本
-   * @param row 菜单行数据
-   * @returns 菜单类型文本
+   * Get menu type text
+   * @param row Menu row data
+   * @returns Menu type text
    */
   const getMenuTypeText = (row: AppRouteRecord): string => {
-    if (row.meta?.isAuthButton) return '按钮'
-    if (row.children?.length) return '目录'
-    if (row.meta?.link && row.meta?.isIframe) return '内嵌'
-    if (row.path) return '菜单'
-    if (row.meta?.link) return '外链'
-    return '未知'
+    if (row.meta?.isAuthButton) return 'Button'
+    if (row.children?.length) return 'Directory'
+    if (row.meta?.link && row.meta?.isIframe) return 'Iframe'
+    if (row.path) return 'Menu'
+    if (row.meta?.link) return 'External'
+    return 'Unknown'
   }
 
-  // 表格列配置
+  // Table column configuration
   const { columnChecks, columns } = useTableColumns(() => [
     {
       prop: 'meta.title',
-      label: '菜单名称',
+      label: 'Menu Name',
       minWidth: 120,
       formatter: (row: AppRouteRecord) => formatMenuTitle(row.meta?.title)
     },
     {
       prop: 'type',
-      label: '菜单类型',
+      label: 'Menu Type',
       formatter: (row: AppRouteRecord) => {
         return h(ElTag, { type: getMenuTypeTag(row) }, () => getMenuTypeText(row))
       }
     },
     {
       prop: 'path',
-      label: '路由',
+      label: 'Route',
       formatter: (row: AppRouteRecord) => {
         if (row.meta?.isAuthButton) return ''
         return row.meta?.link || row.path || ''
@@ -170,28 +169,28 @@
     },
     {
       prop: 'meta.authList',
-      label: '权限标识',
+      label: 'Permission',
       formatter: (row: AppRouteRecord) => {
         if (row.meta?.isAuthButton) {
           return row.meta?.authMark || ''
         }
         if (!row.meta?.authList?.length) return ''
-        return `${row.meta.authList.length} 个权限标识`
+        return `${row.meta.authList.length} permissions`
       }
     },
     {
       prop: 'date',
-      label: '编辑时间',
+      label: 'Edit Time',
       formatter: () => '2022-3-12 12:00:00'
     },
     {
       prop: 'status',
-      label: '状态',
-      formatter: () => h(ElTag, { type: 'success' }, () => '启用')
+      label: 'Status',
+      formatter: () => h(ElTag, { type: 'success' }, () => 'Enabled')
     },
     {
       prop: 'operation',
-      label: '操作',
+      label: 'Actions',
       width: 180,
       align: 'right',
       formatter: (row: AppRouteRecord) => {
@@ -214,7 +213,7 @@
           h(ArtButtonTable, {
             type: 'add',
             onClick: () => handleAddAuth(),
-            title: '新增权限'
+            title: 'Add Permission'
           }),
           h(ArtButtonTable, {
             type: 'edit',
@@ -229,11 +228,11 @@
     }
   ])
 
-  // 数据相关
+  // Data related
   const tableData = ref<AppRouteRecord[]>([])
 
   /**
-   * 重置搜索条件
+   * Reset search conditions
    */
   const handleReset = (): void => {
     Object.assign(formFilters, { ...initialSearchState })
@@ -242,7 +241,7 @@
   }
 
   /**
-   * 执行搜索
+   * Execute search
    */
   const handleSearch = (): void => {
     Object.assign(appliedFilters, { ...formFilters })
@@ -250,16 +249,16 @@
   }
 
   /**
-   * 刷新菜单列表
+   * Refresh menu list
    */
   const handleRefresh = (): void => {
     getMenuList()
   }
 
   /**
-   * 深度克隆对象
-   * @param obj 要克隆的对象
-   * @returns 克隆后的对象
+   * Deep clone object
+   * @param obj Object to clone
+   * @returns Cloned object
    */
   const deepClone = <T,>(obj: T): T => {
     if (obj === null || typeof obj !== 'object') return obj
@@ -276,9 +275,9 @@
   }
 
   /**
-   * 将权限列表转换为子节点
-   * @param items 菜单项数组
-   * @returns 转换后的菜单项数组
+   * Convert permission list to children
+   * @param items Menu item array
+   * @returns Converted menu item array
    */
   const convertAuthListToChildren = (items: AppRouteRecord[]): AppRouteRecord[] => {
     return items.map((item) => {
@@ -312,9 +311,9 @@
   }
 
   /**
-   * 搜索菜单
-   * @param items 菜单项数组
-   * @returns 搜索结果数组
+   * Search menu
+   * @param items Menu item array
+   * @returns Search results array
    */
   const searchMenu = (items: AppRouteRecord[]): AppRouteRecord[] => {
     const results: AppRouteRecord[] = []
@@ -345,14 +344,14 @@
     return results
   }
 
-  // 过滤后的表格数据
+  // Filtered table data
   const filteredTableData = computed(() => {
     const searchedData = searchMenu(tableData.value)
     return convertAuthListToChildren(searchedData)
   })
 
   /**
-   * 添加菜单
+   * Add menu
    */
   const handleAddMenu = (): void => {
     dialogType.value = 'menu'
@@ -362,7 +361,7 @@
   }
 
   /**
-   * 添加权限按钮
+   * Add permission button
    */
   const handleAddAuth = (): void => {
     dialogType.value = 'menu'
@@ -372,8 +371,8 @@
   }
 
   /**
-   * 编辑菜单
-   * @param row 菜单行数据
+   * Edit menu
+   * @param row Menu row data
    */
   const handleEditMenu = (row: AppRouteRecord): void => {
     dialogType.value = 'menu'
@@ -383,8 +382,8 @@
   }
 
   /**
-   * 编辑权限按钮
-   * @param row 权限行数据
+   * Edit permission button
+   * @param row Permission row data
    */
   const handleEditAuth = (row: AppRouteRecord): void => {
     dialogType.value = 'button'
@@ -397,7 +396,7 @@
   }
 
   /**
-   * 菜单表单数据类型
+   * Menu form data type
    */
   interface MenuFormData {
     name: string
@@ -410,55 +409,63 @@
   }
 
   /**
-   * 提交表单数据
-   * @param formData 表单数据
+   * Submit form data
+   * @param formData Form data
    */
   const handleSubmit = (formData: MenuFormData): void => {
-    console.log('提交数据:', formData)
-    // TODO: 调用API保存数据
+    console.log('Submit data:', formData)
+    // TODO: Call API to save data
     getMenuList()
   }
 
   /**
-   * 删除菜单
+   * Delete menu
    */
   const handleDeleteMenu = async (): Promise<void> => {
     try {
-      await ElMessageBox.confirm('确定要删除该菜单吗？删除后无法恢复', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-      ElMessage.success('删除成功')
+      await ElMessageBox.confirm(
+        'Are you sure to delete this menu? This cannot be undone.',
+        'Warning',
+        {
+          confirmButtonText: 'Confirm',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }
+      )
+      ElMessage.success('Deleted successfully')
       getMenuList()
     } catch (error) {
       if (error !== 'cancel') {
-        ElMessage.error('删除失败')
+        ElMessage.error('Delete failed')
       }
     }
   }
 
   /**
-   * 删除权限按钮
+   * Delete permission button
    */
   const handleDeleteAuth = async (): Promise<void> => {
     try {
-      await ElMessageBox.confirm('确定要删除该权限吗？删除后无法恢复', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-      ElMessage.success('删除成功')
+      await ElMessageBox.confirm(
+        'Are you sure to delete this permission? This cannot be undone.',
+        'Warning',
+        {
+          confirmButtonText: 'Confirm',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }
+      )
+      ElMessage.success('Deleted successfully')
       getMenuList()
     } catch (error) {
       if (error !== 'cancel') {
-        ElMessage.error('删除失败')
+        ElMessage.error('Delete failed')
       }
     }
   }
 
   /**
-   * 切换展开/收起所有菜单
+   * Toggle expand/collapse all menus
    */
   const toggleExpand = (): void => {
     isExpanded.value = !isExpanded.value

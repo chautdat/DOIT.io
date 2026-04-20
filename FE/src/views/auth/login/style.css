@@ -1,6 +1,5 @@
 @reference '@styles/core/tailwind.css';
 
-/* 授权页右侧区域 */
 .auth-right-wrap {
   @apply absolute inset-0 w-[440px] h-[650px] py-[5px] m-auto overflow-hidden
     max-sm:px-7 max-sm:w-full
@@ -24,7 +23,6 @@
   }
 }
 
-/* 滑入动画 */
 @keyframes slideInRight {
   from {
     opacity: 0;

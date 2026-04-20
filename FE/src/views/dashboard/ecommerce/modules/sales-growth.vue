@@ -6,7 +6,7 @@
           <span>12%</span>
           <ArtSvgIcon icon="ri:arrow-right-up-line" class="text-success text-lg ml-1" />
         </h4>
-        <p>增长</p>
+        <p>Growth</p>
       </div>
     </div>
 

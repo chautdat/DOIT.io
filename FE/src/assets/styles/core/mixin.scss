@@ -1,9 +1,4 @@
-// sass 混合宏（函数）
 
-/**
-* 溢出省略号
-* @param {Number} 行数
-*/
 @mixin ellipsis($rowCount: 1) {
   @if $rowCount <=1 {
     overflow: hidden;
@@ -19,10 +14,6 @@
   }
 }
 
-/**
-* 控制用户能否选中文本
-* @param {String} 类型
-*/
 @mixin userSelect($value: none) {
   user-select: $value;
   -moz-user-select: $value;
@@ -30,7 +21,6 @@
   -webkit-user-select: $value;
 }
 
-// 绝对定位居中
 @mixin absoluteCenter() {
   position: absolute;
   left: 0;
@@ -40,10 +30,6 @@
   margin: auto;
 }
 
-/**
-* css3动画
-* 
-*/
 @mixin animation(
   $from: (
     width: 0px
@@ -87,7 +73,6 @@
   }
 }
 
-// 圆形盒子
 @mixin circle($size: 11px, $bg: #fff) {
   border-radius: 50%;
   width: $size;
@@ -120,7 +105,6 @@
   }
 }
 
-//背景透明，文字不透明。兼容IE8
 @mixin betterTransparentize($color, $alpha) {
   $c: rgba($color, $alpha);
   $ie_c: ie_hex_str($c);
@@ -132,19 +116,16 @@
   -ms-filter: 'progid:DXImageTransform.Microsoft.gradient(startColorstr=#{$ie_c}, endColorstr=#{$ie_c})';
 }
 
-//添加浏览器前缀
 @mixin browserPrefix($propertyName, $value) {
   @each $prefix in -webkit-, -moz-, -ms-, -o-, '' {
     #{$prefix}#{$propertyName}: $value;
   }
 }
 
-// 边框
 @mixin border($color: red) {
   border: 1px solid $color;
 }
 
-// 背景滤镜
 @mixin backdropBlur() {
   --tw-backdrop-blur: blur(30px);
   -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness)

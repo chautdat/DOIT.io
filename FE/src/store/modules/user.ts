@@ -1,32 +1,32 @@
 /**
- * 用户状态管理模块
+ * User State Management Module
  *
- * 提供用户相关的状态管理
+ * Provides user-related state management
  *
- * ## 主要功能
+ * ## Main Features
  *
- * - 用户登录状态管理
- * - 用户信息存储
- * - 访问令牌和刷新令牌管理
- * - 语言设置
- * - 搜索历史记录
- * - 锁屏状态和密码管理
- * - 登出清理逻辑
+ * - User login status management
+ * - User information storage
+ * - Access token and refresh token management
+ * - Language settings
+ * - Search history records
+ * - Lock screen status and password management
+ * - Logout cleanup logic
  *
- * ## 使用场景
+ * ## Use Cases
  *
- * - 用户登录和认证
- * - 权限验证
- * - 个人信息展示
- * - 多语言切换
- * - 锁屏功能
- * - 搜索历史管理
+ * - User login and authentication
+ * - Permission verification
+ * - Personal information display
+ * - Language switching
+ * - Lock screen functionality
+ * - Search history management
  *
- * ## 持久化
+ * ## Persistence
  *
- * - 使用 localStorage 存储
- * - 存储键：sys-v{version}-user
- * - 登出时自动清理
+ * - Uses localStorage for storage
+ * - Storage key: sys-v{version}-user
+ * - Auto cleanup on logout
  *
  * @module store/modules/user
  * @author Art Design Pro Team
@@ -44,55 +44,55 @@ import { useMenuStore } from './menu'
 import { StorageConfig } from '@/utils/storage/storage-config'
 
 /**
- * 用户状态管理
- * 管理用户登录状态、个人信息、语言设置、搜索历史、锁屏状态等
+ * User State Management
+ * Manages user login status, personal info, language settings, search history, lock screen status, etc.
  */
 export const useUserStore = defineStore(
   'userStore',
   () => {
-    // 语言设置
-    const language = ref(LanguageEnum.ZH)
-    // 登录状态
+    // Language setting
+    const language = ref(LanguageEnum.EN)
+    // Login status
     const isLogin = ref(false)
-    // 锁屏状态
+    // Lock screen status
     const isLock = ref(false)
-    // 锁屏密码
+    // Lock screen password
     const lockPassword = ref('')
-    // 用户信息
+    // User information
     const info = ref<Partial<Api.Auth.UserInfo>>({})
-    // 搜索历史记录
+    // Search history records
     const searchHistory = ref<AppRouteRecord[]>([])
-    // 访问令牌
+    // Access token
     const accessToken = ref('')
-    // 刷新令牌
+    // Refresh token
     const refreshToken = ref('')
 
-    // 计算属性：获取用户信息
+    // Computed property: Get user info
     const getUserInfo = computed(() => info.value)
-    // 计算属性：获取设置状态
+    // Computed property: Get setting state
     const getSettingState = computed(() => useSettingStore().$state)
-    // 计算属性：获取工作台状态
+    // Computed property: Get worktab state
     const getWorktabState = computed(() => useWorktabStore().$state)
 
     /**
-     * 设置用户信息
-     * @param newInfo 新的用户信息
+     * Set user information
+     * @param newInfo New user information
      */
     const setUserInfo = (newInfo: Api.Auth.UserInfo) => {
       info.value = newInfo
     }
 
     /**
-     * 设置登录状态
-     * @param status 登录状态
+     * Set login status
+     * @param status Login status
      */
     const setLoginStatus = (status: boolean) => {
       isLogin.value = status
     }
 
     /**
-     * 设置语言
-     * @param lang 语言枚举值
+     * Set language
+     * @param lang Language enum value
      */
     const setLanguage = (lang: LanguageEnum) => {
       setPageTitle(router.currentRoute.value)
@@ -100,33 +100,33 @@ export const useUserStore = defineStore(
     }
 
     /**
-     * 设置搜索历史
-     * @param list 搜索历史列表
+     * Set search history
+     * @param list Search history list
      */
     const setSearchHistory = (list: AppRouteRecord[]) => {
       searchHistory.value = list
     }
 
     /**
-     * 设置锁屏状态
-     * @param status 锁屏状态
+     * Set lock screen status
+     * @param status Lock screen status
      */
     const setLockStatus = (status: boolean) => {
       isLock.value = status
     }
 
     /**
-     * 设置锁屏密码
-     * @param password 锁屏密码
+     * Set lock screen password
+     * @param password Lock screen password
      */
     const setLockPassword = (password: string) => {
       lockPassword.value = password
     }
 
     /**
-     * 设置令牌
-     * @param newAccessToken 访问令牌
-     * @param newRefreshToken 刷新令牌（可选）
+     * Set tokens
+     * @param newAccessToken Access token
+     * @param newRefreshToken Refresh token (optional)
      */
     const setToken = (newAccessToken: string, newRefreshToken?: string) => {
       accessToken.value = newAccessToken
@@ -136,37 +136,37 @@ export const useUserStore = defineStore(
     }
 
     /**
-     * 退出登录
-     * 清空所有用户相关状态并跳转到登录页
-     * 如果是同一账号重新登录，保留工作台标签页
+     * Log out
+     * Clear all user-related state and redirect to login page
+     * If the same account logs in again, preserve worktab tabs
      */
     const logOut = () => {
-      // 保存当前用户 ID，用于下次登录时判断是否为同一用户
+      // Save current user ID for checking if same user logs in next time
       const currentUserId = info.value.userId
       if (currentUserId) {
         localStorage.setItem(StorageConfig.LAST_USER_ID_KEY, String(currentUserId))
       }
 
-      // 清空用户信息
+      // Clear user info
       info.value = {}
-      // 重置登录状态
+      // Reset login status
       isLogin.value = false
-      // 重置锁屏状态
+      // Reset lock screen status
       isLock.value = false
-      // 清空锁屏密码
+      // Clear lock screen password
       lockPassword.value = ''
-      // 清空访问令牌
+      // Clear access token
       accessToken.value = ''
-      // 清空刷新令牌
+      // Clear refresh token
       refreshToken.value = ''
-      // 注意：不清空工作台标签页，等下次登录时根据用户判断
-      // 移除iframe路由缓存
+      // Note: Don't clear worktab tabs, check on next login based on user
+      // Remove iframe route cache
       sessionStorage.removeItem('iframeRoutes')
-      // 清空主页路径
+      // Clear home path
       useMenuStore().setHomePath('')
-      // 重置路由状态
+      // Reset router state
       resetRouterState(500)
-      // 跳转到登录页，携带当前路由作为 redirect 参数
+      // Redirect to login page with current route as redirect parameter
       const currentRoute = router.currentRoute.value
       const redirect = currentRoute.path !== '/login' ? currentRoute.fullPath : undefined
       router.push({
@@ -176,30 +176,30 @@ export const useUserStore = defineStore(
     }
 
     /**
-     * 检查并清理工作台标签页
-     * 如果不是同一用户登录，清空工作台标签页
-     * 应在登录成功后调用
+     * Check and clear worktab tabs
+     * If different user logs in, clear worktab tabs
+     * Should be called after successful login
      */
     const checkAndClearWorktabs = () => {
       const lastUserId = localStorage.getItem(StorageConfig.LAST_USER_ID_KEY)
       const currentUserId = info.value.userId
 
-      // 无法获取当前用户 ID，跳过检查
+      // Cannot get current user ID, skip check
       if (!currentUserId) return
 
-      // 首次登录或缓存已清除，保留现有标签页
+      // First login or cache cleared, keep existing tabs
       if (!lastUserId) {
         return
       }
 
-      // 不同用户登录，清空工作台标签页
+      // Different user logged in, clear worktab tabs
       if (String(currentUserId) !== lastUserId) {
         const worktabStore = useWorktabStore()
         worktabStore.opened = []
         worktabStore.keepAliveExclude = []
       }
 
-      // 清除临时存储
+      // Clear temporary storage
       localStorage.removeItem(StorageConfig.LAST_USER_ID_KEY)
     }
 

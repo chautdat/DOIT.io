@@ -1,8 +1,7 @@
-<!-- 留言管理页面 -->
 <template>
   <div>
-    <h1 class="text-4xl font-medium mt-5">留言墙</h1>
-    <p class="mt-3.5 text-g-600">每一份留言都记录了您的想法，也为我们提供了珍贵的回忆</p>
+    <h1 class="text-4xl font-medium mt-5">Message Wall</h1>
+    <p class="mt-3.5 text-g-600">Every message records a thought and leaves a memorable trace for us.</p>
 
     <ul
       class="mt-10 grid grid-cols-5 gap-5 max-2xl:grid-cols-4 max-xl:grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 mb-5"
@@ -42,7 +41,7 @@
       modal-class="comment-modal"
     >
       <template #header>
-        <h4>详情</h4>
+        <h4>Details</h4>
       </template>
       <template #default>
         <div class="drawer-default">
@@ -64,7 +63,6 @@
             </div>
           </div>
 
-          <!-- 评论组件 -->
           <CommentWidget />
         </div>
       </template>
@@ -93,16 +91,13 @@
   const clickItem = ref<CommentItem>({
     id: 1,
     date: '2024-9-3',
-    content: '加油！学好Node 自己写个小Demo',
+    content: 'Keep going! Learn Node.js well and build a small demo yourself.',
     collection: 5,
     comment: 8,
-    userName: '匿名',
+    userName: 'Anonymous',
     color: COLOR_LIST[0]
   })
 
-  /**
-   * 为评论列表分配随机颜色
-   */
   const commentsWithColors = computed(() => {
     let lastColorIndex = -1
 
@@ -122,9 +117,6 @@
     })
   })
 
-  /**
-   * 打开评论详情抽屉
-   */
   const openDrawer = (item: CommentItem) => {
     showDrawer.value = true
     clickItem.value = item

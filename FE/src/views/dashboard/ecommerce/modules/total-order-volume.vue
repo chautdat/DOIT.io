@@ -3,15 +3,15 @@
     <div class="art-card-header">
       <div class="title">
         <h4 class="text-2xl font-medium">205,216</h4>
-        <p>这个月增长</p>
+        <p>Growth this month</p>
       </div>
     </div>
 
     <ArtRingChart
       :data="[
-        { value: 30, name: '已完成' },
-        { value: 25, name: '处理中' },
-        { value: 45, name: '待发货' }
+        { value: 30, name: 'Completed' },
+        { value: 25, name: 'Processing' },
+        { value: 45, name: 'Pending Shipment' }
       ]"
       :color="['#4C87F3', '#93F1B4', '#8BD8FC']"
       :radius="['56%', '76%']"

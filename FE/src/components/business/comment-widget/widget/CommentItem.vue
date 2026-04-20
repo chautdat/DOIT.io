@@ -17,7 +17,7 @@
           class="ml-5 text-xs text-g-700 c-p select-none hover:text-theme"
           @click="toggleReply(comment.id)"
         >
-          回复
+          Reply
         </div>
       </div>
     </div>
@@ -36,12 +36,12 @@
 
     <ElForm v-if="showReplyForm === comment.id" @submit.prevent="handleSubmit" class="mt-4">
       <ElFormItem prop="author">
-        <ElInput v-model="replyAuthor" placeholder="你的名称" clearable />
+        <ElInput v-model="replyAuthor" placeholder="Your name" clearable />
       </ElFormItem>
       <ElFormItem prop="content">
         <ElInput
           v-model="replyContent"
-          placeholder="你的回复..."
+          placeholder="Your reply..."
           type="textarea"
           :rows="3"
           clearable
@@ -49,8 +49,8 @@
       </ElFormItem>
       <ElFormItem>
         <div class="flex justify-end gap-2 w-full">
-          <ElButton @click="toggleReply(comment.id)">取消</ElButton>
-          <ElButton type="primary" @click="handleSubmit">发布</ElButton>
+          <ElButton @click="toggleReply(comment.id)">Cancel</ElButton>
+          <ElButton type="primary" @click="handleSubmit">Post</ElButton>
         </div>
       </ElFormItem>
     </ElForm>

@@ -37,14 +37,14 @@ export const examplesRoutes: AppRouteRecord = {
             icon: 'ri:mouse-line',
             keepAlive: true,
             authList: [
-              { title: '新增', authMark: 'add' },
-              { title: '编辑', authMark: 'edit' },
-              { title: '删除', authMark: 'delete' },
-              { title: '导出', authMark: 'export' },
-              { title: '查看', authMark: 'view' },
-              { title: '发布', authMark: 'publish' },
-              { title: '配置', authMark: 'config' },
-              { title: '管理', authMark: 'manage' }
+              { title: 'Add', authMark: 'add' },
+              { title: 'Edit', authMark: 'edit' },
+              { title: 'Delete', authMark: 'delete' },
+              { title: 'Export', authMark: 'export' },
+              { title: 'View', authMark: 'view' },
+              { title: 'Publish', authMark: 'publish' },
+              { title: 'Configure', authMark: 'config' },
+              { title: 'Manage', authMark: 'manage' }
             ]
           }
         },

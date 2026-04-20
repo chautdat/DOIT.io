@@ -1,62 +1,50 @@
-/**
- * 顶部栏功能配置
- *
- * 统一管理顶部栏各个功能模块的启用状态。
- * 通过修改此配置文件可以快速启用或禁用顶部栏的功能按钮。
- *
- * @module config/headerBar
- * @author Art Design Pro Team
- */
 
 import { HeaderBarFeatureConfig } from '@/types'
 
-/**
- * 顶部栏功能配置对象
- */
 export const headerBarConfig: HeaderBarFeatureConfig = {
   menuButton: {
     enabled: true,
-    description: '控制左侧菜单的展开/收起按钮'
+    description: 'Toggle the left menu open and closed'
   },
   refreshButton: {
     enabled: true,
-    description: '页面刷新按钮'
+    description: 'Refresh the page'
   },
   fastEnter: {
     enabled: true,
-    description: '快速入口功能，提供常用应用和链接的快速访问'
+    description: 'Quick access to common apps and links'
   },
   breadcrumb: {
     enabled: true,
-    description: '面包屑导航，显示当前页面路径'
+    description: 'Breadcrumb navigation showing the current page path'
   },
   globalSearch: {
     enabled: true,
-    description: '全局搜索功能，支持快捷键 Ctrl+K 或 Cmd+K'
+    description: 'Global search with Ctrl+K or Cmd+K'
   },
   fullscreen: {
     enabled: true,
-    description: '全屏切换功能'
+    description: 'Toggle fullscreen mode'
   },
   notification: {
     enabled: true,
-    description: '通知中心，显示系统通知和消息'
+    description: 'Notification center for system alerts and messages'
   },
   chat: {
     enabled: true,
-    description: '聊天功能，提供实时沟通'
+    description: 'Chat for real-time communication'
   },
   language: {
     enabled: true,
-    description: '多语言切换功能'
+    description: 'Language switcher'
   },
   settings: {
     enabled: true,
-    description: '系统设置面板'
+    description: 'System settings panel'
   },
   themeToggle: {
     enabled: true,
-    description: '主题切换功能（明暗主题）'
+    description: 'Theme toggle (light and dark)'
   }
 }
 

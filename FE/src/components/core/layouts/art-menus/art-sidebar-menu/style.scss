@@ -9,7 +9,6 @@
     border-right: none !important;
   }
 
-  // 自定义滚动条宽度
   :deep(.el-scrollbar__bar.is-vertical) {
     width: 4px;
   }
@@ -170,7 +169,6 @@
 
   .el-menu {
     box-sizing: border-box;
-    // 防止菜单内的滚动影响整个页面滚动
     overscroll-behavior: contain;
     border-right: 0;
     scrollbar-width: none;
@@ -203,7 +201,6 @@
       width: 0;
     }
 
-    // 折叠状态下的header样式
     .menu-left-close .header {
       .logo {
         display: none;

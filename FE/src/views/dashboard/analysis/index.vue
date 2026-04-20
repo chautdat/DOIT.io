@@ -1,4 +1,4 @@
-<!-- 分析页页面 -->
+<!-- Analysis Page -->
 <template>
   <div>
     <ElRow :gutter="20">

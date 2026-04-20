@@ -2,8 +2,8 @@
   <div class="art-card p-5 h-[28.2rem] mb-5 max-sm:mb-4">
     <div class="art-card-header">
       <div class="title">
-        <h4>热销商品</h4>
-        <p>本周销售排行</p>
+        <h4>Hot Products</h4>
+        <p>Weekly Sales Ranking</p>
       </div>
     </div>
     <ArtLineChart
@@ -42,31 +42,31 @@
   }
 
   /**
-   * 本周热销商品列表
-   * 展示销量排名前三的商品信息
+   * Weekly hot products list
+   * Display top 3 best-selling products
    */
   const weeklyList: WeeklyItem[] = [
     {
       icon: 'ri:money-cny-circle-line',
-      title: '智能手表Pro',
-      subtitle: '电子产品',
-      value: '1,286件',
+      title: 'Smart Watch Pro',
+      subtitle: 'Electronics',
+      value: '1,286 units',
       iconBgClass: 'bg-theme/12 text-theme',
       valueBgClass: 'bg-theme/12 text-theme'
     },
     {
       icon: 'ri:money-cny-circle-line',
-      title: '时尚连衣裙',
-      subtitle: '女装服饰',
-      value: '892件',
+      title: 'Fashion Dress',
+      subtitle: 'Women Clothing',
+      value: '892 units',
       iconBgClass: 'bg-success/12 text-success',
       valueBgClass: 'bg-success/12 text-success'
     },
     {
       icon: 'ri:money-cny-circle-line',
-      title: '厨房小家电',
-      subtitle: '家居用品',
-      value: '756件',
+      title: 'Kitchen Appliances',
+      subtitle: 'Home & Living',
+      value: '756 units',
       iconBgClass: 'bg-error/12 text-error',
       valueBgClass: 'bg-error/12 text-error'
     }

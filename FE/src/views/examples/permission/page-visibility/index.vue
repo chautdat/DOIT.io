@@ -1,14 +1,12 @@
-<!-- 权限页面可见页面 -->
 <template>
   <div class="w-full py-2">
-    <!-- 页面头部 -->
     <div class="mb-6">
       <h2 class="m-0 mb-2 text-xl font-medium">{{
         $t('menus.examples.permission.pageVisibility')
       }}</h2>
       <p class="m-0 text-sm leading-[1.6] text-g-700">
-        此页面仅对<strong class="font-semibold text-warning">超级管理员</strong
-        >用户可见，演示页面级别的权限控制。 如果您能看到此页面，说明您拥有相应的访问权限。
+        This page is visible only to <strong class="font-semibold text-warning">Super Admin</strong
+        >users. It demonstrates page-level permission control. If you can see this page, you have the required access permission.
       </p>
     </div>
 
@@ -16,18 +14,18 @@
       <ElCard class="art-card-xs">
         <template #header>
           <div class="flex-c gap-2 font-semibold">
-            <span>权限验证成功</span>
+            <span>Permission check passed</span>
           </div>
         </template>
         <div>
           <div class="flex-c gap-5">
             <div>
-              <h3 class="m-0 mb-2 text-lg font-semibold">您拥有访问此页面的权限</h3>
+              <h3 class="m-0 mb-2 text-lg font-semibold">You have permission to access this page</h3>
               <p class="my-1 text-sm text-g-700">
-                当前用户：<strong class="font-semibold">{{ currentUser.userName }}</strong>
+                Current user: <strong class="font-semibold">{{ currentUser.userName }}</strong>
               </p>
               <p class="my-1 text-sm text-g-700">
-                用户角色：
+                Role:
                 <ElTag type="warning">{{ getRoleDisplayName(currentUser.roles?.[0] || '') }}</ElTag>
               </p>
             </div>
@@ -36,25 +34,24 @@
       </ElCard>
     </div>
 
-    <!-- 页面级权限控制说明 -->
     <div class="mb-6 last:mb-0">
       <ElCard class="art-card-xs">
         <template #header>
           <div class="flex-c font-semibold">
-            <span>页面级权限控制说明</span>
+            <span>Page-level access control notes</span>
           </div>
         </template>
         <div>
           <ElTimeline>
-            <ElTimelineItem timestamp="前端控制模式" type="primary" size="large">
+            <ElTimelineItem timestamp="Frontend mode" type="primary" size="large">
               <ElCard>
-                <h4 class="m-0 mb-2 text-base font-semibold">基于角色的权限控制</h4>
+                <h4 class="m-0 mb-2 text-base font-semibold">Role-based permission control</h4>
                 <p class="m-0 mb-2 leading-[1.6] text-g-700">
-                  在前端控制模式下，页面访问权限由路由配置文件中的
+                  In frontend mode, page access permission is defined by the 
                   <code class="px-1.5 py-0.5 font-mono text-xs text-theme bg-theme/12 rounded"
                     >meta.roles</code
                   >
-                  字段定义，前端会根据用户接口所拥有的角色对路由和菜单进行过滤与控制
+                  field in the route config file. The frontend filters routes and menus based on the roles returned by the user API.
                 </p>
                 <pre
                   class="p-4 mt-3 mb-0 overflow-x-auto font-mono text-xs leading-[1.5] bg-g-200 border-full-d rounded-md"
@@ -64,42 +61,42 @@
   component: '/examples/permission/page-visibility',
   meta: {
     title: 'menus.permission.pageVisibility',
-    roles: ['R_SUPER'], // 仅超级管理员可访问
+    roles: ['R_SUPER'],
     keepAlive: true
   }
 }</code></pre>
-                <p class="m-0 mb-2 leading-[1.6] text-g-700"><strong>权限验证流程：</strong></p>
+                <p class="m-0 mb-2 leading-[1.6] text-g-700"><strong>Permission check flow:</strong></p>
                 <ul class="pl-5 my-2">
                   <li class="my-1 leading-[1.5] text-g-700"
-                    >用户登录后，接口返回用户角色信息（如 R_SUPER、R_ADMIN、R_USER）</li
+                    >After the user logs in, the API returns role info (for example R_SUPER, R_ADMIN, R_USER)</li
                   >
                   <li class="my-1 leading-[1.5] text-g-700">
-                    在
+                    In
                     <code class="px-1.5 py-0.5 font-mono text-xs text-theme bg-theme/12 rounded"
                       >beforeEach</code
                     >
-                    路由守卫中检查目标路由的
+                    route guard checks the target route's 
                     <code class="px-1.5 py-0.5 font-mono text-xs text-theme bg-theme/12 rounded"
                       >roles</code
                     >
-                    配置
+                    configuration
                   </li>
                   <li class="my-1 leading-[1.5] text-g-700"
-                    >比较用户角色是否包含在允许访问的角色列表中</li
+                    >Check whether the role is included in the allowed role list</li
                   >
-                  <li class="my-1 leading-[1.5] text-g-700">权限不足时跳转到 403 页面</li>
+                  <li class="my-1 leading-[1.5] text-g-700">If permission is insufficient, redirect to the 403 page</li>
                 </ul>
               </ElCard>
             </ElTimelineItem>
 
-            <ElTimelineItem timestamp="后端控制模式" type="warning" size="large">
+            <ElTimelineItem timestamp="Backend mode" type="warning" size="large">
               <ElCard>
-                <h4 class="m-0 mb-2 text-base font-semibold">基于菜单接口的权限控制</h4>
+                <h4 class="m-0 mb-2 text-base font-semibold">Menu API-based access control</h4>
                 <p class="m-0 mb-2 leading-[1.6] text-g-700"
-                  >在后端控制模式下，页面访问权限由后端统一管理，前端通过解析后端接口返回的菜单列表来生成可访问的路由，从而实现权限控制</p
+                  >In backend mode, page access permission is managed centrally by the backend. The frontend parses the menu list returned by the backend API to generate accessible routes, thereby implementing permission control</p
                 >
                 <p class="m-0 mb-2 leading-[1.6] text-g-700"
-                  >接口地址：src/api/menuApi.ts getMenuList</p
+                  >API: src/api/menuApi.ts getMenuList</p
                 >
                 <pre
                   class="p-4 mt-3 mb-0 overflow-x-auto font-mono text-xs leading-[1.5] bg-g-200 border-full-d rounded-md"
@@ -131,30 +128,30 @@
     }
   ]
 }</code></pre>
-                <p><strong>权限验证流程：</strong></p>
+                <p><strong>Permission check flow:</strong></p>
                 <ul>
-                  <li>用户登录成功后获取 Token</li>
-                  <li>前端调用菜单接口获取用户可访问的菜单列表</li>
-                  <li>前端根据菜单列表动态注册路由</li>
-                  <li>菜单中存在的页面用户可以正常访问，不存在的页面会跳转到 404</li>
+                  <li>After login succeeds, the token is retrieved</li>
+                  <li>The frontend calls the menu API to get the user's accessible menu list</li>
+                  <li>The frontend dynamically registers routes based on the menu list</li>
+                  <li>Pages present in the menu can be accessed normally; pages not present will redirect to 404</li>
                 </ul>
               </ElCard>
             </ElTimelineItem>
 
-            <ElTimelineItem timestamp="菜单显示控制" type="success" size="large">
+            <ElTimelineItem timestamp="Menu visibility control" type="success" size="large">
               <ElCard>
-                <h4>侧边栏菜单可见性</h4>
-                <p><strong>前端控制模式：</strong></p>
+                <h4>Sidebar menu visibility</h4>
+                <p><strong>Frontend mode：</strong></p>
                 <ul>
-                  <li>有权限的用户：菜单项正常显示，可以点击访问</li>
-                  <li>无权限的用户：菜单项不显示，无法通过菜单导航到页面</li>
-                  <li>即使通过直接输入URL尝试访问，也会被路由守卫拦截</li>
+                  <li>Authorized users：menu items are shown and can be clicked</li>
+                  <li>Unauthorized users：menu items are hidden and cannot be used for navigation</li>
+                  <li>direct URL access is also blocked by the route guard</li>
                 </ul>
-                <p><strong>后端控制模式：</strong></p>
+                <p><strong>Backend mode：</strong></p>
                 <ul>
-                  <li>侧边栏菜单根据后端返回的菜单列表进行渲染</li>
-                  <li>后端应该根据用户权限过滤，只返回用户有权限访问的菜单项</li>
-                  <li>前端只显示后端返回的菜单，确保用户只能看到和访问有权限的页面</li>
+                  <li>The sidebar menu is rendered from the backend menu list</li>
+                  <li>The backend should filter menu items by user permission</li>
+                  <li>The frontend only shows menus returned by the backend</li>
                 </ul>
               </ElCard>
             </ElTimelineItem>
@@ -163,12 +160,11 @@
       </ElCard>
     </div>
 
-    <!-- 权限控制最佳实践 -->
     <div class="best-practices">
       <ElCard class="art-card-xs">
         <template #header>
           <div class="card-header">
-            <span>权限控制最佳实践</span>
+            <span>Permission best practices</span>
           </div>
         </template>
         <div class="practices-content">
@@ -179,9 +175,9 @@
                   <ElIcon size="20" color="#409EFF"><Lock /></ElIcon>
                 </div>
                 <div>
-                  <h4>多层权限验证</h4>
+                  <h4>Multi-layer verification</h4>
                   <p class="text-g-700 text-sm"
-                    >在前端路由、后端接口、UI组件等多个层面实施权限控制，确保安全性。</p
+                    >Implement permission control across frontend routes, backend APIs, and UI components to ensure security.</p
                   >
                 </div>
               </div>
@@ -192,9 +188,9 @@
                   <ElIcon size="20" color="#67C23A"><User /></ElIcon>
                 </div>
                 <div>
-                  <h4>基于角色的访问控制</h4>
+                  <h4>Role-based access control</h4>
                   <p class="text-g-700 text-sm"
-                    >采用RBAC模型，通过角色分配权限，简化权限管理复杂度。</p
+                    >Use the RBAC model to assign permissions by role and simplify permission management.</p
                   >
                 </div>
               </div>
@@ -205,8 +201,8 @@
                   <ElIcon size="20" color="#E6A23C"><Key /></ElIcon>
                 </div>
                 <div>
-                  <h4>细粒度权限控制</h4>
-                  <p class="text-g-700 text-sm">支持页面级、按钮级、数据级等多种粒度的权限控制。</p>
+                  <h4>Fine-grained permission control</h4>
+                  <p class="text-g-700 text-sm">Supports page-level, button-level, and data-level permission control.</p>
                 </div>
               </div>
             </ElCol>
@@ -216,9 +212,9 @@
                   <ElIcon size="20" color="#F56C6C"><View /></ElIcon>
                 </div>
                 <div>
-                  <h4>安全性优先原则</h4>
+                  <h4>Security-first principle</h4>
                   <p class="text-g-700 text-sm"
-                    >始终遵循最小权限原则，确保用户只能访问必要的功能和数据。</p
+                    >Always follow the principle of least privilege so users can access only the functions and data they need.</p
                   >
                 </div>
               </div>
@@ -240,16 +236,14 @@
 
   const userStore = useUserStore()
 
-  // 当前用户信息
   const currentUser = computed(() => userStore.info)
 
-  // 获取角色显示名称
   const getRoleDisplayName = (role: string) => {
     const roleMap: Record<string, string> = {
-      R_SUPER: '超级管理员',
-      R_ADMIN: '管理员',
-      R_USER: '普通用户'
+      R_SUPER: 'Super Admin',
+      R_ADMIN: 'Admin',
+      R_USER: 'Standard User'
     }
-    return roleMap[role] || '未知角色'
+    return roleMap[role] || 'Unknown role'
   }
 </script>

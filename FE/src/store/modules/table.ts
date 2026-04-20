@@ -1,26 +1,26 @@
 /**
- * 表格状态管理模块
+ * Table State Management Module
  *
- * 提供表格显示配置的状态管理
+ * Provides state management for table display configuration
  *
- * ## 主要功能
+ * ## Main Features
  *
- * - 表格尺寸配置（紧凑、默认、宽松）
- * - 斑马纹显示开关
- * - 边框显示开关
- * - 表头背景显示开关
- * - 全屏模式开关
+ * - Table size configuration (compact, default, loose)
+ * - Zebra stripe toggle
+ * - Border toggle
+ * - Header background toggle
+ * - Fullscreen mode toggle
  *
- * ## 使用场景
- * - 表格组件样式配置
- * - 用户表格偏好设置
- * - 表格工具栏功能控制
+ * ## Use Cases
+ * - Table component style configuration
+ * - User table preference settings
+ * - Table toolbar feature control
  *
- * ## 持久化
+ * ## Persistence
  *
- * - 使用 localStorage 存储
- * - 存储键：sys-v{version}-table
- * - 用户配置跨页面保持
+ * - Uses localStorage for storage
+ * - Storage key: sys-v{version}-table
+ * - User configuration persists across pages
  *
  * @module store/modules/table
  * @author Art Design Pro Team
@@ -29,49 +29,49 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { TableSizeEnum } from '@/enums/formEnum'
 
-// 表格
+// Table
 export const useTableStore = defineStore(
   'tableStore',
   () => {
-    // 表格大小
+    // Table size
     const tableSize = ref(TableSizeEnum.DEFAULT)
-    // 斑马纹
+    // Zebra stripe
     const isZebra = ref(false)
-    // 边框
+    // Border
     const isBorder = ref(false)
-    // 表头背景
+    // Header background
     const isHeaderBackground = ref(false)
 
-    // 是否全屏
+    // Is fullscreen
     const isFullScreen = ref(false)
 
     /**
-     * 设置表格大小
-     * @param size 表格大小枚举值
+     * Set table size
+     * @param size Table size enum value
      */
     const setTableSize = (size: TableSizeEnum) => (tableSize.value = size)
 
     /**
-     * 设置斑马纹显示状态
-     * @param value 是否显示斑马纹
+     * Set zebra stripe display status
+     * @param value Whether to show zebra stripe
      */
     const setIsZebra = (value: boolean) => (isZebra.value = value)
 
     /**
-     * 设置表格边框显示状态
-     * @param value 是否显示边框
+     * Set table border display status
+     * @param value Whether to show border
      */
     const setIsBorder = (value: boolean) => (isBorder.value = value)
 
     /**
-     * 设置表头背景显示状态
-     * @param value 是否显示表头背景
+     * Set header background display status
+     * @param value Whether to show header background
      */
     const setIsHeaderBackground = (value: boolean) => (isHeaderBackground.value = value)
 
     /**
-     * 设置是否全屏
-     * @param value 是否全屏
+     * Set fullscreen status
+     * @param value Whether fullscreen
      */
     const setIsFullScreen = (value: boolean) => (isFullScreen.value = value)
 

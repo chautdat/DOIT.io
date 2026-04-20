@@ -20,13 +20,9 @@
   const userStore = useUserStore()
 
   interface ExceptionData {
-    /** 标题 */
     title: string
-    /** 描述 */
     desc: string
-    /** 按钮文本 */
     btnText: string
-    /** 图片地址 */
     imgUrl: string
   }
 

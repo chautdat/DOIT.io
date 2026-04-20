@@ -1,29 +1,29 @@
 /**
- * 菜单状态管理模块
+ * Menu State Management Module
  *
- * 提供菜单数据和动态路由的状态管理
+ * Provides state management for menu data and dynamic routes
  *
- * ## 主要功能
+ * ## Main Features
  *
- * - 菜单列表存储和管理
- * - 首页路径配置
- * - 动态路由注册和移除
- * - 路由移除函数管理
- * - 菜单宽度配置
+ * - Menu list storage and management
+ * - Home page path configuration
+ * - Dynamic route registration and removal
+ * - Route removal function management
+ * - Menu width configuration
  *
- * ## 使用场景
+ * ## Use Cases
  *
- * - 动态菜单加载和渲染
- * - 路由权限控制
- * - 首页路径动态设置
- * - 登出时清理动态路由
+ * - Dynamic menu loading and rendering
+ * - Route permission control
+ * - Dynamic home page path setting
+ * - Clean up dynamic routes on logout
  *
- * ## 工作流程
+ * ## Workflow
  *
- * 1. 获取菜单数据（前端/后端模式）
- * 2. 设置菜单列表和首页路径
- * 3. 注册动态路由并保存移除函数
- * 4. 登出时调用移除函数清理路由
+ * 1. Get menu data (frontend/backend mode)
+ * 2. Set menu list and home page path
+ * 3. Register dynamic routes and save removal functions
+ * 4. Call removal functions to clean up routes on logout
  *
  * @module store/modules/menu
  * @author Art Design Pro Team
@@ -35,22 +35,22 @@ import { getFirstMenuPath } from '@/utils'
 import { HOME_PAGE_PATH } from '@/router'
 
 /**
- * 菜单状态管理
- * 管理应用的菜单列表、首页路径、菜单宽度和动态路由移除函数
+ * Menu State Management
+ * Manages app's menu list, home path, menu width and dynamic route removal functions
  */
 export const useMenuStore = defineStore('menuStore', () => {
-  /** 首页路径 */
+  /** Home page path */
   const homePath = ref(HOME_PAGE_PATH)
-  /** 菜单列表 */
+  /** Menu list */
   const menuList = ref<AppRouteRecord[]>([])
-  /** 菜单宽度 */
+  /** Menu width */
   const menuWidth = ref('')
-  /** 存储路由移除函数的数组 */
+  /** Array storing route removal functions */
   const removeRouteFns = ref<(() => void)[]>([])
 
   /**
-   * 设置菜单列表
-   * @param list 菜单路由记录数组
+   * Set menu list
+   * @param list Menu route record array
    */
   const setMenuList = (list: AppRouteRecord[]) => {
     menuList.value = list
@@ -58,30 +58,30 @@ export const useMenuStore = defineStore('menuStore', () => {
   }
 
   /**
-   * 获取首页路径
-   * @returns 首页路径字符串
+   * Get home page path
+   * @returns Home page path string
    */
   const getHomePath = () => homePath.value
 
   /**
-   * 设置主页路径
-   * @param path 主页路径
+   * Set home page path
+   * @param path Home page path
    */
   const setHomePath = (path: string) => {
     homePath.value = path
   }
 
   /**
-   * 添加路由移除函数
-   * @param fns 要添加的路由移除函数数组
+   * Add route removal functions
+   * @param fns Route removal functions array to add
    */
   const addRemoveRouteFns = (fns: (() => void)[]) => {
     removeRouteFns.value.push(...fns)
   }
 
   /**
-   * 移除所有动态路由
-   * 执行所有存储的路由移除函数并清空数组
+   * Remove all dynamic routes
+   * Execute all stored route removal functions and clear the array
    */
   const removeAllDynamicRoutes = () => {
     removeRouteFns.value.forEach((fn) => fn())
@@ -89,7 +89,7 @@ export const useMenuStore = defineStore('menuStore', () => {
   }
 
   /**
-   * 清空路由移除函数数组
+   * Clear route removal functions array
    */
   const clearRemoveRouteFns = () => {
     removeRouteFns.value = []

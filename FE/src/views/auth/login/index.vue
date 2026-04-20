@@ -1,4 +1,4 @@
-<!-- 登录页面 -->
+<!-- Login Page -->
 <template>
   <div class="flex w-full h-screen">
     <LoginLeftView />
@@ -48,7 +48,6 @@
               />
             </ElFormItem>
 
-            <!-- 推拽验证 -->
             <div class="relative pb-5 mt-6">
               <div
                 class="relative z-[2] overflow-hidden select-none rounded-lg border border-transparent tad-300"
@@ -123,7 +122,7 @@
   const { t, locale } = useI18n()
   const formKey = ref(0)
 
-  // 监听语言切换，重置表单
+  // Watch language switch, reset form
   watch(locale, () => {
     formKey.value++
   })
@@ -191,7 +190,7 @@
     setupAccount('super')
   })
 
-  // 设置账号
+  // Setup account
   const setupAccount = (key: AccountKey) => {
     const selectedAccount = accounts.value.find((account: Account) => account.key === key)
     formData.account = key
@@ -199,16 +198,16 @@
     formData.password = selectedAccount?.password ?? ''
   }
 
-  // 登录
+  // Login
   const handleSubmit = async () => {
     if (!formRef.value) return
 
     try {
-      // 表单验证
+      // Form validation
       const valid = await formRef.value.validate()
       if (!valid) return
 
-      // 拖拽验证
+      // Drag verification
       if (!isPassing.value) {
         isClickPass.value = true
         return
@@ -216,7 +215,7 @@
 
       loading.value = true
 
-      // 登录请求
+      // Login request
       const { username, password } = formData
 
       const response = await fetchLogin({
@@ -226,28 +225,28 @@
 
       const token = response.accessToken || response.token
 
-      // 验证token
+      // Validate token
       if (!token) {
         throw new Error('Login failed - no token received')
       }
 
-      // 存储 token 和登录状态
+      // Store token and login status
       userStore.setToken(token, response.refreshToken)
       userStore.setLoginStatus(true)
 
-      // 登录成功处理
+      // Login success handling
       showLoginSuccessNotice()
 
-      // 获取 redirect 参数，如果存在则跳转到指定页面，否则跳转到首页
+      // Get redirect parameter, if exists redirect to specified page, otherwise redirect to home
       const redirect = route.query.redirect as string
       router.push(redirect || '/')
     } catch (error) {
-      // 处理 HttpError
+      // Handle HttpError
       if (error instanceof HttpError) {
         // console.log(error.code)
       } else {
-        // 处理非 HttpError
-        // ElMessage.error('登录失败，请稍后重试')
+        // Handle non-HttpError
+        // ElMessage.error('Login failed, please try again later')
         console.error('[Login] Unexpected error:', error)
       }
     } finally {
@@ -256,12 +255,12 @@
     }
   }
 
-  // 重置拖拽验证
+  // Reset drag verification
   const resetDragVerify = () => {
     dragVerify.value.reset()
   }
 
-  // 登录成功提示
+  // Login success notification
   const showLoginSuccessNotice = () => {
     setTimeout(() => {
       ElNotification({

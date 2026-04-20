@@ -1,8 +1,8 @@
-<!-- 基础表格 -->
+<!-- Basic Table -->
 <template>
   <div class="user-page art-full-height">
     <ElCard class="art-table-card" style="margin-top: 0">
-      <!-- 表格 -->
+      <!-- Table -->
       <ArtTable
         rowKey="id"
         :show-table-header="false"
@@ -41,21 +41,21 @@
         },
         {
           prop: 'nickName',
-          label: '昵称'
+          label: 'Nickname'
         },
         {
           prop: 'userGender',
-          label: '性别',
+          label: 'Gender',
           sortable: true,
-          formatter: (row) => row.userGender || '未知'
+          formatter: (row) => row.userGender || 'Unknown'
         },
         {
           prop: 'userPhone',
-          label: '手机号'
+          label: 'Phone'
         },
         {
           prop: 'userEmail',
-          label: '邮箱'
+          label: 'Email'
         }
       ]
     }

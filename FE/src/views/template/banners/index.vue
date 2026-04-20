@@ -1,23 +1,23 @@
 <template>
   <div class="pt-5">
-    <h1 class="page-title">基础 & 自定义按钮+背景色</h1>
+    <h1 class="page-title">Basic & Custom Buttons + Background Colors</h1>
     <ElRow :gutter="20">
       <ElCol :xs="24" :sm="12" :md="12" class="mb-5">
         <ArtBasicBanner
-          title="数据中心运行状态"
-          subtitle="系统访问量同比增长 23%，所有服务运行稳定，数据监控正常。"
+          title="Data Center Status"
+          subtitle="System traffic increased by 23% YoY, all services running stable, monitoring normal."
         />
       </ElCol>
       <ElCol :xs="24" :sm="12" :md="12" class="mb-5">
         <ArtBasicBanner
-          title="欢迎使用 Art Design Pro"
-          subtitle="基于 Vue 3 + TypeScript + Element Plus 构建的现代化管理系统。"
+          title="Welcome to Art Design Pro"
+          subtitle="A modern admin system built with Vue 3 + TypeScript + Element Plus."
           titleColor="#333"
           subtitleColor="#666"
           boxStyle="!bg-[#D4F1F7]"
           :buttonConfig="{
             show: true,
-            text: '开始探索',
+            text: 'Start Exploring',
             color: 'var(--art-success)',
             textColor: '#fff',
             radius: '6px'
@@ -27,17 +27,17 @@
       </ElCol>
     </ElRow>
 
-    <h1 class="page-title">自定义图片 & 使用 slot 自定义内容</h1>
+    <h1 class="page-title">Custom Images & Using Slot for Custom Content</h1>
 
     <ElRow :gutter="20">
       <ElCol :xs="24" :sm="12" :md="12" class="mb-5">
         <ArtBasicBanner
-          title="探索星空计划"
-          subtitle="加入我们的天文观测活动，发现宇宙的奥秘"
+          title="Explore the Stars"
+          subtitle="Join our astronomy observation activities, discover the mysteries of the universe"
           boxStyle="!bg-[#FF8AAB]"
           :buttonConfig="{
             show: true,
-            text: '立即参与',
+            text: 'Join Now',
             color: '#FF5A89',
             textColor: '#fff'
           }"
@@ -54,27 +54,29 @@
           }"
         >
           <template #title>
-            <h2 style="margin: 0; font-size: 1.6rem; color: #fff !important">智能组件系统</h2>
+            <h2 style="margin: 0; font-size: 1.6rem; color: #fff !important"
+              >Smart Component System</h2
+            >
           </template>
 
           <template #subtitle>
             <div style="margin-top: 12px">
               <p style="position: relative; z-index: 10; font-style: italic"
-                >灵活配置，强大扩展，支持自定义插槽内容</p
+                >Flexible configuration, powerful extensions, supports custom slot content</p
               >
             </div>
           </template>
 
           <template #button>
             <div style="margin-top: 12px">
-              <ElButton type="primary" color="#04A1FF"> 查看文档 </ElButton>
+              <ElButton type="primary" color="#04A1FF"> View Docs </ElButton>
             </div>
           </template>
         </ArtBasicBanner>
       </ElCol>
     </ElRow>
 
-    <h1 class="page-title">抽象配置方案（Preset 模式）</h1>
+    <h1 class="page-title">Abstract Configuration (Preset Mode)</h1>
     <ElRow :gutter="20">
       <ElCol :xs="24" :sm="12" :md="12" class="mb-5">
         <ArtBasicBanner v-bind="PresetBanners.marketing" />
@@ -84,22 +86,22 @@
       </ElCol>
     </ElRow>
 
-    <h1 class="page-title">卡片横幅</h1>
+    <h1 class="page-title">Card Banners</h1>
     <ElRow :gutter="20">
       <ElCol :xs="24" :sm="12" :md="12" :lg="6" class="mb-5">
         <ArtCardBanner
-          title="系统运行正常"
-          description="所有核心服务运行稳定，响应时间在正常范围内。"
+          title="System Running Normal"
+          description="All core services are running stable, response time is within normal range."
         />
       </ElCol>
       <ElCol :xs="24" :sm="12" :md="12" :lg="6" class="mb-5">
         <ArtCardBanner
           :image="icon2"
-          title="重要消息通知"
-          description="您有 3 条待处理的重要消息，请及时查看。"
+          title="Important Notifications"
+          description="You have 3 pending important messages, please check them."
           :button="{
             show: true,
-            text: '查看详情',
+            text: 'View Details',
             color: 'var(--art-warning)',
             textColor: '#fff'
           }"
@@ -108,11 +110,11 @@
       <ElCol :xs="24" :sm="12" :md="12" :lg="6" class="mb-5">
         <ArtCardBanner
           :image="icon3"
-          title="数据分析报告"
-          description="本周业务数据分析报告已完成，请查看关键指标。"
+          title="Data Analysis Report"
+          description="This week's business data analysis report is complete, please review key metrics."
           :button="{
             show: true,
-            text: '下载报告',
+            text: 'Download Report',
             color: 'var(--art-error)',
             textColor: '#fff'
           }"
@@ -121,17 +123,17 @@
       <ElCol :xs="24" :sm="12" :md="12" :lg="6" class="mb-5">
         <ArtCardBanner
           :image="icon4"
-          title="版本更新提醒"
-          description="Art Design Pro v2.1.0 已发布，包含性能优化和新功能。"
+          title="Version Update Notice"
+          description="Art Design Pro v2.1.0 released with performance optimizations and new features."
           :button="{
             show: true,
-            text: '立即更新',
+            text: 'Update Now',
             color: 'var(--theme-color)',
             textColor: '#fff'
           }"
           :cancelButton="{
             show: true,
-            text: '稍后提醒',
+            text: 'Remind Later',
             color: '#eee',
             textColor: '#333'
           }"
@@ -152,55 +154,56 @@
   defineOptions({ name: 'TemplateBanners' })
 
   /**
-   * 处理横幅点击事件
+   * Handle banner click event
    */
   const handleBannerClick = () => {
     console.log('banner clicked')
   }
 
   /**
-   * 处理确认按钮点击事件
+   * Handle confirm button click event
    */
   const handleConfirm = () => {
     console.log('confirm clicked')
   }
 
   /**
-   * 处理取消按钮点击事件
+   * Handle cancel button click event
    */
   const handleCancel = () => {
     console.log('cancel clicked')
   }
 
   /**
-   * 预设横幅配置
-   * 提供常用的横幅样式配置，可直接通过 v-bind 使用
+   * Preset banner configurations
+   * Provides common banner style configurations that can be used directly via v-bind
    */
   const PresetBanners = {
     marketing: {
-      title: '限时优惠活动',
-      subtitle: '精选商品 48 小时闪购，最高享受 7 折优惠，数量有限！',
+      title: 'Limited Time Offer',
+      subtitle: 'Selected items 48-hour flash sale, up to 30% off, limited quantities!',
       titleColor: 'var(--art-gray-900)',
       subtitleColor: 'var(--art-gray-900)',
       boxStyle: '!bg-success/15',
       meteorConfig: { enabled: true, count: 15 },
       buttonConfig: {
         show: true,
-        text: '立即抢购',
+        text: 'Shop Now',
         color: 'var(--art-success)',
         textColor: '#fff'
       }
     },
     info: {
-      title: '服务到期提醒',
-      subtitle: '您的高级服务将在 7 天后到期，请及时续费以继续享受完整功能。',
+      title: 'Service Expiration Notice',
+      subtitle:
+        'Your premium service will expire in 7 days, please renew to continue enjoying full features.',
       titleColor: 'var(--art-gray-900)',
       subtitleColor: 'var(--art-gray-900)',
       boxStyle: '!bg-theme/15',
       meteorConfig: { enabled: true, count: 15 },
       buttonConfig: {
         show: true,
-        text: '立即续费',
+        text: 'Renew Now',
         color: 'var(--art-secondary)',
         textColor: '#fff'
       }

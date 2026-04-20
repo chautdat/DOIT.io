@@ -1,4 +1,3 @@
-<!-- 登录、注册、忘记密码左侧背景 -->
 <template>
   <div class="login-left-view">
     <div class="logo">
@@ -15,9 +14,7 @@
       <p> {{ $t('login.leftView.subTitle') }} </p>
     </div>
 
-    <!-- 几何装饰元素 -->
     <div class="geometric-decorations">
-      <!-- 基础几何形状 -->
       <div class="geo-element circle-outline animate-fade-in-up" style="animation-delay: 0s"></div>
       <div
         class="geo-element square-rotated animate-fade-in-left"
@@ -30,17 +27,14 @@
         style="animation-delay: 0s"
       ></div>
 
-      <!-- 背景泡泡 -->
       <div class="geo-element bg-bubble animate-scale-in" style="animation-delay: 0.5"></div>
 
-      <!-- 太阳/月亮 -->
       <div
         class="geo-element circle-top-right animate-fade-in-down"
         style="animation-delay: 0.5"
         @click="themeAnimation"
       ></div>
 
-      <!-- 装饰点 -->
       <div class="geo-element dot dot-top-left animate-bounce-in" style="animation-delay: 0s"></div>
       <div
         class="geo-element dot dot-top-right animate-bounce-in"
@@ -51,7 +45,6 @@
         style="animation-delay: 0s"
       ></div>
 
-      <!-- 叠加方块组 -->
       <div class="squares-group">
         <i
           class="geo-element square square-blue animate-fade-in-left-rotated-blue"
@@ -75,21 +68,18 @@
   import loginIcon from '@imgs/svg/login_icon.svg'
   import { themeAnimation } from '@/utils/ui/animation'
 
-  // 定义 props
   defineProps<{
-    hideContent?: boolean // 是否隐藏内容，只显示 logo
+    hideContent?: boolean
   }>()
 </script>
 
 <style lang="scss" scoped>
-  // 颜色变量定义
   $primary-light-7: var(--el-color-primary-light-7);
   $primary-light-8: var(--el-color-primary-light-8);
   $primary-light-9: var(--el-color-primary-light-9);
   $primary-base: var(--el-color-primary);
   $main-bg: var(--default-box-color);
 
-  // 混合颜色函数
   $bg-mix-light-9: color-mix(in srgb, $primary-light-9 100%, $main-bg);
   $bg-mix-light-8: color-mix(in srgb, $primary-light-8 80%, $main-bg);
   $bg-mix-light-7: color-mix(in srgb, $primary-light-7 80%, $main-bg);
@@ -154,7 +144,6 @@
         animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
       }
 
-      // 动画 mixin
       @mixin fadeAnimation($direction: '', $rotation: 0deg) {
         from {
           opacity: 0;
@@ -181,7 +170,6 @@
         }
       }
 
-      // 动画定义
       @keyframes fadeInUp {
         @include fadeAnimation('up');
       }
@@ -273,7 +261,6 @@
         }
       }
 
-      // 动画类
       .animate-fade-in-up {
         animation-name: fadeInUp;
       }
@@ -312,7 +299,6 @@
         animation-name: fadeInLeftNoRotation;
       }
 
-      // 基础几何形状
       .circle-outline {
         top: 10%;
         left: 25%;
@@ -343,7 +329,6 @@
         border-radius: 50%;
       }
 
-      // 太阳/月亮效果
       .circle-top-right {
         top: 3%;
         right: 3%;
@@ -390,7 +375,6 @@
         }
       }
 
-      // 背景泡泡
       .bg-bubble {
         top: -120px;
         right: -120px;
@@ -400,7 +384,6 @@
         border-radius: 50%;
       }
 
-      // 装饰点
       .dot {
         width: 14px;
         height: 14px;
@@ -424,7 +407,6 @@
         }
       }
 
-      // 叠加方块组
       .squares-group {
         position: absolute;
         bottom: 18px;
@@ -467,7 +449,6 @@
           }
         }
 
-        // 装饰线条
         &::after {
           position: absolute;
           top: 86px;
@@ -496,7 +477,6 @@
       width: auto;
       height: auto;
       padding: 0;
-      // 隐藏背景和其他内容，只保留 logo
       background: transparent;
 
       .left-img,
@@ -511,7 +491,6 @@
     }
   }
 
-  // 暗色主题
   .dark .login-left-view {
     background-color: color-mix(in srgb, $primary-light-9 60%, #070707);
 
@@ -520,7 +499,6 @@
     }
 
     .geometric-decorations {
-      // 月亮效果
       .circle-top-right {
         background-color: $bg-mix-light-8;
         box-shadow: 0 0 25px #333 inset;
@@ -557,7 +535,6 @@
         background-color: $bg-mix-light-9;
       }
 
-      // 其他元素颜色调整
       .square-rotated {
         background-color: $bg-mix-light-9;
       }
@@ -576,7 +553,6 @@
       }
     }
 
-    // 方块组暗色调整
     .squares-group {
       .square {
         box-shadow: none;

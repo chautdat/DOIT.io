@@ -2,7 +2,7 @@
   <div class="art-card h-100 p-5 mb-5 max-sm:mb-4">
     <div class="art-card-header">
       <div class="title">
-        <h4>客户满意度</h4>
+        <h4>Customer Satisfaction</h4>
       </div>
     </div>
     <ArtLineChart
@@ -26,23 +26,23 @@
   } as const
 
   /**
-   * X 轴数据配置
-   * 表示一周的天数（周一到周日）
+   * X-axis data configuration
+   * Represents days of a week (1-7)
    */
   const xAxisData = ['1', '2', '3', '4', '5', '6', '7']
 
   /**
-   * 客户满意度图表数据
-   * 对比上个月和本月的满意度趋势
+   * Customer satisfaction chart data
+   * Compares last month and this month satisfaction trends
    */
   const chartData = computed<LineDataItem[]>(() => [
     {
-      name: '上个月',
+      name: 'Last Month',
       data: [65, 72, 68, 75, 82, 78, 85],
       areaStyle: AREA_STYLE_CONFIG
     },
     {
-      name: '本月',
+      name: 'This Month',
       data: [78, 85, 82, 88, 92, 89, 95],
       areaStyle: AREA_STYLE_CONFIG
     }

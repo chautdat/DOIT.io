@@ -1,51 +1,44 @@
 <template>
   <div class="page-content space-y-5">
-    <!-- 基础用法 -->
     <ArtTextScroll
-      text="Art Design Pro 是一款兼具设计美学与高效开发的后台系统 <a target='_blank' href='https://www.artd.pro/docs/'>点击我 </a>访问官方文档"
+      text="Art Design Pro is an admin system that combines visual design and efficient development."
       showClose
     />
 
-    <!-- 使用不同的类型 -->
-    <ArtTextScroll type="success" text="这是一条成功类型的滚动公告" />
+    <ArtTextScroll type="success" text="This is a success-style scrolling notice" />
 
-    <ArtTextScroll type="warning" text="这是一条警告类型的滚动公告" />
+    <ArtTextScroll type="warning" text="This is a warning-style scrolling notice" />
 
-    <ArtTextScroll type="danger" text="这是一条危险类型的滚动公告" />
+    <ArtTextScroll type="danger" text="This is a danger-style scrolling notice" />
 
-    <ArtTextScroll type="info" text="这是一条信息类型的滚动公告" />
+    <ArtTextScroll type="info" text="This is an info-style scrolling notice" />
 
-    <!-- 可关闭 -->
-    <ArtTextScroll text="这是一条可关闭的滚动公告" @close="handleClose" />
+    <ArtTextScroll text="This is a dismissible scrolling notice" @close="handleClose" />
 
-    <!-- 自定义速度和方向 -->
     <ArtTextScroll
       type="warning"
-      text="这是一条速度较慢、向右滚动的公告"
+      text="This is a slower notice that scrolls to the right"
       :speed="30"
       direction="right"
     />
 
     <ArtTextScroll
-      text="这是一条文字溢出才会滚动的公告，当文本内容超出容器宽度时才会开始滚动显示，否则保持静止状态"
+      text="This notice only scrolls when the text overflows the container. Otherwise it stays still."
       @close="handleClose"
       :alwaysScroll="false"
     />
 
-    <ArtTextScroll type="danger" direction="up" :speed="30" text="这是一条向上滚动的公告" />
+    <ArtTextScroll type="danger" direction="up" :speed="30" text="This notice scrolls upward" />
 
-    <ArtTextScroll type="info" direction="down" :speed="30" text="这是一条向下滚动的公告" />
+    <ArtTextScroll type="info" direction="down" :speed="30" text="This notice scrolls downward" />
   </div>
 </template>
 
 <script setup lang="ts">
   defineOptions({ name: 'WidgetsTextScroll' })
 
-  /**
-   * 处理关闭事件
-   */
   const handleClose = () => {
-    console.log('文本滚动组件已关闭')
-    ElMessage.info('已关闭')
+    console.log('Text scroll component closed')
+    ElMessage.info('Closed')
   }
 </script>

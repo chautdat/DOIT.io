@@ -1,4 +1,3 @@
-<!-- 布局容器 -->
 <template>
   <div class="app-layout">
     <aside id="app-sidebar">

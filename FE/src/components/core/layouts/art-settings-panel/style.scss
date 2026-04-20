@@ -1,11 +1,9 @@
 @use '@styles/core/mixin.scss' as *;
 
-// 设置抽屉模态框样式
 .setting-modal {
   background: transparent !important;
 
   .el-drawer {
-    // 背景滤镜效果
     background: rgba($color: #fff, $alpha: 50%) !important;
     box-shadow: 0 0 30px rgb(0 0 0 / 10%) !important;
 
@@ -59,7 +57,6 @@
     }
   }
 
-  // 去除滚动条
   .el-drawer__body::-webkit-scrollbar {
     width: 0 !important;
   }
@@ -79,12 +76,10 @@
   }
 }
 
-// 去除火狐浏览器滚动条
 :deep(.el-drawer__body) {
   scrollbar-width: none;
 }
 
-// 移动端隐藏
 @media screen and (width <= 800px) {
   .mobile-hide {
     display: none !important;

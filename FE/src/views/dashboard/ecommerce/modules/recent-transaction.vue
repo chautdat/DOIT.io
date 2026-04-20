@@ -1,8 +1,8 @@
 <template>
   <ArtTimelineListCard
     :list="timelineData"
-    title="最近交易"
-    subtitle="今日订单动态"
+    title="Recent Transactions"
+    subtitle="Today's Order Activity"
     class="h-[27.8rem] mb-5 max-sm:mb-4"
   />
 </template>
@@ -16,42 +16,42 @@
   }
 
   /**
-   * 最近交易时间线数据
-   * 记录今日订单处理、商品上架、支付等关键活动
+   * Recent transaction timeline data
+   * Record today's order processing, product listing, payment and other key activities
    */
   const timelineData: TimelineItem[] = [
     {
-      time: '上午 09:30',
+      time: '09:30 AM',
       status: 'rgb(73, 190, 255)',
-      content: '收到订单 #38291 支付 ¥385.90'
+      content: 'Received payment $385.90 for Order #38291'
     },
     {
-      time: '上午 10:00',
+      time: '10:00 AM',
       status: 'rgb(54, 158, 255)',
-      content: '新商品上架',
+      content: 'New product listed',
       code: 'SKU-3467'
     },
     {
-      time: '上午 12:00',
+      time: '12:00 PM',
       status: 'rgb(103, 232, 207)',
-      content: '向供应商支付了 ¥6495.00'
+      content: 'Paid $6,495.00 to supplier'
     },
     {
-      time: '下午 14:30',
+      time: '02:30 PM',
       status: 'rgb(255, 193, 7)',
-      content: '促销活动开始',
+      content: 'Promotion campaign started',
       code: 'PROMO-2023'
     },
     {
-      time: '下午 15:45',
+      time: '03:45 PM',
       status: 'rgb(255, 105, 105)',
-      content: '订单取消提醒',
+      content: 'Order cancellation alert',
       code: 'ORD-9876'
     },
     {
-      time: '下午 17:00',
+      time: '05:00 PM',
       status: 'rgb(103, 232, 207)',
-      content: '完成日销售报表'
+      content: 'Completed daily sales report'
     }
   ]
 </script>

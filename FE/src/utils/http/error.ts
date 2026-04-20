@@ -1,22 +1,22 @@
 /**
- * HTTP 错误处理模块
+ * HTTP Error Handling Module
  *
- * 提供统一的 HTTP 请求错误处理机制
+ * Provides unified HTTP request error handling mechanism
  *
- * ## 主要功能
+ * ## Main Features
  *
- * - 自定义 HttpError 错误类，封装错误信息、状态码、时间戳等
- * - 错误拦截和转换，将 Axios 错误转换为标准的 HttpError
- * - 错误消息国际化处理，根据状态码返回对应的多语言错误提示
- * - 错误日志记录，便于问题追踪和调试
- * - 错误和成功消息的统一展示
- * - 类型守卫函数，用于判断错误类型
+ * - Custom HttpError class, encapsulating error info, status code, timestamp, etc.
+ * - Error interception and transformation, converting Axios errors to standard HttpError
+ * - Error message internationalization, returning multilingual error prompts based on status code
+ * - Error logging for issue tracking and debugging
+ * - Unified display of error and success messages
+ * - Type guard functions for determining error types
  *
- * ## 使用场景
+ * ## Use Cases
  *
- * - HTTP 请求拦截器中统一处理错误
- * - 业务代码中捕获和处理特定错误
- * - 错误日志收集和上报
+ * - Unified error handling in HTTP request interceptors
+ * - Catching and handling specific errors in business code
+ * - Error log collection and reporting
  *
  * @module utils/http/error
  * @author Art Design Pro Team
@@ -25,35 +25,35 @@ import { AxiosError } from 'axios'
 import { ApiStatus } from './status'
 import { $t } from '@/locales'
 
-// 错误响应接口
+// Error response interface
 export interface ErrorResponse {
-  /** 错误状态码 */
+  /** Error status code */
   code: number
-  /** 错误消息 */
+  /** Error message */
   msg: string
-  /** 错误附加数据 */
+  /** Error additional data */
   data?: unknown
 }
 
-// 错误日志数据接口
+// Error log data interface
 export interface ErrorLogData {
-  /** 错误状态码 */
+  /** Error status code */
   code: number
-  /** 错误消息 */
+  /** Error message */
   message: string
-  /** 错误附加数据 */
+  /** Error additional data */
   data?: unknown
-  /** 错误发生时间戳 */
+  /** Error timestamp */
   timestamp: string
-  /** 请求 URL */
+  /** Request URL */
   url?: string
-  /** 请求方法 */
+  /** Request method */
   method?: string
-  /** 错误堆栈信息 */
+  /** Error stack trace */
   stack?: string
 }
 
-// 自定义 HttpError 类
+// Custom HttpError class
 export class HttpError extends Error {
   public readonly code: number
   public readonly data?: unknown
@@ -93,9 +93,9 @@ export class HttpError extends Error {
 }
 
 /**
- * 获取错误消息
- * @param status 错误状态码
- * @returns 错误消息
+ * Get error message
+ * @param status Error status code
+ * @returns Error message
  */
 const getErrorMessage = (status: number): string => {
   const errorMap: Record<number, string> = {
@@ -114,12 +114,12 @@ const getErrorMessage = (status: number): string => {
 }
 
 /**
- * 处理错误
- * @param error 错误对象
- * @returns 错误对象
+ * Handle error
+ * @param error Error object
+ * @returns Error object
  */
 export function handleError(error: AxiosError<ErrorResponse>): never {
-  // 处理取消的请求
+  // Handle cancelled requests
   if (error.code === 'ERR_CANCELED') {
     console.warn('Request cancelled:', error.message)
     throw new HttpError($t('httpMsg.requestCancelled'), ApiStatus.error)
@@ -129,7 +129,7 @@ export function handleError(error: AxiosError<ErrorResponse>): never {
   const errorMessage = error.response?.data?.msg || error.message
   const requestConfig = error.config
 
-  // 处理网络错误
+  // Handle network errors
   if (!error.response) {
     throw new HttpError($t('httpMsg.networkError'), ApiStatus.error, {
       url: requestConfig?.url,
@@ -137,7 +137,7 @@ export function handleError(error: AxiosError<ErrorResponse>): never {
     })
   }
 
-  // 处理 HTTP 状态码错误
+  // Handle HTTP status code errors
   const message = statusCode
     ? getErrorMessage(statusCode)
     : errorMessage || $t('httpMsg.requestFailed')
@@ -149,22 +149,22 @@ export function handleError(error: AxiosError<ErrorResponse>): never {
 }
 
 /**
- * 显示错误消息
- * @param error 错误对象
- * @param showMessage 是否显示错误消息
+ * Show error message
+ * @param error Error object
+ * @param showMessage Whether to show error message
  */
 export function showError(error: HttpError, showMessage: boolean = true): void {
   if (showMessage) {
     ElMessage.error(error.message)
   }
-  // 记录错误日志
+  // Log error
   console.error('[HTTP Error]', error.toLogData())
 }
 
 /**
- * 显示成功消息
- * @param message 成功消息
- * @param showMessage 是否显示消息
+ * Show success message
+ * @param message Success message
+ * @param showMessage Whether to show message
  */
 export function showSuccess(message: string, showMessage: boolean = true): void {
   if (showMessage) {
@@ -173,9 +173,9 @@ export function showSuccess(message: string, showMessage: boolean = true): void 
 }
 
 /**
- * 判断是否为 HttpError 类型
- * @param error 错误对象
- * @returns 是否为 HttpError 类型
+ * Check if error is HttpError type
+ * @param error Error object
+ * @returns Whether it's HttpError type
  */
 export const isHttpError = (error: unknown): error is HttpError => {
   return error instanceof HttpError

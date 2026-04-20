@@ -1,51 +1,5 @@
-/**
- * 颜色处理工具模块
- *
- * 提供完整的颜色格式转换和处理功能
- *
- * ## 主要功能
- *
- * - Hex 与 RGB/RGBA 格式互转
- * - 颜色混合计算
- * - 颜色变浅/变深处理
- * - Element Plus 主题色自动生成
- * - 颜色格式验证
- * - CSS 变量读取
- * - 暗黑模式颜色适配
- *
- * ## 使用场景
- *
- * - 主题色动态切换
- * - Element Plus 组件主题定制
- * - 颜色渐变生成
- * - 明暗主题颜色计算
- * - 颜色格式标准化
- *
- * ## 核心功能
- *
- * - hexToRgba: Hex 转 RGBA（支持透明度）
- * - hexToRgb: Hex 转 RGB 数组
- * - rgbToHex: RGB 转 Hex
- * - colourBlend: 两种颜色混合
- * - getLightColor: 生成变浅的颜色
- * - getDarkColor: 生成变深的颜色
- * - handleElementThemeColor: 处理 Element Plus 主题色
- * - setElementThemeColor: 设置完整的主题色系统
- *
- * ## 支持格式
- *
- * - Hex: #FFF, #FFFFFF
- * - RGB: rgb(255, 255, 255)
- * - RGBA: rgba(255, 255, 255, 0.5)
- *
- * @module utils/ui/colors
- * @author Art Design Pro Team
- */
 import { useSettingStore } from '@/store/modules/setting'
 
-/**
- * 颜色转换结果接口
- */
 interface RgbaResult {
   red: number
   green: number
@@ -53,52 +7,27 @@ interface RgbaResult {
   rgba: string
 }
 
-/**
- * 获取CSS变量值（别名函数）
- * @param name CSS变量名
- * @returns CSS变量值
- */
 export function getCssVar(name: string): string {
   return getComputedStyle(document.documentElement).getPropertyValue(name)
 }
 
-/**
- * 验证hex颜色格式
- * @param hex hex颜色值
- * @returns 是否为有效的hex颜色
- */
 function isValidHexColor(hex: string): boolean {
   const cleanHex = hex.trim().replace(/^#/, '')
   return /^[0-9A-Fa-f]{3}$|^[0-9A-Fa-f]{6}$/.test(cleanHex)
 }
 
-/**
- * 验证RGB颜色值
- * @param r 红色值
- * @param g 绿色值
- * @param b 蓝色值
- * @returns 是否为有效的RGB值
- */
 function isValidRgbValue(r: number, g: number, b: number): boolean {
   const isValid = (value: number) => Number.isInteger(value) && value >= 0 && value <= 255
   return isValid(r) && isValid(g) && isValid(b)
 }
 
-/**
- * 将hex颜色转换为RGBA
- * @param hex hex颜色值 (支持 #FFF 或 #FFFFFF 格式)
- * @param opacity 透明度 (0-1)
- * @returns 包含RGB值和RGBA字符串的对象
- */
 export function hexToRgba(hex: string, opacity: number): RgbaResult {
   if (!isValidHexColor(hex)) {
     throw new Error('Invalid hex color format')
   }
 
-  // 移除可能存在的 # 前缀并转换为大写
   let cleanHex = hex.trim().replace(/^#/, '').toUpperCase()
 
-  // 如果是缩写形式（如 FFF），转换为完整形式
   if (cleanHex.length === 3) {
     cleanHex = cleanHex
       .split('')
@@ -106,33 +35,24 @@ export function hexToRgba(hex: string, opacity: number): RgbaResult {
       .join('')
   }
 
-  // 解析 RGB 值
   const [red, green, blue] = cleanHex.match(/\w\w/g)!.map((x) => parseInt(x, 16))
 
-  // 确保 opacity 在有效范围内
   const validOpacity = Math.max(0, Math.min(1, opacity))
 
-  // 构建 RGBA 字符串
   const rgba = `rgba(${red}, ${green}, ${blue}, ${validOpacity.toFixed(2)})`
 
   return { red, green, blue, rgba }
 }
 
-/**
- * 将hex颜色转换为RGB数组
- * @param hexColor hex颜色值
- * @returns RGB数组 [r, g, b]
- */
 export function hexToRgb(hexColor: string): number[] {
   if (!isValidHexColor(hexColor)) {
-    ElMessage.warning('输入错误的hex颜色值')
+    ElMessage.warning('Invalid hex color value')
     throw new Error('Invalid hex color format')
   }
 
   const cleanHex = hexColor.replace(/^#/, '')
   let hex = cleanHex
 
-  // 处理缩写形式
   if (hex.length === 3) {
     hex = hex
       .split('')
@@ -148,16 +68,9 @@ export function hexToRgb(hexColor: string): number[] {
   return hexPairs.map((hexPair) => parseInt(hexPair, 16))
 }
 
-/**
- * 将RGB颜色转换为hex
- * @param r 红色值 (0-255)
- * @param g 绿色值 (0-255)
- * @param b 蓝色值 (0-255)
- * @returns hex颜色值
- */
 export function rgbToHex(r: number, g: number, b: number): string {
   if (!isValidRgbValue(r, g, b)) {
-    ElMessage.warning('输入错误的RGB颜色值')
+    ElMessage.warning('Invalid RGB color value')
     throw new Error('Invalid RGB color values')
   }
 
@@ -169,13 +82,6 @@ export function rgbToHex(r: number, g: number, b: number): string {
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`
 }
 
-/**
- * 颜色混合
- * @param color1 第一个颜色
- * @param color2 第二个颜色
- * @param ratio 混合比例 (0-1)
- * @returns 混合后的颜色
- */
 export function colourBlend(color1: string, color2: string, ratio: number): string {
   const validRatio = Math.max(0, Math.min(1, Number(ratio)))
 
@@ -190,16 +96,9 @@ export function colourBlend(color1: string, color2: string, ratio: number): stri
   return rgbToHex(blendedRgb[0], blendedRgb[1], blendedRgb[2])
 }
 
-/**
- * 获取变浅的颜色
- * @param color 原始颜色
- * @param level 变浅程度 (0-1)
- * @param isDark 是否为暗色主题
- * @returns 变浅后的颜色
- */
 export function getLightColor(color: string, level: number, isDark: boolean = false): string {
   if (!isValidHexColor(color)) {
-    ElMessage.warning('输入错误的hex颜色值')
+    ElMessage.warning('Invalid hex color value')
     throw new Error('Invalid hex color format')
   }
 
@@ -213,15 +112,9 @@ export function getLightColor(color: string, level: number, isDark: boolean = fa
   return rgbToHex(lightRgb[0], lightRgb[1], lightRgb[2])
 }
 
-/**
- * 获取变深的颜色
- * @param color 原始颜色
- * @param level 变深程度 (0-1)
- * @returns 变深后的颜色
- */
 export function getDarkColor(color: string, level: number): string {
   if (!isValidHexColor(color)) {
-    ElMessage.warning('输入错误的hex颜色值')
+    ElMessage.warning('Invalid hex color value')
     throw new Error('Invalid hex color format')
   }
 
@@ -231,11 +124,6 @@ export function getDarkColor(color: string, level: number): string {
   return rgbToHex(darkRgb[0], darkRgb[1], darkRgb[2])
 }
 
-/**
- * 处理 Element Plus 主题颜色
- * @param theme 主题颜色
- * @param isDark 是否为暗色主题
- */
 export function handleElementThemeColor(theme: string, isDark: boolean = false): void {
   document.documentElement.style.setProperty('--el-color-primary', theme)
 
@@ -254,10 +142,6 @@ export function handleElementThemeColor(theme: string, isDark: boolean = false):
   }
 }
 
-/**
- * 设置 Element Plus 主题颜色
- * @param color 主题颜色
- */
 export function setElementThemeColor(color: string): void {
   const mixColor = '#ffffff'
   const elStyle = document.documentElement.style
@@ -265,7 +149,6 @@ export function setElementThemeColor(color: string): void {
   elStyle.setProperty('--el-color-primary', color)
   handleElementThemeColor(color, useSettingStore().isDark)
 
-  // 生成更淡一点的颜色
   for (let i = 1; i < 16; i++) {
     const itemColor = colourBlend(color, mixColor, i / 16)
     elStyle.setProperty(`--el-color-primary-custom-${i}`, itemColor)

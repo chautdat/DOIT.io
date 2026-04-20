@@ -1,4 +1,3 @@
-<!-- 用户菜单 -->
 <template>
   <ElPopover
     ref="userMenuPopover"
@@ -76,38 +75,22 @@
   const { getUserInfo: userInfo } = storeToRefs(userStore)
   const userMenuPopover = ref()
 
-  /**
-   * 页面跳转
-   * @param {string} path - 目标路径
-   */
   const goPage = (path: string): void => {
     router.push(path)
   }
 
-  /**
-   * 打开文档页面
-   */
   const toDocs = (): void => {
     window.open(WEB_LINKS.DOCS)
   }
 
-  /**
-   * 打开 GitHub 页面
-   */
   const toGithub = (): void => {
     window.open(WEB_LINKS.GITHUB)
   }
 
-  /**
-   * 打开锁屏功能
-   */
   const lockScreen = (): void => {
     mittBus.emit('openLockScreen')
   }
 
-  /**
-   * 用户登出确认
-   */
   const loginOut = (): void => {
     closeUserMenu()
     setTimeout(() => {
@@ -121,9 +104,6 @@
     }, 200)
   }
 
-  /**
-   * 关闭用户菜单弹出层
-   */
   const closeUserMenu = (): void => {
     setTimeout(() => {
       userMenuPopover.value.hide()

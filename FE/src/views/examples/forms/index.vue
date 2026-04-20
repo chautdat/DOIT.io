@@ -1,7 +1,6 @@
-<!-- 表单示例 -->
 <template>
   <div class="pb-5">
-    <h2 class="mb-1 text-lg font-medium">表单组件示例</h2>
+    <h2 class="mb-1 text-lg font-medium">Form component demo</h2>
 
     <ElCard class="art-card-xs">
       <ArtForm
@@ -18,7 +17,7 @@
         @submit="handleSubmit"
       >
         <template #slots>
-          <ElInput v-model="formData.slots" placeholder="我是插槽渲染出来的组件" />
+          <ElInput v-model="formData.slots" placeholder="I am a slot-rendered component" />
         </template>
       </ArtForm>
     </ElCard>
@@ -28,32 +27,31 @@
     </div>
 
     <div class="mt-3.5">
-      <h3 class="mb-2 text-base font-medium">动态表单操作</h3>
+      <h3 class="mb-2 text-base font-medium">Dynamic form actions</h3>
       <ElSpace wrap class="mb-3">
-        <ElButton @click="getLevelOptions"> 获取用户等级数据 </ElButton>
-        <ElButton @click="addFormItem"> 新增表单项 </ElButton>
-        <ElButton @click="updateFormItem"> 修改表单项 </ElButton>
-        <ElButton @click="deleteFormItem"> 删除表单项 </ElButton>
-        <ElButton @click="batchAddFormItems"> 批量新增 </ElButton>
-        <ElButton @click="resetDynamicItems"> 重置动态项 </ElButton>
+        <ElButton @click="getLevelOptions"> Fetch user level data </ElButton>
+        <ElButton @click="addFormItem"> Add form item </ElButton>
+        <ElButton @click="updateFormItem"> Update form item </ElButton>
+        <ElButton @click="deleteFormItem"> Delete form item </ElButton>
+        <ElButton @click="batchAddFormItems"> Batch add </ElButton>
+        <ElButton @click="resetDynamicItems"> Reset dynamic items </ElButton>
       </ElSpace>
 
-      <h3 class="mb-2 text-base font-medium">其他操作</h3>
+      <h3 class="mb-2 text-base font-medium">Other actions</h3>
       <ElSpace wrap>
-        <ElButton @click="validateForm"> 校验表单 </ElButton>
-        <ElButton @click="resetForm"> 重置 </ElButton>
-        <ElButton v-if="showUserName" @click="updateUserName"> 修改用户名 </ElButton>
-        <ElButton v-if="showUserName" @click="deleteUserName"> 删除用户名 </ElButton>
-        <ElButton @click="labelWidth = 120"> 修改 label 宽度 </ElButton>
-        <ElButton @click="span = 8"> 设置一行显示的组件数 </ElButton>
-        <ElButton @click="gutter = 50"> 修改 gutter </ElButton>
-        <ElButton @click="labelPosition = 'left'"> label 左对齐 </ElButton>
-        <ElButton @click="labelPosition = 'right'"> label 右对齐 </ElButton>
-        <ElButton @click="labelPosition = 'top'"> label 顶部对齐 </ElButton>
+        <ElButton @click="validateForm"> Validate form </ElButton>
+        <ElButton @click="resetForm"> Reset </ElButton>
+        <ElButton v-if="showUserName" @click="updateUserName"> Change username </ElButton>
+        <ElButton v-if="showUserName" @click="deleteUserName"> Delete username </ElButton>
+        <ElButton @click="labelWidth = 120"> Change label width </ElButton>
+        <ElButton @click="span = 8"> Set components per row </ElButton>
+        <ElButton @click="gutter = 50"> Change gutter </ElButton>
+        <ElButton @click="labelPosition = 'left'"> Label left aligned </ElButton>
+        <ElButton @click="labelPosition = 'right'"> Label right aligned </ElButton>
+        <ElButton @click="labelPosition = 'top'"> Label top aligned </ElButton>
       </ElSpace>
     </div>
 
-    <!-- 图片预览对话框 -->
     <ElDialog v-model="dialogVisible">
       <img w-full :src="dialogImageUrl" alt="Preview Image" class="w-full h-auto" />
     </ElDialog>
@@ -61,8 +59,8 @@
 </template>
 
 <script setup lang="ts">
-  import ArtWangEditor from '@/components/core/forms/art-wang-editor/index.vue'
-  import { SearchFormItem } from '@/components/core/forms/art-search-bar/index.vue'
+  import ArtWangEditor from '@/components/core/forms/ArtWangEditor.vue'
+  import { SearchFormItem } from '@/components/core/forms/ArtSearchBar.vue'
   import { ElMessage, ElUpload, ElButton, ElIcon, ElInput } from 'element-plus'
   import type { UploadFile, UploadFiles, UploadUserFile } from 'element-plus'
   import { Plus } from '@element-plus/icons-vue'
@@ -107,9 +105,6 @@
   const dialogVisible = ref(false)
   const dialogImageUrl = ref('')
 
-  /**
-   * 表单数据
-   */
   const formData = ref<FormData>({
     name: undefined,
     phone: undefined,
@@ -130,11 +125,8 @@
     richTextContent: ''
   })
 
-  /**
-   * 表单校验规则
-   */
   const formRules = {
-    name: [{ required: true, message: '请输入用户名', trigger: 'blur' }]
+    name: [{ required: true, message: 'Please enter a username', trigger: 'blur' }]
   }
 
   const labelWidth = ref(100)
@@ -144,37 +136,24 @@
 
   const levelOptions = ref<OptionItem[]>([])
 
-  /**
-   * 用户等级选项
-   */
   const LEVEL_OPTIONS: OptionItem[] = [
-    { label: '普通用户', value: 'normal' },
-    { label: 'VIP用户', value: 'vip' },
-    { label: '高级VIP', value: 'svip' },
-    { label: '企业用户', value: 'enterprise', disabled: true }
+    { label: 'Standard User', value: 'normal' },
+    { label: 'VIP User', value: 'vip' },
+    { label: 'Premium VIP', value: 'svip' },
+    { label: 'Enterprise User', value: 'enterprise', disabled: true }
   ]
 
-  /**
-   * 性别选项
-   */
   const GENDER_OPTIONS: OptionItem[] = [
-    { label: '男', value: '1' },
-    { label: '女', value: '2' }
+    { label: 'Male', value: '1' },
+    { label: 'Female', value: '2' }
   ]
 
-  /**
-   * 日期快捷选项
-   */
   const DATE_SHORTCUTS = [
-    { text: '今日', value: new Date() },
-    { text: '昨日', value: () => new Date(Date.now() - 86400000) },
-    { text: '一周前', value: () => new Date(Date.now() - 604800000) }
+    { text: 'Today', value: new Date() },
+    { text: 'Yesterday', value: () => new Date(Date.now() - 86400000) },
+    { text: 'One week ago', value: () => new Date(Date.now() - 604800000) }
   ]
 
-  /**
-   * 模拟接口获取用户等级数据
-   * @returns 用户等级选项列表
-   */
   const fetchLevelOptions = (): Promise<OptionItem[]> => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -183,19 +162,13 @@
     })
   }
 
-  /**
-   * 获取用户等级数据
-   */
   const getLevelOptions = async (): Promise<void> => {
     levelOptions.value = await fetchLevelOptions()
     if (levelOptions.value.length) {
-      ElMessage.success('成功获取到数据')
+      ElMessage.success('Data fetched successfully')
     }
   }
 
-  /**
-   * 表单项配置类型
-   */
   interface FormItemConfig {
     label: string
     key: string
@@ -205,55 +178,51 @@
     [key: string]: any
   }
 
-  /**
-   * 创建表单项的工厂函数
-   */
   const createFormItem = (config: FormItemConfig) => config
 
-  // 基础表单项配置
   const baseFormItems = {
     username: createFormItem({
-      label: '用户名',
+      label: 'Username',
       key: 'name',
       type: 'input',
-      placeholder: '请输入用户名',
+      placeholder: 'Please enter a username',
       clearable: true
     }),
     phone: createFormItem({
-      label: '手机号',
+      label: 'Phone',
       key: 'phone',
       type: 'input',
-      props: { placeholder: '请输入手机号', maxlength: '11' }
+      props: { placeholder: 'Please enter a phone number', maxlength: '11' }
     }),
     level: createFormItem({
-      label: '用户等级',
+      label: 'User level',
       key: 'level',
       type: 'select',
       props: {
-        placeholder: '请选择等级',
+        placeholder: 'Please select a level',
         options: LEVEL_OPTIONS
       }
     }),
     address: createFormItem({
-      label: '地址',
+      label: 'Address',
       key: 'address',
       type: 'input',
-      placeholder: '请输入地址'
+      placeholder: 'Please enter an address'
     }),
     date: createFormItem({
-      label: '日期',
+      label: 'Date',
       key: 'date',
       type: 'datetime',
       props: {
         style: { width: '100%' },
-        placeholder: '请选择日期',
+        placeholder: 'Please select a date',
         type: 'date',
         valueFormat: 'YYYY-MM-DD',
         shortcuts: DATE_SHORTCUTS
       }
     }),
     gender: createFormItem({
-      label: '性别',
+      label: 'Gender',
       key: 'userGender',
       type: 'radiogroup',
       props: {
@@ -263,180 +232,167 @@
   }
 
   const userItem = ref<SearchFormItem>({
-    label: '用户名',
+    label: 'Username',
     key: 'name',
     type: 'input',
     props: {
-      placeholder: '请输入用户名',
+      placeholder: 'Please enter a username',
       clearable: true
     }
   })
 
-  // 控制用户名字段是否显示
   const showUserName = ref(true)
 
-  // 动态表单项列表
   const dynamicFormItems = ref<SearchFormItem[]>([])
 
-  // 动态表单项计数器（用于生成唯一 key）
   let dynamicItemCounter = 0
 
-  // 级联选择器数据
   const cascaderOptions = [
     {
       value: 'guide',
-      label: '指南',
+      label: 'Guide',
       children: [
         {
           value: 'disciplines',
-          label: '规范',
+          label: 'Standards',
           children: [
-            { value: 'consistency', label: '一致性' },
-            { value: 'feedback', label: '反馈' },
-            { value: 'efficiency', label: '效率' },
-            { value: 'controllability', label: '可控性' }
+            { value: 'consistency', label: 'Consistency' },
+            { value: 'feedback', label: 'Feedback' },
+            { value: 'efficiency', label: 'Efficiency' },
+            { value: 'controllability', label: 'Controllability' }
           ]
         }
       ]
     },
     {
       value: 'components',
-      label: '组件',
+      label: 'component',
       children: [
         {
           value: 'basic',
-          label: '基础组件',
+          label: 'Basic components',
           children: [
-            { value: 'button', label: '按钮' },
-            { value: 'form', label: '表单' },
-            { value: 'table', label: '表格' }
+            { value: 'button', label: 'Button' },
+            { value: 'form', label: 'Form' },
+            { value: 'table', label: 'Table' }
           ]
         }
       ]
     }
   ]
 
-  // 树选择器数据
   const treeSelectData = [
     {
       value: '1',
-      label: '一级 1',
+      label: 'Level 1',
       children: [
         {
           value: '1-1',
-          label: '二级 1-1',
-          children: [{ value: '1-1-1', label: '三级 1-1-1' }]
+          label: 'Level 1-1',
+          children: [{ value: '1-1-1', label: 'Level 1-1-1' }]
         }
       ]
     },
     {
       value: '2',
-      label: '一级 2',
+      label: 'Level 2',
       children: [
         {
           value: '2-1',
-          label: '二级 2-1',
-          children: [{ value: '2-1-1', label: '三级 2-1-1' }]
+          label: 'Level 2-1',
+          children: [{ value: '2-1-1', label: 'Level 2-1-1' }]
         },
         {
           value: '2-2',
-          label: '二级 2-2',
-          children: [{ value: '2-2-1', label: '三级 2-2-1' }]
+          label: 'Level 2-2',
+          children: [{ value: '2-2-1', label: 'Level 2-2-1' }]
         }
       ]
     }
   ]
 
-  // 复选框选项
   const checkboxOptions = [
-    { label: '选项1', value: 'option1' },
-    { label: '选项2', value: 'option2' },
-    { label: '选项3', value: 'option3' },
-    { label: '选项4', value: 'option4' },
-    { label: '选项5（disabled）', value: 'option5', disabled: true }
+    { label: 'Option 1', value: 'option1' },
+    { label: 'Option 2', value: 'option2' },
+    { label: 'Option 3', value: 'option3' },
+    { label: 'Option 4', value: 'option4' },
+    { label: 'Option 5 (disabled)', value: 'option5', disabled: true }
   ]
 
-  // 表单配置
   const formItems = computed(() => [
     ...(showUserName.value ? [userItem.value] : []),
-    // 动态表单项
     ...dynamicFormItems.value,
     {
       ...baseFormItems.phone
     },
     {
       ...baseFormItems.level,
-      props: { placeholder: '请选择等级', options: levelOptions.value }
+      props: { placeholder: 'Please select a level', options: levelOptions.value }
     },
     baseFormItems.address,
     baseFormItems.date,
-    // 日期时间
     {
-      label: '日期时间',
+      label: 'Date and time',
       key: 'datetime',
       type: 'datetime',
       props: {
         style: { width: '100%' },
-        placeholder: '请选择日期时间',
+        placeholder: 'Please select a date and time',
         type: 'datetime',
         valueFormat: 'YYYY-MM-DD HH:mm:ss'
       }
     },
     {
-      label: '日期范围',
+      label: 'Date range',
       key: 'daterange',
       type: 'datetime',
       props: {
         type: 'daterange',
         valueFormat: 'YYYY-MM-DD',
-        rangeSeparator: '至',
-        startPlaceholder: '开始日期',
-        endPlaceholder: '结束日期'
+        rangeSeparator: 'to',
+        startPlaceholder: 'Start date',
+        endPlaceholder: 'End date'
       }
     },
-    // 日期时间范围
     {
-      label: '日期时间范围',
+      label: 'Date and time range',
       key: 'datetimerange',
       type: 'datetime',
       props: {
         type: 'datetimerange',
         valueFormat: 'YYYY-MM-DD HH:mm:ss',
-        rangeSeparator: '至',
-        startPlaceholder: '开始日期时间',
-        endPlaceholder: '结束日期时间'
+        rangeSeparator: 'to',
+        startPlaceholder: 'Start date',
+        endPlaceholder: 'End date'
       }
     },
-    // 时间选择
     {
-      label: '时间选择',
+      label: 'Time selection',
       key: 'timeselect',
       type: 'timeselect',
       props: {
-        placeholder: '请选择时间',
+        placeholder: 'Please select a time',
         type: 'time',
         valueFormat: 'HH:mm:ss'
       }
     },
-    // 时间选择器
     {
-      label: '时间选择器',
+      label: 'Time picker',
       key: 'timepicker',
       type: 'timepicker',
       props: {
         style: { width: '100%' },
-        placeholder: '请选择时间',
+        placeholder: 'Please select a time',
         type: 'time',
         valueFormat: 'HH:mm:ss'
       }
     },
-    // 级联选择
     {
-      label: '级联选择',
+      label: 'Cascader',
       key: 'cascader',
       type: 'cascader',
       props: {
-        placeholder: '请选择级联选择器',
+        placeholder: 'Please select a cascader',
         clearable: true,
         style: { width: '100%' },
         collapseTags: true,
@@ -445,9 +401,8 @@
         options: cascaderOptions
       }
     },
-    // 树型选择器
     {
-      label: '树型选择器',
+      label: 'Tree selector',
       key: 'treeSelect',
       type: 'treeselect',
       props: {
@@ -457,14 +412,14 @@
         data: treeSelectData
       }
     },
-    { label: '插槽', key: 'slots', type: 'input', placeholder: '请输入邮箱' },
+    { label: 'Slot', key: 'slots', type: 'input', placeholder: 'Please enter an email' },
     {
-      label: '渲染组件',
+      label: 'Rendered component',
       key: 'iconSelector',
-      render: () => h(ElInput, { placeholder: '渲染自定义 input' })
+      render: () => h(ElInput, { placeholder: 'Render custom input' })
     },
     {
-      label: '自定义组件',
+      label: 'Custom component',
       key: 'customComponent',
       render: () =>
         h(
@@ -473,11 +428,11 @@
             style:
               'color: var(--art-gray-600); border: 1px solid var(--default-border-dashed); padding: 0px 15px; border-radius: 6px'
           },
-          '我是一个自定义组件'
+          'I am a custom component'
         )
     },
     {
-      label: '复选框',
+      label: 'Checkbox',
       key: 'checkboxgroup',
       type: 'checkboxgroup',
       span: 12,
@@ -490,78 +445,77 @@
     },
 
     {
-      label: '是否启用',
+      label: 'Enabled',
       key: 'isEnabled',
       type: 'switch',
       props: {
-        placeholder: '请选择是否启用'
+        placeholder: 'Please select whether to enable'
       }
     },
     {
-      label: '年龄',
+      label: 'age',
       key: 'age',
       type: 'number',
       slots: {
-        suffix: () => h('span', { style: 'color: #909399; font-size: 12px' }, '岁')
+        suffix: () => h('span', { style: 'color: #909399; font-size: 12px' }, 'years')
       }
     },
     {
-      label: '网站地址',
+      label: 'Website address',
       key: 'website',
       type: 'input',
-      placeholder: '请输入网站名称',
+      placeholder: 'Please enter a website name',
       slots: {
         prepend: () => h('span', 'https://'),
         append: () => h('span', '.com')
       }
     },
     {
-      label: '事件演示',
+      label: 'Event demo',
       key: 'event',
       type: 'input',
       props: {
-        placeholder: '输入内容触发事件，控制台查看',
+        placeholder: 'Type to trigger events, then check the console',
         clearable: true,
         prefixIcon: 'Search',
         // prefix: () => h('span', {}, '123'),
-        // 事件必须以 on 开头，然后驼峰式命名拼接 ElementPlus 事件名
         onInput(val: string) {
-          console.log('输入事件', val)
+          console.log('Input event', val)
         },
         onClear() {
-          console.log('清空事件')
+          console.log('Clear event')
         }
       }
     },
 
     {
-      label: '多行输入',
+      label: 'Multiline input',
       key: 'remark',
       type: 'input',
       props: {
-        placeholder: '请输入备注',
+        placeholder: 'Please enter notes',
         type: 'textarea',
         rows: 2
       }
     },
     {
-      label: '评分',
+      label: 'Rating',
       key: 'rate',
       type: 'rate',
       props: {
         size: 'large',
-        placeholder: '请选择评分'
+        placeholder: 'Please selectRating'
       }
     },
     {
-      label: '禁用',
+      label: 'Disabled',
       key: 'diaabled',
       type: 'input',
-      placeholder: '我被禁用了',
-      disabled: true // 禁用
+      placeholder: 'I am disabled',
+      disabled: true
     },
     {
-      label: '滑块',
+      label: 'Slider',
       key: 'slider',
       type: 'slider'
       // props: {
@@ -571,29 +525,27 @@
     },
 
     {
-      label: '隐藏',
+      label: 'Hidden',
       key: 'email',
       type: 'input',
       hidden: true
     },
-    // 根据条件隐藏
     {
-      label: '根据条件隐藏',
+      label: 'Conditionally hidden',
       key: 'systemName',
       type: 'input',
       hidden: formData.value.systemName === 'mac',
-      placeholder: '输入 mac 组件隐藏'
+      placeholder: 'enter a value to hide the component on Mac'
     },
     {
-      label: '栅格布局',
+      label: 'Grid layout',
       key: 'sg1',
       type: 'input',
       span: 12,
-      placeholder: '示例：栅格 span=12 占容器一半宽度，span=24 占满容器'
+      placeholder: 'Example: `span=12` takes half the container width, and `span=24` spans the full width.'
     },
-    // 文件上传示例 - 使用 render 函数渲染
     {
-      label: '文件上传',
+      label: 'File upload',
       key: 'multipleFiles',
       span: 12,
       render: () =>
@@ -607,31 +559,30 @@
             showFileList: true,
             // accept: '.pdf,.doc,.docx,.txt',
             beforeUpload: (file: File) => {
-              console.log('准备上传文件:', file.name)
+              console.log('Preparing to upload file:', file.name)
               return true
             },
             onChange: (file: UploadFile, fileList: UploadFiles) => {
-              console.log('多文件变化:', file, fileList)
+              console.log('Multiple files changed:', file, fileList)
               formData.value.multipleFiles = fileList as UploadUserFile[]
             },
             onRemove: (file: UploadFile, fileList: UploadFiles) => {
-              console.log('删除文件:', file, fileList)
+              console.log('Delete file:', file, fileList)
               formData.value.multipleFiles = fileList as UploadUserFile[]
             },
             onExceed: (files: File[], fileList: UploadUserFile[]) => {
               ElMessage.warning(
-                `最多只能上传 5 个文件，当前选择了 ${files.length + fileList.length} 个文件`
+                `You can upload at most 5 files. ${files.length + fileList.length} files are currently selected.`
               )
             }
           },
           {
-            default: () => [h(ElButton, { type: 'primary' }, () => '点击上传')]
+            default: () => [h(ElButton, { type: 'primary' }, () => 'Upload')]
           }
         )
     },
-    // 图片上传示例 - 使用 render 函数渲染
     {
-      label: '图片上传',
+      label: 'Image upload',
       key: 'imageUpload',
       span: 12,
       render: () =>
@@ -648,21 +599,21 @@
               const isImage = file.type.startsWith('image/')
               const isLt2M = file.size / 1024 / 1024 < 2
               if (!isImage) {
-                ElMessage.error('只能上传图片文件!')
+                ElMessage.error('Only image files can be uploaded!')
                 return false
               }
               if (!isLt2M) {
-                ElMessage.error('图片大小不能超过 2MB!')
+                ElMessage.error('Image size cannot exceed 2 MB!')
                 return false
               }
               return true
             },
             onChange: (file: UploadFile, fileList: UploadFiles) => {
-              console.log('图片变化:', file, fileList)
+              console.log('Image changed:', file, fileList)
               formData.value.imageUpload = fileList as UploadUserFile[]
             },
             onRemove: (file: UploadFile, fileList: UploadFiles) => {
-              console.log('删除图片:', file, fileList)
+              console.log('Delete image:', file, fileList)
               formData.value.imageUpload = fileList as UploadUserFile[]
             },
             onPreview: (file: UploadFile) => {
@@ -675,19 +626,18 @@
           }
         )
     },
-    // 富文本编辑器示例 - 使用 render 函数渲染
     {
-      label: '富文本编辑器',
+      label: 'Rich text editor',
       key: 'richTextContent',
       span: 24,
       render: () =>
         h(ArtWangEditor, {
           modelValue: formData.value.richTextContent,
           height: '300px',
-          placeholder: '请输入富文本内容...',
+          placeholder: 'Please enter rich text content...',
           'onUpdate:modelValue': (value: string) => {
             formData.value.richTextContent = value
-            console.log('富文本内容变化:', value)
+            console.log('Rich text content changed:', value)
           },
           toolbarKeys: [
             'headerSelect',
@@ -708,153 +658,121 @@
     }
   ])
 
-  /**
-   * 处理表单重置事件
-   */
   const handleReset = (): void => {
-    console.log('重置表单')
+    console.log('ResetForm')
     emit('reset')
   }
 
-  /**
-   * 处理表单提交事件
-   */
   const handleSubmit = async (params: Record<string, any>): Promise<void> => {
     await formRef.value.validate()
     emit('search', params)
-    console.log('表单数据', params)
+    console.log('FormData', params)
   }
 
-  /**
-   * 校验表单
-   */
   const validateForm = () => formRef.value.validate()
 
-  /**
-   * 重置表单
-   */
   const resetForm = () => formRef.value.reset()
 
-  /**
-   * 更新用户名字段配置
-   */
   const updateUserName = (): void => {
     userItem.value = {
       ...userItem.value,
-      label: '昵称',
+      label: 'Nickname',
       props: {
-        placeholder: '请输入昵称'
+        placeholder: 'Please enter a nickname'
       }
     }
   }
 
-  /**
-   * 删除用户名字段
-   */
   const deleteUserName = (): void => {
     showUserName.value = false
     formData.value.name = undefined
   }
 
-  /**
-   * 新增表单项
-   */
   const addFormItem = (): void => {
     dynamicItemCounter++
     const newItem: SearchFormItem = {
-      label: `动态字段${dynamicItemCounter}`,
+      label: `Dynamic field${dynamicItemCounter}`,
       key: `dynamic_${dynamicItemCounter}`,
       type: 'input',
       props: {
-        placeholder: `请输入动态字段${dynamicItemCounter}`,
+        placeholder: `Please enterDynamic field${dynamicItemCounter}`,
         clearable: true
       }
     }
     dynamicFormItems.value.push(newItem)
-    ElMessage.success(`已新增表单项：${newItem.label}`)
+    ElMessage.success(`Added form item: ${newItem.label}`)
   }
 
-  /**
-   * 修改表单项（修改最后一个动态表单项）
-   */
   const updateFormItem = (): void => {
     if (dynamicFormItems.value.length === 0) {
-      ElMessage.warning('没有可修改的动态表单项，请先新增')
+      ElMessage.warning('No dynamic form items can be updated. Add one first.')
       return
     }
 
     const lastIndex = dynamicFormItems.value.length - 1
     const lastItem = dynamicFormItems.value[lastIndex]
 
-    // 修改最后一个表单项的配置
     dynamicFormItems.value[lastIndex] = {
       ...lastItem,
-      label: `已修改`,
+      label: `Updated`,
       type: 'select',
       props: {
-        placeholder: '修改为下拉选择',
+        placeholder: 'Change to a dropdown select',
         options: [
-          { label: '选项A', value: 'a' },
-          { label: '选项B', value: 'b' },
-          { label: '选项C', value: 'c' }
+          { label: 'Option A', value: 'a' },
+          { label: 'Option B', value: 'b' },
+          { label: 'Option C', value: 'c' }
         ]
       }
     }
 
-    ElMessage.success(`已修改表单项：${lastItem.label}`)
+    ElMessage.success(`Updated form item: ${lastItem.label}`)
   }
 
-  /**
-   * 删除表单项（删除最后一个动态表单项）
-   */
   const deleteFormItem = (): void => {
     if (dynamicFormItems.value.length === 0) {
-      ElMessage.warning('没有可删除的动态表单项')
+      ElMessage.warning('No dynamic form items can be deleted.')
       return
     }
 
     const deletedItem = dynamicFormItems.value.pop()
     if (deletedItem) {
-      // 清除对应的表单数据
       delete formData.value[deletedItem.key as keyof FormData]
-      ElMessage.success(`已删除表单项：${deletedItem.label}`)
+      ElMessage.success(`Deleted form item: ${deletedItem.label}`)
     }
   }
 
-  /**
-   * 批量新增表单项
-   */
   const batchAddFormItems = (): void => {
     const batchItems: SearchFormItem[] = [
       {
-        label: '公司名称',
+        label: 'Company name',
         key: `company_${++dynamicItemCounter}`,
         type: 'input',
         props: {
-          placeholder: '请输入公司名称',
+          placeholder: 'Please enter a company name',
           clearable: true
         }
       },
       {
-        label: '部门',
+        label: 'Department',
         key: `department_${++dynamicItemCounter}`,
         type: 'select',
         props: {
-          placeholder: '请选择部门',
+          placeholder: 'Please select a department',
           options: [
-            { label: '技术部', value: 'tech' },
-            { label: '产品部', value: 'product' },
-            { label: '运营部', value: 'operation' }
+            { label: 'Engineering', value: 'tech' },
+            { label: 'Product', value: 'product' },
+            { label: 'Operations', value: 'operation' }
           ]
         }
       },
       {
-        label: '入职日期',
+        label: 'Hire date',
         key: `joinDate_${++dynamicItemCounter}`,
         type: 'datetime',
         props: {
           style: { width: '100%' },
-          placeholder: '请选择入职日期',
+          placeholder: 'Please select a hire date',
           type: 'date',
           valueFormat: 'YYYY-MM-DD'
         }
@@ -862,25 +780,21 @@
     ]
 
     dynamicFormItems.value.push(...batchItems)
-    ElMessage.success(`已批量新增 ${batchItems.length} 个表单项`)
+    ElMessage.success(`Batch added ${batchItems.length} form items`)
   }
 
-  /**
-   * 重置动态表单项
-   */
   const resetDynamicItems = (): void => {
     if (dynamicFormItems.value.length === 0) {
-      ElMessage.info('当前没有动态表单项')
+      ElMessage.info('There are no active form items')
       return
     }
 
-    // 清除所有动态表单项的数据
     dynamicFormItems.value.forEach((item) => {
       delete formData.value[item.key as keyof FormData]
     })
 
     dynamicFormItems.value = []
     dynamicItemCounter = 0
-    ElMessage.success('已重置所有动态表单项')
+    ElMessage.success('Reset all active form items')
   }
 </script>

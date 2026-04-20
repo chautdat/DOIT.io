@@ -1,9 +1,9 @@
 <template>
   <div class="art-card p-5 flex-b mb-5 max-sm:mb-4">
     <div>
-      <h2 class="text-2xl font-medium">关于项目</h2>
-      <p class="text-g-700 mt-1">{{ systemName }} 是一款兼具设计美学与高效开发的后台系统</p>
-      <p class="text-g-700 mt-1">使用了 Vue3、TypeScript、Vite、Element Plus 等前沿技术</p>
+      <h2 class="text-2xl font-medium">About the project</h2>
+      <p class="text-g-700 mt-1">{{ systemName }} is an admin system that combines visual design and efficient development</p>
+      <p class="text-g-700 mt-1">Built with Vue 3, TypeScript, Vite, Element Plus, and other modern tools</p>
 
       <div class="flex flex-wrap gap-3.5 max-w-150 mt-9">
         <div
@@ -28,16 +28,12 @@
   const systemName = AppConfig.systemInfo.name
 
   const linkList = [
-    { label: '项目官网', url: WEB_LINKS.DOCS },
-    { label: '文档', url: WEB_LINKS.INTRODUCE },
+    { label: 'Official site', url: WEB_LINKS.DOCS },
+    { label: 'Docs', url: WEB_LINKS.INTRODUCE },
     { label: 'Github', url: WEB_LINKS.GITHUB_HOME },
-    { label: '哔哩哔哩', url: WEB_LINKS.BILIBILI }
+    { label: 'Bilibili', url: WEB_LINKS.BILIBILI }
   ]
 
-  /**
-   * 在新标签页中打开指定 URL
-   * @param url 要打开的网页地址
-   */
   const goPage = (url: string): void => {
     window.open(url, '_blank', 'noopener,noreferrer')
   }

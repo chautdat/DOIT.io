@@ -1,4 +1,3 @@
-<!-- 服务器管理页面 -->
 <template>
   <div class="page-content mb-5">
     <div class="w-full">
@@ -18,14 +17,14 @@
             <div class="mx-10 max-lg:m-0 max-lg:mr-5 max-md:m-0">
               <img
                 src="@imgs/safeguard/server.png"
-                alt="服务器"
+                alt="Server"
                 class="block w-47 max-md:w-37 max-md:mx-auto"
               />
               <div class="flex justify-center -mt-2.5 max-md:mt-2.5">
                 <ElButtonGroup>
-                  <ElButton type="primary" size="default">开机</ElButton>
-                  <ElButton type="danger" size="default">关机</ElButton>
-                  <ElButton type="warning" size="default">重启</ElButton>
+                  <ElButton type="primary" size="default">Power on</ElButton>
+                  <ElButton type="danger" size="default">Shut down</ElButton>
+                  <ElButton type="warning" size="default">Restart</ElButton>
                 </ElButtonGroup>
               </div>
             </div>
@@ -81,15 +80,11 @@
     disk: number
   }
 
-  const UPDATE_INTERVAL = 3000 // 更新间隔时间（毫秒）
+  const UPDATE_INTERVAL = 3000
 
-  /**
-   * 服务器列表数据
-   * 包含各服务器的基本信息和资源使用情况
-   */
   const serverList = reactive<ServerInfo[]>([
     {
-      name: '开发服务器',
+      name: 'Development server',
       ip: '192.168.1.100',
       cup: 85,
       memory: 65,
@@ -97,7 +92,7 @@
       disk: 92
     },
     {
-      name: '测试服务器',
+      name: 'Test server',
       ip: '192.168.1.101',
       cup: 32,
       memory: 78,
@@ -105,7 +100,7 @@
       disk: 45
     },
     {
-      name: '预发布服务器',
+      name: 'Staging server',
       ip: '192.168.1.102',
       cup: 95,
       memory: 42,
@@ -113,7 +108,7 @@
       disk: 88
     },
     {
-      name: '线上服务器',
+      name: 'Production server',
       ip: '192.168.1.103',
       cup: 58,
       memory: 93,
@@ -122,20 +117,10 @@
     }
   ])
 
-  /**
-   * 生成指定范围内的随机整数
-   * @param min 最小值（默认 0）
-   * @param max 最大值（默认 100）
-   * @returns 随机整数
-   */
   const generateRandomValue = (min = 0, max = 100): number => {
     return Math.floor(Math.random() * (max - min + 1)) + min
   }
 
-  /**
-   * 更新所有服务器的资源使用数据
-   * 模拟服务器资源使用情况的实时变化
-   */
   const updateServerData = (): void => {
     serverList.forEach((server) => {
       server.cup = generateRandomValue()
@@ -147,18 +132,10 @@
 
   let timer: number | null = null
 
-  /**
-   * 组件挂载时启动定时器
-   * 每隔指定时间自动更新服务器数据
-   */
   onMounted(() => {
     timer = window.setInterval(updateServerData, UPDATE_INTERVAL)
   })
 
-  /**
-   * 组件卸载时清理定时器
-   * 防止内存泄漏
-   */
   onUnmounted(() => {
     if (timer !== null) {
       window.clearInterval(timer)

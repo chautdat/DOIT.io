@@ -9,20 +9,20 @@ export interface Comment {
 export const commentList = ref<Comment[]>([
   {
     id: 1,
-    author: '白夜',
-    content: '黑神话悟空的打斗场面真的燃爆了！期待上线！',
+    author: 'Nova',
+    content: 'The combat in Black Myth: Wukong looks incredible. I cannot wait for launch.',
     timestamp: '2024-09-04 09:00',
     replies: [
       {
         id: 101,
-        author: '星河',
-        content: '是啊，特别是那些技能特效，简直帅炸！',
+        author: 'Orbit',
+        content: 'The skill effects are especially impressive.',
         timestamp: '2024-09-04 09:15',
         replies: [
           {
             id: 201,
-            author: '光芒',
-            content: '希望优化能跟上，不然这么好的画面如果卡顿就可惜了。',
+            author: 'Aurora',
+            content: 'I hope the optimization keeps up so the visuals stay smooth.',
             timestamp: '2024-09-04 09:30',
             replies: []
           }
@@ -32,20 +32,20 @@ export const commentList = ref<Comment[]>([
   },
   {
     id: 2,
-    author: '浮生',
-    content: '据说黑神话悟空需要很高的配置，不知道我的电脑能不能跑起来。',
+    author: 'Echo',
+    content: 'I heard the game needs a pretty powerful PC. I am not sure mine can handle it.',
     timestamp: '2024-09-04 10:00',
     replies: [
       {
         id: 102,
-        author: '晨曦',
-        content: '同担心啊，听说需要至少RTX 3070才能高效运行。',
+        author: 'Ray',
+        content: 'Same here. It sounds like at least an RTX 3070 is recommended.',
         timestamp: '2024-09-04 10:20',
         replies: [
           {
             id: 202,
-            author: '流光',
-            content: '我是打算升级配置，等这款游戏就是了。',
+            author: 'Lumen',
+            content: 'I am planning an upgrade just for this game.',
             timestamp: '2024-09-04 10:40',
             replies: []
           }
@@ -55,20 +55,20 @@ export const commentList = ref<Comment[]>([
   },
   {
     id: 3,
-    author: '风铃',
-    content: '130GB的存储要求有点夸张啊，不过画质这么好，也情有可原。',
+    author: 'Misty',
+    content: 'A 130GB storage requirement is huge, but the visuals make it understandable.',
     timestamp: '2024-09-04 11:00',
     replies: [
       {
         id: 103,
-        author: '云端',
-        content: '确实有点高，不过为了这种品质的游戏，值得。',
+        author: 'Cloud',
+        content: 'It is still a lot, but that level of quality is worth it.',
         timestamp: '2024-09-04 11:15',
         replies: [
           {
             id: 203,
-            author: '梦境',
-            content: '希望发售后能优化一下安装包体积。',
+            author: 'Dream',
+            content: 'I just hope the installer size can be optimized a bit.',
             timestamp: '2024-09-04 11:30',
             replies: []
           }

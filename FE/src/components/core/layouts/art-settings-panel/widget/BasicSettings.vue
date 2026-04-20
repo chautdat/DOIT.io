@@ -23,7 +23,6 @@
   const { basicSettingsConfig } = useSettingsConfig()
   const { basicHandlers } = useSettingsHandlers()
 
-  // 获取store的响应式状态
   const {
     uniqueOpened,
     showMenuButton,
@@ -41,7 +40,6 @@
     customRadius
   } = storeToRefs(settingStore)
 
-  // 创建设置值映射
   const settingValueMap = {
     uniqueOpened,
     showMenuButton,
@@ -59,13 +57,11 @@
     customRadius
   }
 
-  // 获取设置值的方法
   const getSettingValue = (key: string) => {
     const settingRef = settingValueMap[key as keyof typeof settingValueMap]
     return settingRef?.value ?? null
   }
 
-  // 统一的设置变更处理
   const handleSettingChange = (handlerName: string, value: any) => {
     const handler = (basicHandlers as any)[handlerName]
     if (typeof handler === 'function') {

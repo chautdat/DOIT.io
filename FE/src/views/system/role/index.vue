@@ -1,4 +1,4 @@
-<!-- 角色管理页面 -->
+<!-- Role Management Page -->
 <template>
   <div class="art-full-height">
     <RoleSearch
@@ -17,12 +17,12 @@
       >
         <template #left>
           <ElSpace wrap>
-            <ElButton @click="showDialog('add')" v-ripple>新增角色</ElButton>
+            <ElButton @click="showDialog('add')" v-ripple>Add Role</ElButton>
           </ElSpace>
         </template>
       </ArtTableHeader>
 
-      <!-- 表格 -->
+      <!-- Table -->
       <ArtTable
         :loading="loading"
         :data="data"
@@ -34,7 +34,7 @@
       </ArtTable>
     </ElCard>
 
-    <!-- 角色编辑弹窗 -->
+    <!-- Role Edit Dialog -->
     <RoleEditDialog
       v-model="dialogVisible"
       :dialog-type="dialogType"
@@ -42,7 +42,7 @@
       @success="refreshData"
     />
 
-    <!-- 菜单权限弹窗 -->
+    <!-- Menu Permission Dialog -->
     <RolePermissionDialog
       v-model="permissionDialog"
       :role-data="currentRoleData"
@@ -52,10 +52,10 @@
 </template>
 
 <script setup lang="ts">
-  import { ButtonMoreItem } from '@/components/core/forms/art-button-more/index.vue'
+  import { ButtonMoreItem } from '@/components/core/forms/ArtButtonMore.vue'
   import { useTable } from '@/hooks/core/useTable'
   import { fetchGetRoleList } from '@/api/system-manage'
-  import ArtButtonMore from '@/components/core/forms/art-button-more/index.vue'
+  import ArtButtonMore from '@/components/core/forms/ArtButtonMore.vue'
   import RoleSearch from './modules/role-search.vue'
   import RoleEditDialog from './modules/role-edit-dialog.vue'
   import RolePermissionDialog from './modules/role-permission-dialog.vue'
@@ -68,7 +68,7 @@
     daterange?: string[]
   }
 
-  // 搜索表单
+  // Search form
   const searchForm = ref<RoleSearchFormParams>({
     roleName: undefined,
     roleCode: undefined,
@@ -96,45 +96,45 @@
     handleCurrentChange,
     refreshData
   } = useTable({
-    // 核心配置
+    // Core configuration
     core: {
       apiFn: fetchGetRoleList,
       apiParams: {
         current: 1,
         size: 20
       },
-      // 排除 apiParams 中的属性
+      // Exclude properties from apiParams
       excludeParams: ['daterange'],
       columnsFactory: () => [
         {
           prop: 'roleId',
-          label: '角色ID',
+          label: 'Role ID',
           width: 100
         },
         {
           prop: 'roleName',
-          label: '角色名称',
+          label: 'Role Name',
           minWidth: 120
         },
         {
           prop: 'roleCode',
-          label: '角色编码',
+          label: 'Role Code',
           minWidth: 120
         },
         {
           prop: 'description',
-          label: '角色描述',
+          label: 'Description',
           minWidth: 150,
           showOverflowTooltip: true
         },
         {
           prop: 'enabled',
-          label: '角色状态',
+          label: 'Status',
           width: 100,
           formatter: (row) => {
             const statusConfig = row.enabled
-              ? { type: 'success', text: '启用' }
-              : { type: 'warning', text: '禁用' }
+              ? { type: 'success', text: 'Enabled' }
+              : { type: 'warning', text: 'Disabled' }
             return h(
               ElTag,
               { type: statusConfig.type as 'success' | 'warning' },
@@ -144,13 +144,13 @@
         },
         {
           prop: 'createTime',
-          label: '创建日期',
+          label: 'Created Date',
           width: 180,
           sortable: true
         },
         {
           prop: 'operation',
-          label: '操作',
+          label: 'Actions',
           width: 80,
           fixed: 'right',
           formatter: (row) =>
@@ -159,17 +159,17 @@
                 list: [
                   {
                     key: 'permission',
-                    label: '菜单权限',
+                    label: 'Menu Permission',
                     icon: 'ri:user-3-line'
                   },
                   {
                     key: 'edit',
-                    label: '编辑角色',
+                    label: 'Edit Role',
                     icon: 'ri:edit-2-line'
                   },
                   {
                     key: 'delete',
-                    label: '删除角色',
+                    label: 'Delete Role',
                     icon: 'ri:delete-bin-4-line',
                     color: '#f56c6c'
                   }
@@ -191,11 +191,11 @@
   }
 
   /**
-   * 搜索处理
-   * @param params 搜索参数
+   * Search handler
+   * @param params Search parameters
    */
   const handleSearch = (params: RoleSearchFormParams) => {
-    // 处理日期区间参数，把 daterange 转换为 startTime 和 endTime
+    // Process date range params, convert daterange to startTime and endTime
     const { daterange, ...filtersParams } = params
     const [startTime, endTime] = Array.isArray(daterange) ? daterange : [null, null]
 
@@ -223,18 +223,22 @@
   }
 
   const deleteRole = (row: RoleListItem) => {
-    ElMessageBox.confirm(`确定删除角色"${row.roleName}"吗？此操作不可恢复！`, '删除确认', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning'
-    })
+    ElMessageBox.confirm(
+      `Are you sure to delete role "${row.roleName}"? This cannot be undone!`,
+      'Delete Confirmation',
+      {
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        type: 'warning'
+      }
+    )
       .then(() => {
-        // TODO: 调用删除接口
-        ElMessage.success('删除成功')
+        // TODO: Call delete API
+        ElMessage.success('Deleted successfully')
         refreshData()
       })
       .catch(() => {
-        ElMessage.info('已取消删除')
+        ElMessage.info('Delete cancelled')
       })
   }
 </script>
