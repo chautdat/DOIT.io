@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReadingAnswerResultDTO {
-    private Long questionId;
+    private String questionId;
     private Integer orderNumber;
     private String userAnswer;
     private String correctAnswer;

@@ -1,18 +1,16 @@
 package com.doit.repository;
 
-import com.doit.entity.Exam;
-import com.doit.entity.User;
 import com.doit.entity.UserSkillProgress;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserSkillProgressRepository extends JpaRepository<UserSkillProgress, Long> {
+public interface UserSkillProgressRepository extends MongoRepository<UserSkillProgress, String> {
 
-    List<UserSkillProgress> findByUser(User user);
+    List<UserSkillProgress> findByUserId(String userId);
 
-    Optional<UserSkillProgress> findByUserAndSkill(User user, Exam.Skill skill);
+    Optional<UserSkillProgress> findByUserIdAndSkill(String userId, String skill);
 }

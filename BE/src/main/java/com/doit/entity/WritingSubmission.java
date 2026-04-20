@@ -1,14 +1,14 @@
 package com.doit.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "writing_submissions")
+@Document(collection = "writing_submissions")
 @Data
 @Builder
 @NoArgsConstructor
@@ -16,49 +16,41 @@ import java.time.LocalDateTime;
 public class WritingSubmission {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "attempt_id", nullable = false)
-    private UserAttempt attempt;
+    private String userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "task_id", nullable = false)
-    private WritingTask task;
+    private String taskId;
 
-    @Column(name = "user_essay", columnDefinition = "TEXT", nullable = false)
-    private String userEssay;
+    private String attemptId;
 
-    @Column(name = "word_count")
+    private String submittedText;
+
     private Integer wordCount;
 
-    @Column(name = "band_score", precision = 2, scale = 1)
-    private BigDecimal bandScore;
+    private Double taskAchievementScore;
 
-    // IELTS Writing criteria scores
-    @Column(name = "task_response_score", precision = 2, scale = 1)
-    private BigDecimal taskResponseScore;
+    private Double coherenceCohesionScore;
 
-    @Column(name = "coherence_cohesion_score", precision = 2, scale = 1)
-    private BigDecimal coherenceCohesionScore;
+    private Double lexicalResourceScore;
 
-    @Column(name = "lexical_resource_score", precision = 2, scale = 1)
-    private BigDecimal lexicalResourceScore;
+    private Double grammaticalRangeScore;
 
-    @Column(name = "grammar_accuracy_score", precision = 2, scale = 1)
-    private BigDecimal grammarAccuracyScore;
+    private Double overallBandScore;
 
-    @Column(name = "ai_feedback", columnDefinition = "TEXT")
-    private String aiFeedback;
+    private String feedback;
 
-    @Column(name = "ai_model")
-    private String aiModel;
+    private SubmissionStatus status;
 
-    @CreationTimestamp
-    @Column(name = "submitted_at", updatable = false)
+    @CreatedDate
     private LocalDateTime submittedAt;
 
-    @Column(name = "graded_at")
+    @LastModifiedDate
     private LocalDateTime gradedAt;
+
+    public enum SubmissionStatus {
+        SUBMITTED,
+        GRADING,
+        GRADED
+    }
 }

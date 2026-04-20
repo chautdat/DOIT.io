@@ -5,10 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
+
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 @Data
 @Builder
@@ -17,10 +16,10 @@ import java.util.Map;
 public class DashboardDTO {
 
     // User overview
-    private Long userId;
+    private String userId;
     private String userName;
-    private BigDecimal currentOverallBand;
-    private BigDecimal targetBand;
+    private Double currentOverallBand;
+    private Double targetBand;
     private LocalDate targetDate;
     private Integer daysUntilTarget;
 
@@ -49,7 +48,7 @@ public class DashboardDTO {
     private Integer upcomingTasksCount;
 
     // Statistics
-    private Map<String, Object> statistics;
+    private StatisticsDTO statistics;
 
     // Recommendations
     private List<String> recommendations;

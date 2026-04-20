@@ -1,20 +1,17 @@
 package com.doit.repository;
 
 import com.doit.entity.ListeningAnswer;
-import com.doit.entity.UserAttempt;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface ListeningAnswerRepository extends JpaRepository<ListeningAnswer, Long> {
+public interface ListeningAnswerRepository extends MongoRepository<ListeningAnswer, String> {
 
-    List<ListeningAnswer> findByAttempt(UserAttempt attempt);
+    List<ListeningAnswer> findByAttemptId(String attemptId);
 
-    List<ListeningAnswer> findByAttemptOrderByQuestionOrderNumber(UserAttempt attempt);
+    Long countByAttemptIdAndIsCorrectTrue(String attemptId);
 
-    Long countByAttemptAndIsCorrectTrue(UserAttempt attempt);
-
-    Long countByAttempt(UserAttempt attempt);
+    Long countByAttemptId(String attemptId);
 }

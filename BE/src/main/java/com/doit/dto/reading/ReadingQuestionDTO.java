@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReadingQuestionDTO {
-    private Long id;
+    private String id;
     private Integer orderNumber;
     private ReadingQuestion.QuestionType questionType;
     private String questionText;

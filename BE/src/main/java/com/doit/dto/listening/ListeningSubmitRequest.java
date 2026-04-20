@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ListeningSubmitRequest {
     @NotNull(message = "Exam ID is required")
-    private Long examId;
+    private String examId;
 
     @NotEmpty(message = "Answers cannot be empty")
     private List<ListeningAnswerRequest> answers;

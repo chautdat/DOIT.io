@@ -16,10 +16,10 @@ import java.util.Map;
 public class PlacementSubmitRequest {
 
     @NotNull(message = "Attempt ID is required")
-    private Long attemptId;
+    private String attemptId;
 
     // Map of questionId -> answer
-    private Map<Long, String> answers;
+    private Map<String, String> answers;
 
     // For writing section
     private List<WritingAnswer> writingAnswers;
@@ -29,7 +29,7 @@ public class PlacementSubmitRequest {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class WritingAnswer {
-        private Long questionId;
+        private String questionId;
         private String essay;
     }
 }

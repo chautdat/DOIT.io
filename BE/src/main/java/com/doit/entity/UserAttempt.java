@@ -1,16 +1,14 @@
 package com.doit.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-@Entity
-@Table(name = "user_attempts")
+@Document(collection = "user_attempts")
 @Data
 @Builder
 @NoArgsConstructor
@@ -18,72 +16,48 @@ import java.util.List;
 public class UserAttempt {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private String userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "exam_id", nullable = false)
-    private Exam exam;
+    private String examId;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    private String skill;
+
+    private String mockTestId;
+
     @Builder.Default
     private AttemptStatus status = AttemptStatus.IN_PROGRESS;
 
-    @CreationTimestamp
-    @Column(name = "started_at", updatable = false)
-    private LocalDateTime startedAt;
+    @Builder.Default
+    private Double score = 0.0;
 
-    @Column(name = "submitted_at")
-    private LocalDateTime submittedAt;
+    @Builder.Default
+    private Double bandScore = 0.0;
 
-    @Column(name = "time_spent_seconds")
+    @Builder.Default
+    private Integer correctAnswers = 0;
+
+    @Builder.Default
+    private Integer totalQuestions = 0;
+
     private Integer timeSpentSeconds;
 
-    @Column(name = "total_questions")
-    private Integer totalQuestions;
+    @CreatedDate
+    private LocalDateTime createdAt;
 
-    @Column(name = "correct_answers")
-    private Integer correctAnswers;
+    private LocalDateTime startedAt;
 
-    @Column(name = "band_score", precision = 2, scale = 1)
-    private BigDecimal bandScore;
+    private LocalDateTime submittedAt;
 
-    @Column(name = "is_mock_test")
-    @Builder.Default
-    private Boolean isMockTest = false;
-
-    @Column(name = "mock_test_id")
-    private Long mockTestId;
-
-    // Listening answers
-    @OneToMany(mappedBy = "attempt", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<ListeningAnswer> listeningAnswers = new ArrayList<>();
-
-    // Reading answers
-    @OneToMany(mappedBy = "attempt", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<ReadingAnswer> readingAnswers = new ArrayList<>();
-
-    // Writing submissions
-    @OneToMany(mappedBy = "attempt", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<WritingSubmission> writingSubmissions = new ArrayList<>();
-
-    // Speaking submissions
-    @OneToMany(mappedBy = "attempt", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<SpeakingSubmission> speakingSubmissions = new ArrayList<>();
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
 
     public enum AttemptStatus {
         IN_PROGRESS,
         SUBMITTED,
         GRADED,
-        EXPIRED
+        COMPLETED,
+        ABANDONED
     }
 }

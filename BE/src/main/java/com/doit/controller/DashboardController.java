@@ -2,7 +2,6 @@ package com.doit.controller;
 
 import com.doit.dto.common.ApiResponse;
 import com.doit.dto.dashboard.*;
-import com.doit.entity.Exam;
 import com.doit.entity.User;
 import com.doit.service.DashboardService;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +54,7 @@ public class DashboardController {
      */
     @GetMapping("/progress-chart/{skill}")
     public ResponseEntity<ApiResponse<ProgressChartDTO>> getProgressChart(
-            @PathVariable Exam.Skill skill,
+            @PathVariable String skill,
             @AuthenticationPrincipal User user,
             @RequestParam(defaultValue = "30") int days) {
         ProgressChartDTO chart = dashboardService.getProgressChart(user, skill, days);

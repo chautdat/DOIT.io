@@ -1,21 +1,20 @@
 package com.doit.repository;
 
 import com.doit.entity.StudyPlan;
-import com.doit.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface StudyPlanRepository extends JpaRepository<StudyPlan, Long> {
+public interface StudyPlanRepository extends MongoRepository<StudyPlan, String> {
 
-    List<StudyPlan> findByUser(User user);
+    List<StudyPlan> findByUserId(String userId);
 
-    Optional<StudyPlan> findByIdAndUser(Long id, User user);
+    Optional<StudyPlan> findByIdAndUserId(String id, String userId);
 
-    Optional<StudyPlan> findByUserAndIsActiveTrue(User user);
+    Optional<StudyPlan> findByUserIdAndIsActiveTrue(String userId);
 
-    List<StudyPlan> findByUserOrderByCreatedAtDesc(User user);
+    List<StudyPlan> findByUserIdOrderByCreatedAtDesc(String userId);
 }

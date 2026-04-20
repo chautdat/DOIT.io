@@ -1,26 +1,23 @@
 package com.doit.dto.studyplan;
 
-import com.doit.entity.Exam;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudyPlanItemDTO {
-
-    private Long id;
-    private Exam.Skill skill;
-    private Long examId;
-    private String activityType;
-    private String activityDescription;
-    private LocalDate recommendedDate;
+    private String id;
+    private String skill;
+    private String examId;
+    private LocalDate scheduledDate;
     private Boolean isCompleted;
-    private LocalDate completedDate;
-    private Integer orderNumber;
+    private LocalDateTime completedAt;
+    private Integer orderIndex;
 }

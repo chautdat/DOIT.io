@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PlacementTestDTO {
 
-    private Long id;
+    private String id;
     private String title;
     private String description;
     private Integer totalQuestions;

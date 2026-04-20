@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ExamAdminDTO {
 
-    private Long id;
+    private String id;
     private String title;
     private String description;
     private Exam.ExamType type;
@@ -23,7 +23,7 @@ public class ExamAdminDTO {
     private Integer timeLimitMinutes;
     private Boolean isActive;
     private LocalDateTime createdAt;
-    private Long totalAttempts;
-    private Long passCount;
+    private long totalAttempts;
+    private long passCount;
     private Double averageScore;
 }

@@ -1,16 +1,15 @@
 package com.doit.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "user_skill_progress", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"user_id", "skill"})
-})
+@Document(collection = "user_skill_progress")
+@CompoundIndex(name = "user_skill_idx", def = "{'userId': 1, 'skill': 1}", unique = true)
 @Data
 @Builder
 @NoArgsConstructor
@@ -18,35 +17,24 @@ import java.time.LocalDateTime;
 public class UserSkillProgress {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private String userId;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Exam.Skill skill;
+    private String skill;
 
-    @Column(name = "current_band", precision = 2, scale = 1)
-    private BigDecimal currentBand;
-
-    @Column(name = "highest_band", precision = 2, scale = 1)
-    private BigDecimal highestBand;
-
-    @Column(name = "attempts_count")
     @Builder.Default
-    private Integer attemptsCount = 0;
+    private Double currentScore = 0.0;
 
-    @Column(name = "total_practice_time_minutes")
     @Builder.Default
-    private Integer totalPracticeTimeMinutes = 0;
+    private Integer totalAttempts = 0;
 
-    @Column(name = "average_accuracy")
-    private BigDecimal averageAccuracy;
+    @Builder.Default
+    private Integer correctAnswers = 0;
 
-    @UpdateTimestamp
-    @Column(name = "last_updated")
+    @Builder.Default
+    private Integer totalQuestions = 0;
+
+    @LastModifiedDate
     private LocalDateTime lastUpdated;
 }

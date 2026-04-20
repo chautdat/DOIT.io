@@ -1,14 +1,15 @@
 package com.doit.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "exams")
+@Document(collection = "exams")
 @Data
 @Builder
 @NoArgsConstructor
@@ -16,57 +17,43 @@ import java.time.LocalDateTime;
 public class Exam {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(nullable = false)
     private String title;
 
-    @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private ExamType type;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Skill skill;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "band_level", nullable = false)
     private BandLevel bandLevel;
 
-    @Column(name = "duration_minutes", nullable = false)
     private Integer durationMinutes;
 
-    @Column(name = "total_questions")
     private Integer totalQuestions;
 
-    @Column(name = "is_active")
     @Builder.Default
     private Boolean isActive = true;
 
-    @Column(name = "is_free")
     @Builder.Default
     private Boolean isFree = false;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by")
+    @DBRef
     private User createdBy;
 
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
+    @CreatedDate
     private LocalDateTime createdAt;
 
-    @UpdateTimestamp
-    @Column(name = "updated_at")
+    @LastModifiedDate
     private LocalDateTime updatedAt;
 
     public enum ExamType {
-        PRACTICE,       // Luyện tập từng skill
-        PLACEMENT,      // Test đầu vào
-        MOCK_TEST       // Thi thử full
+        PRACTICE,       // Practice individual skill
+        PLACEMENT,      // Placement test
+        MOCK_TEST,      // Full mock test
+        ACADEMIC,       // Academic module
+        GENERAL         // General Training module
     }
 
     public enum Skill {

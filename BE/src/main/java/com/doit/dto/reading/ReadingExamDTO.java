@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReadingExamDTO {
-    private Long examId;
+    private String examId;
     private String title;
     private String description;
     private Exam.BandLevel bandLevel;

@@ -24,71 +24,48 @@ public class ReadingController {
 
     private final ReadingService readingService;
 
-    /**
-     * Get list of all reading exams with optional filters
-     */
     @GetMapping("/exams")
     public ResponseEntity<ApiResponse<List<ReadingExamDTO>>> getReadingExams(
             @RequestParam(required = false) Exam.BandLevel bandLevel,
             @RequestParam(required = false) Exam.ExamType examType) {
-        
         List<ReadingExamDTO> exams = readingService.getReadingExams(bandLevel, examType);
         return ResponseEntity.ok(ApiResponse.success("Reading exams retrieved successfully", exams));
     }
 
-    /**
-     * Get reading exam details with all passages and questions
-     */
     @GetMapping("/exams/{examId}")
-    public ResponseEntity<ApiResponse<ReadingExamDTO>> getReadingExam(@PathVariable Long examId) {
+    public ResponseEntity<ApiResponse<ReadingExamDTO>> getReadingExam(@PathVariable String examId) {
         ReadingExamDTO exam = readingService.getReadingExam(examId);
         return ResponseEntity.ok(ApiResponse.success("Reading exam retrieved successfully", exam));
     }
 
-    /**
-     * Start a new reading attempt
-     */
     @PostMapping("/exams/{examId}/start")
     public ResponseEntity<ApiResponse<UserAttempt>> startAttempt(
             @AuthenticationPrincipal User user,
-            @PathVariable Long examId) {
-        
+            @PathVariable String examId) {
         UserAttempt attempt = readingService.startAttempt(user, examId);
         return ResponseEntity.ok(ApiResponse.success("Reading attempt started", attempt));
     }
 
-    /**
-     * Submit reading answers for grading
-     */
     @PostMapping("/submit")
     public ResponseEntity<ApiResponse<ReadingResultDTO>> submitAttempt(
             @AuthenticationPrincipal User user,
             @Valid @RequestBody ReadingSubmitRequest request) {
-        
         ReadingResultDTO result = readingService.submitAttempt(user, request);
         return ResponseEntity.ok(ApiResponse.success("Reading attempt submitted and graded", result));
     }
 
-    /**
-     * Get reading attempt result
-     */
     @GetMapping("/attempts/{attemptId}")
     public ResponseEntity<ApiResponse<ReadingResultDTO>> getAttemptResult(
             @AuthenticationPrincipal User user,
-            @PathVariable Long attemptId) {
-        
+            @PathVariable String attemptId) {
         ReadingResultDTO result = readingService.getAttemptResult(user, attemptId);
         return ResponseEntity.ok(ApiResponse.success("Attempt result retrieved", result));
     }
 
-    /**
-     * Get user's reading attempt history
-     */
     @GetMapping("/history")
     public ResponseEntity<ApiResponse<Page<UserAttempt>>> getUserAttempts(
             @AuthenticationPrincipal User user,
             @PageableDefault(size = 10) Pageable pageable) {
-        
         Page<UserAttempt> attempts = readingService.getUserAttempts(user, pageable);
         return ResponseEntity.ok(ApiResponse.success("Reading history retrieved", attempts));
     }

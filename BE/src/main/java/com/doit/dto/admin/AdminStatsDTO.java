@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.util.Map;
 
 @Data
@@ -14,22 +13,22 @@ import java.util.Map;
 @AllArgsConstructor
 public class AdminStatsDTO {
 
-    private Long totalUsers;
-    private Long activeUsers;
-    private Long newUsersThisMonth;
+    private long totalUsers;
+    private long activeUsers;
+    private long newUsersThisMonth;
     
-    private Long totalExams;
-    private Long activeExams;
+    private long totalExams;
+    private long activeExams;
     
-    private Long totalAttempts;
-    private Long attemptsThisWeek;
-    private Long attemptsThisMonth;
+    private long totalAttempts;
+    private long attemptsThisWeek;
+    private long attemptsThisMonth;
     
-    private Long totalMockTests;
-    private Long gradedMockTests;
+    private long totalMockTests;
+    private long gradedMockTests;
     
-    private BigDecimal averageOverallBand;
-    private Map<String, BigDecimal> averageSkillBands;
+    private Double averageOverallBand;
+    private Map<String, Double> averageSkillBands;
     
     private Map<String, Long> skillDistribution;
     private Map<String, Long> bandDistribution;

@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
+
 
 @Data
 @Builder
@@ -14,9 +14,9 @@ import java.math.BigDecimal;
 public class SkillProgressDTO {
 
     private String skill;
-    private BigDecimal currentBand;
-    private BigDecimal previousBand;
-    private BigDecimal improvement;
+    private Double currentBand;
+    private Double previousBand;
+    private Double improvement;
     private Integer totalAttempts;
     private Integer correctAnswers;
     private Integer totalQuestions;

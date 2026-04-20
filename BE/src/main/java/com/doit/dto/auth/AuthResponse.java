@@ -15,7 +15,7 @@ public class AuthResponse {
     private String accessToken;
     private String refreshToken;
     private String tokenType;
-    private Long expiresIn;
+    private String expiresIn;
     private UserInfo user;
     
     @Data
@@ -23,7 +23,7 @@ public class AuthResponse {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class UserInfo {
-        private Long id;
+        private String id;
         private String email;
         private String fullName;
         private String avatarUrl;
@@ -38,7 +38,7 @@ public class AuthResponse {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .tokenType("Bearer")
-                .expiresIn(expiresIn)
+                .expiresIn(String.valueOf(expiresIn))
                 .user(UserInfo.builder()
                         .id(user.getId())
                         .email(user.getEmail())

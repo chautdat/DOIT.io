@@ -1,14 +1,14 @@
 package com.doit.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "speaking_submissions")
+@Document(collection = "speaking_submissions")
 @Data
 @Builder
 @NoArgsConstructor
@@ -16,52 +16,43 @@ import java.time.LocalDateTime;
 public class SpeakingSubmission {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "attempt_id", nullable = false)
-    private UserAttempt attempt;
+    private String userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "part_id", nullable = false)
-    private SpeakingPart part;
+    private String partId;
 
-    @Column(name = "audio_url")
+    private String attemptId;
+
     private String audioUrl;
 
-    @Column(name = "transcript", columnDefinition = "TEXT")
     private String transcript;
 
-    @Column(name = "duration_seconds")
     private Integer durationSeconds;
 
-    @Column(name = "band_score", precision = 2, scale = 1)
-    private BigDecimal bandScore;
+    private Double fluencyCoherenceScore;
 
-    // IELTS Speaking criteria scores
-    @Column(name = "fluency_coherence_score", precision = 2, scale = 1)
-    private BigDecimal fluencyCoherenceScore;
+    private Double lexicalResourceScore;
 
-    @Column(name = "lexical_resource_score", precision = 2, scale = 1)
-    private BigDecimal lexicalResourceScore;
+    private Double grammaticalRangeScore;
 
-    @Column(name = "grammar_accuracy_score", precision = 2, scale = 1)
-    private BigDecimal grammarAccuracyScore;
+    private Double pronunciationScore;
 
-    @Column(name = "pronunciation_score", precision = 2, scale = 1)
-    private BigDecimal pronunciationScore;
+    private Double overallBandScore;
 
-    @Column(name = "ai_feedback", columnDefinition = "TEXT")
-    private String aiFeedback;
+    private String feedback;
 
-    @Column(name = "ai_model")
-    private String aiModel;
+    private SubmissionStatus status;
 
-    @CreationTimestamp
-    @Column(name = "submitted_at", updatable = false)
+    @CreatedDate
     private LocalDateTime submittedAt;
 
-    @Column(name = "graded_at")
+    @LastModifiedDate
     private LocalDateTime gradedAt;
+
+    public enum SubmissionStatus {
+        SUBMITTED,
+        GRADING,
+        GRADED
+    }
 }

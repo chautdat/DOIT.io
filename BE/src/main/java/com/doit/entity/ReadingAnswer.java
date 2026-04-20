@@ -1,10 +1,10 @@
 package com.doit.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name = "reading_answers")
+@Document(collection = "reading_answers")
 @Data
 @Builder
 @NoArgsConstructor
@@ -12,20 +12,14 @@ import lombok.*;
 public class ReadingAnswer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "attempt_id", nullable = false)
-    private UserAttempt attempt;
+    private String attemptId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id", nullable = false)
-    private ReadingQuestion question;
+    private String questionId;
 
-    @Column(name = "user_answer")
     private String userAnswer;
 
-    @Column(name = "is_correct")
-    private Boolean isCorrect;
+    @Builder.Default
+    private Boolean isCorrect = false;
 }

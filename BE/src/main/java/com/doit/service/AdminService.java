@@ -8,17 +8,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class AdminService {
 
     private final UserRepository userRepository;
@@ -33,13 +29,13 @@ public class AdminService {
         return users.map(this::mapToUserAdminDTO);
     }
     
-    public UserAdminDTO getUserById(Long userId) {
+    public UserAdminDTO getUserById(String userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BadRequestException("User not found"));
         return mapToUserAdminDTO(user);
     }
     
-    public UserAdminDTO updateUserRole(Long userId, UpdateUserRoleRequest request) {
+    public UserAdminDTO updateUserRole(String userId, UpdateUserRoleRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BadRequestException("User not found"));
         
@@ -54,7 +50,7 @@ public class AdminService {
         return mapToUserAdminDTO(savedUser);
     }
     
-    public UserAdminDTO updateUserStatus(Long userId, UpdateUserStatusRequest request) {
+    public UserAdminDTO updateUserStatus(String userId, UpdateUserStatusRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BadRequestException("User not found"));
         
@@ -63,7 +59,7 @@ public class AdminService {
         return mapToUserAdminDTO(savedUser);
     }
     
-    public void deleteUser(Long userId) {
+    public void deleteUser(String userId) {
         if (!userRepository.existsById(userId)) {
             throw new BadRequestException("User not found");
         }
@@ -71,8 +67,8 @@ public class AdminService {
     }
     
     private UserAdminDTO mapToUserAdminDTO(User user) {
-        List<UserAttempt> userAttempts = userAttemptRepository.findByUserOrderByStartedAtDesc(user);
-        List<MockTest> userMockTests = mockTestRepository.findByUserOrderByStartedAtDesc(user);
+        List<UserAttempt> userAttempts = userAttemptRepository.findByUserIdOrderByStartedAtDesc(user.getId());
+        List<MockTest> userMockTests = mockTestRepository.findByUserIdOrderByStartedAtDesc(user.getId());
         
         return UserAdminDTO.builder()
                 .id(user.getId())
@@ -92,13 +88,13 @@ public class AdminService {
         return exams.map(this::mapToExamAdminDTO);
     }
     
-    public ExamAdminDTO getExamById(Long examId) {
+    public ExamAdminDTO getExamById(String examId) {
         Exam exam = examRepository.findById(examId)
                 .orElseThrow(() -> new BadRequestException("Exam not found"));
         return mapToExamAdminDTO(exam);
     }
     
-    public ExamAdminDTO toggleExamStatus(Long examId) {
+    public ExamAdminDTO toggleExamStatus(String examId) {
         Exam exam = examRepository.findById(examId)
                 .orElseThrow(() -> new BadRequestException("Exam not found"));
         
@@ -110,17 +106,17 @@ public class AdminService {
     private ExamAdminDTO mapToExamAdminDTO(Exam exam) {
         List<UserAttempt> allAttempts = userAttemptRepository.findAll();
         List<UserAttempt> attempts = allAttempts.stream()
-                .filter(a -> a.getExam().getId().equals(exam.getId()))
+                .filter(a -> exam.getId().equals(a.getExamId()))
                 .collect(Collectors.toList());
         long totalAttempts = attempts.size();
         
         long passCount = attempts.stream()
-                .filter(a -> a.getBandScore() != null && a.getBandScore().compareTo(new BigDecimal("5.0")) >= 0)
+                .filter(a -> a.getBandScore() != null && a.getBandScore() >= 5.0)
                 .count();
         
         Double avgScore = attempts.stream()
                 .filter(a -> a.getBandScore() != null)
-                .mapToDouble(a -> a.getBandScore().doubleValue())
+                .mapToDouble(UserAttempt::getBandScore)
                 .average()
                 .orElse(0.0);
         
@@ -150,25 +146,25 @@ public class AdminService {
         return submissions.map(this::mapSpeakingToSubmissionDTO);
     }
     
-    public SubmissionAdminDTO gradeWritingSubmission(Long submissionId, GradeSubmissionRequest request) {
+    public SubmissionAdminDTO gradeWritingSubmission(String submissionId, GradeSubmissionRequest request) {
         WritingSubmission submission = writingSubmissionRepository.findById(submissionId)
                 .orElseThrow(() -> new BadRequestException("Writing submission not found"));
         
-        submission.setBandScore(request.getBandScore());
-        submission.setAiFeedback(request.getFeedback());
-        submission.setTaskResponseScore(request.getBandScore());
+        submission.setOverallBandScore(request.getBandScore());
+        submission.setFeedback(request.getFeedback());
+        submission.setTaskAchievementScore(request.getBandScore());
         submission.setGradedAt(LocalDateTime.now());
         
         WritingSubmission saved = writingSubmissionRepository.save(submission);
         return mapWritingToSubmissionDTO(saved);
     }
     
-    public SubmissionAdminDTO gradeSpeakingSubmission(Long submissionId, GradeSubmissionRequest request) {
+    public SubmissionAdminDTO gradeSpeakingSubmission(String submissionId, GradeSubmissionRequest request) {
         SpeakingSubmission submission = speakingSubmissionRepository.findById(submissionId)
                 .orElseThrow(() -> new BadRequestException("Speaking submission not found"));
         
-        submission.setBandScore(request.getBandScore());
-        submission.setAiFeedback(request.getFeedback());
+        submission.setOverallBandScore(request.getBandScore());
+        submission.setFeedback(request.getFeedback());
         submission.setFluencyCoherenceScore(request.getBandScore());
         submission.setGradedAt(LocalDateTime.now());
         
@@ -177,42 +173,40 @@ public class AdminService {
     }
     
     private SubmissionAdminDTO mapWritingToSubmissionDTO(WritingSubmission submission) {
-        User user = submission.getAttempt().getUser();
-        WritingTask task = submission.getTask();
+        User user = userRepository.findById(submission.getUserId()).orElse(null);
         
         return SubmissionAdminDTO.builder()
                 .id(submission.getId())
                 .type("WRITING")
-                .userId(user.getId())
-                .userEmail(user.getEmail())
-                .userFullName(user.getFullName())
-                .taskId(task.getId())
-                .taskTitle("Task " + task.getTaskNumber())
-                .submissionContent(submission.getUserEssay())
+                .userId(submission.getUserId())
+                .userEmail(user != null ? user.getEmail() : null)
+                .userFullName(user != null ? user.getFullName() : null)
+                .taskId(submission.getTaskId())
+                .taskTitle("Writing Task")
+                .submissionContent(submission.getSubmittedText())
                 .isGraded(submission.getGradedAt() != null)
-                .bandScore(submission.getBandScore())
-                .feedback(submission.getAiFeedback())
+                .bandScore(submission.getOverallBandScore())
+                .feedback(submission.getFeedback())
                 .submittedAt(submission.getSubmittedAt())
                 .gradedAt(submission.getGradedAt())
                 .build();
     }
     
     private SubmissionAdminDTO mapSpeakingToSubmissionDTO(SpeakingSubmission submission) {
-        User user = submission.getAttempt().getUser();
-        SpeakingPart part = submission.getPart();
+        User user = userRepository.findById(submission.getUserId()).orElse(null);
         
         return SubmissionAdminDTO.builder()
                 .id(submission.getId())
                 .type("SPEAKING")
-                .userId(user.getId())
-                .userEmail(user.getEmail())
-                .userFullName(user.getFullName())
-                .taskId(part.getId())
-                .taskTitle("Part " + part.getPartNumber())
+                .userId(submission.getUserId())
+                .userEmail(user != null ? user.getEmail() : null)
+                .userFullName(user != null ? user.getFullName() : null)
+                .taskId(submission.getPartId())
+                .taskTitle("Speaking Part")
                 .audioUrl(submission.getAudioUrl())
                 .isGraded(submission.getGradedAt() != null)
-                .bandScore(submission.getBandScore())
-                .feedback(submission.getAiFeedback())
+                .bandScore(submission.getOverallBandScore())
+                .feedback(submission.getFeedback())
                 .submittedAt(submission.getSubmittedAt())
                 .gradedAt(submission.getGradedAt())
                 .build();
@@ -248,10 +242,10 @@ public class AdminService {
         List<MockTest> allMockTests = mockTestRepository.findAll();
         long totalMockTests = allMockTests.size();
         long gradedMockTests = allMockTests.stream()
-                .filter(m -> m.getStatus() == MockTest.MockTestStatus.GRADED)
+                .filter(m -> m.getStatus() == MockTest.MockTestStatus.COMPLETED)
                 .count();
         
-        BigDecimal avgOverallBand = calculateAverageScore(allAttempts);
+        Double avgOverallBand = calculateAverageScore(allAttempts);
         
         Map<String, Long> skillDistribution = new HashMap<>();
         List<Exam> allExams = examRepository.findAll();
@@ -267,20 +261,20 @@ public class AdminService {
         bandDistribution.put("7-7.5", countAttemptsByBandRange(allAttempts, 7, 7.5));
         bandDistribution.put("8-9", countAttemptsByBandRange(allAttempts, 8, 9));
         
-        Map<String, BigDecimal> avgBySkill = new HashMap<>();
+        Map<String, Double> avgBySkill = new HashMap<>();
         for (Exam.Skill skill : Exam.Skill.values()) {
-            List<Long> examIds = allExams.stream()
+            List<String> examIds = allExams.stream()
                     .filter(e -> e.getSkill() == skill)
                     .map(Exam::getId)
                     .collect(Collectors.toList());
             
             if (!examIds.isEmpty()) {
                 List<UserAttempt> skillAttempts = allAttempts.stream()
-                        .filter(a -> examIds.contains(a.getExam().getId()))
+                        .filter(a -> examIds.contains(a.getExamId()))
                         .collect(Collectors.toList());
                 avgBySkill.put(skill.name(), calculateAverageScore(skillAttempts));
             } else {
-                avgBySkill.put(skill.name(), BigDecimal.ZERO);
+                avgBySkill.put(skill.name(), 0.0);
             }
         }
         
@@ -302,27 +296,18 @@ public class AdminService {
                 .build();
     }
     
-    private BigDecimal calculateAverageScore(List<UserAttempt> attempts) {
-        List<BigDecimal> scores = attempts.stream()
+    private Double calculateAverageScore(List<UserAttempt> attempts) {
+        return attempts.stream()
                 .filter(a -> a.getBandScore() != null)
-                .map(UserAttempt::getBandScore)
-                .collect(Collectors.toList());
-        
-        if (scores.isEmpty()) {
-            return BigDecimal.ZERO;
-        }
-        
-        BigDecimal sum = scores.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
-        return sum.divide(BigDecimal.valueOf(scores.size()), 2, RoundingMode.HALF_UP);
+                .mapToDouble(UserAttempt::getBandScore)
+                .average()
+                .orElse(0.0);
     }
     
     private long countAttemptsByBandRange(List<UserAttempt> attempts, double min, double max) {
         return attempts.stream()
                 .filter(a -> a.getBandScore() != null)
-                .filter(a -> {
-                    double score = a.getBandScore().doubleValue();
-                    return score >= min && score <= max;
-                })
+                .filter(a -> a.getBandScore() >= min && a.getBandScore() <= max)
                 .count();
     }
 }

@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ListeningAudioDTO {
-    private Long id;
+    private String id;
     private Integer partNumber;
     private String title;
     private String audioUrl;

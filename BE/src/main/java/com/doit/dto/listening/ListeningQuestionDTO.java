@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ListeningQuestionDTO {
-    private Long id;
+    private String id;
     private Integer orderNumber;
     private ListeningQuestion.QuestionType questionType;
     private String questionText;

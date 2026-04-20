@@ -1,18 +1,15 @@
 package com.doit.repository;
 
-import com.doit.entity.ReadingPassage;
 import com.doit.entity.ReadingQuestion;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface ReadingQuestionRepository extends JpaRepository<ReadingQuestion, Long> {
+public interface ReadingQuestionRepository extends MongoRepository<ReadingQuestion, String> {
     
-    List<ReadingQuestion> findByPassageIdOrderByOrderNumber(Long passageId);
+    List<ReadingQuestion> findByPassageIdOrderByOrderNumber(String passageId);
     
-    List<ReadingQuestion> findByPassageOrderByOrderNumber(ReadingPassage passage);
-    
-    long countByPassageId(Long passageId);
+    long countByPassageId(String passageId);
 }

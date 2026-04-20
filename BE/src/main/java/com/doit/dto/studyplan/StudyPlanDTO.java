@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,17 +14,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudyPlanDTO {
-
-    private Long id;
-    private Long userId;
-    private BigDecimal currentBand;
-    private BigDecimal targetBand;
+    private String id;
+    private String userId;
+    private String name;
+    private Double targetBand;
     private LocalDate targetDate;
-    private Boolean focusListening;
-    private Boolean focusReading;
-    private Boolean focusWriting;
-    private Boolean focusSpeaking;
-    private Integer studyHoursPerDay;
+    private List<String> focusSkills;
     private Boolean isActive;
     private List<StudyPlanItemDTO> items;
     private Integer totalItems;

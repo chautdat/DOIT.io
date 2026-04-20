@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
+
 
 @Data
 @Builder
@@ -19,7 +19,7 @@ public class MockTestSkillSubmitRequest {
     private Exam.Skill skill;
 
     @NotNull(message = "Attempt ID is required")
-    private Long attemptId;
+    private String attemptId;
 
-    private BigDecimal bandScore;
+    private Double bandScore;
 }

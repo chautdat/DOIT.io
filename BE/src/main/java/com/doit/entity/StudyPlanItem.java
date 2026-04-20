@@ -1,12 +1,14 @@
 package com.doit.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "study_plan_items")
+@Document(collection = "study_plan_items")
 @Data
 @Builder
 @NoArgsConstructor
@@ -14,37 +16,23 @@ import java.time.LocalDate;
 public class StudyPlanItem {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "plan_id", nullable = false)
-    private StudyPlan plan;
+    private String studyPlanId;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Exam.Skill skill;
+    private String examId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "exam_id")
-    private Exam exam;
+    private String skill;
 
-    @Column(name = "activity_type")
-    private String activityType; // PRACTICE, REVIEW, MOCK_TEST
+    private LocalDate scheduledDate;
 
-    @Column(name = "activity_description")
-    private String activityDescription;
-
-    @Column(name = "recommended_date", nullable = false)
-    private LocalDate recommendedDate;
-
-    @Column(name = "is_completed")
     @Builder.Default
     private Boolean isCompleted = false;
 
-    @Column(name = "completed_date")
-    private LocalDate completedDate;
+    private LocalDateTime completedAt;
 
-    @Column(name = "order_number")
-    private Integer orderNumber;
+    private Integer orderIndex;
+
+    @CreatedDate
+    private LocalDateTime createdAt;
 }

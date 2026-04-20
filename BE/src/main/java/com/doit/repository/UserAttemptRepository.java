@@ -1,53 +1,37 @@
 package com.doit.repository;
 
-import com.doit.entity.Exam;
-import com.doit.entity.User;
 import com.doit.entity.UserAttempt;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserAttemptRepository extends JpaRepository<UserAttempt, Long> {
+public interface UserAttemptRepository extends MongoRepository<UserAttempt, String> {
 
-    List<UserAttempt> findByUserOrderByStartedAtDesc(User user);
+    List<UserAttempt> findByUserIdOrderByStartedAtDesc(String userId);
 
-    Page<UserAttempt> findByUser(User user, Pageable pageable);
+    Page<UserAttempt> findByUserId(String userId, Pageable pageable);
 
-    List<UserAttempt> findByUserAndExamSkillOrderByStartedAtDesc(User user, Exam.Skill skill);
+    List<UserAttempt> findByUserIdAndSkillOrderByStartedAtDesc(String userId, String skill);
 
-    Page<UserAttempt> findByUserAndExamSkill(User user, Exam.Skill skill, Pageable pageable);
+    Page<UserAttempt> findByUserIdAndSkill(String userId, String skill, Pageable pageable);
 
-    Optional<UserAttempt> findByIdAndUser(Long id, User user);
+    Optional<UserAttempt> findByIdAndUserId(String id, String userId);
 
-    List<UserAttempt> findByUserAndStatus(User user, UserAttempt.AttemptStatus status);
+    List<UserAttempt> findByUserIdAndStatus(String userId, UserAttempt.AttemptStatus status);
 
-    Optional<UserAttempt> findTopByUserAndExamAndStatusOrderByCreatedAtDesc(
-            User user, Exam exam, UserAttempt.AttemptStatus status);
+    Optional<UserAttempt> findTopByUserIdAndExamIdAndStatusOrderByCreatedAtDesc(
+            String userId, String examId, UserAttempt.AttemptStatus status);
 
-    @Query("SELECT ua FROM UserAttempt ua WHERE ua.user = :user AND ua.exam.skill = :skill " +
-           "AND ua.status = 'GRADED' ORDER BY ua.submittedAt DESC")
-    List<UserAttempt> findGradedAttemptsByUserAndSkill(@Param("user") User user, 
-                                                        @Param("skill") Exam.Skill skill);
+    @Query("{ 'userId': ?0, 'skill': ?1, 'status': 'GRADED' }")
+    List<UserAttempt> findGradedAttemptsByUserIdAndSkill(String userId, String skill);
 
-    @Query("SELECT COUNT(ua) FROM UserAttempt ua WHERE ua.user = :user AND ua.exam.skill = :skill")
-    Long countByUserAndSkill(@Param("user") User user, @Param("skill") Exam.Skill skill);
+    Long countByUserIdAndSkill(String userId, String skill);
 
-    @Query("SELECT AVG(ua.bandScore) FROM UserAttempt ua WHERE ua.user = :user AND ua.exam.skill = :skill " +
-           "AND ua.status = 'GRADED'")
-    Double getAverageBandScoreByUserAndSkill(@Param("user") User user, @Param("skill") Exam.Skill skill);
-
-    @Query("SELECT ua FROM UserAttempt ua WHERE ua.user = :user AND ua.exam.skill = :skill " +
-           "AND ua.status = 'GRADED' ORDER BY ua.bandScore DESC")
-    List<UserAttempt> findTopAttemptsByUserAndSkill(@Param("user") User user, 
-                                                     @Param("skill") Exam.Skill skill,
-                                                     Pageable pageable);
-
-    List<UserAttempt> findByMockTestId(Long mockTestId);
+    List<UserAttempt> findByMockTestId(String mockTestId);
 }

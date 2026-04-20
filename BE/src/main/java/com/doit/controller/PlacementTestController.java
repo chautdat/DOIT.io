@@ -2,12 +2,12 @@ package com.doit.controller;
 
 import com.doit.dto.common.ApiResponse;
 import com.doit.dto.placement.*;
+import com.doit.entity.User;
 import com.doit.service.PlacementTestService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,9 +22,8 @@ public class PlacementTestController {
      */
     @GetMapping("/info")
     public ResponseEntity<ApiResponse<PlacementTestDTO>> getPlacementTestInfo(
-            @AuthenticationPrincipal UserDetails userDetails) {
-        Long userId = extractUserId(userDetails);
-        PlacementTestDTO info = placementTestService.getPlacementTestInfo(userId);
+            @AuthenticationPrincipal User user) {
+        PlacementTestDTO info = placementTestService.getPlacementTestInfo(user.getId());
         return ResponseEntity.ok(ApiResponse.success("Placement test info retrieved", info));
     }
 
@@ -32,10 +31,9 @@ public class PlacementTestController {
      * Start placement test
      */
     @PostMapping("/start")
-    public ResponseEntity<ApiResponse<Long>> startPlacementTest(
-            @AuthenticationPrincipal UserDetails userDetails) {
-        Long userId = extractUserId(userDetails);
-        Long attemptId = placementTestService.startPlacementTest(userId);
+    public ResponseEntity<ApiResponse<String>> startPlacementTest(
+            @AuthenticationPrincipal User user) {
+        String attemptId = placementTestService.startPlacementTest(user.getId());
         return ResponseEntity.ok(ApiResponse.success("Placement test started", attemptId));
     }
 
@@ -45,9 +43,8 @@ public class PlacementTestController {
     @PostMapping("/submit")
     public ResponseEntity<ApiResponse<PlacementResultDTO>> submitPlacementTest(
             @Valid @RequestBody PlacementSubmitRequest request,
-            @AuthenticationPrincipal UserDetails userDetails) {
-        Long userId = extractUserId(userDetails);
-        PlacementResultDTO result = placementTestService.submitPlacementTest(request, userId);
+            @AuthenticationPrincipal User user) {
+        PlacementResultDTO result = placementTestService.submitPlacementTest(request, user.getId());
         return ResponseEntity.ok(ApiResponse.success("Placement test completed", result));
     }
 
@@ -56,16 +53,8 @@ public class PlacementTestController {
      */
     @GetMapping("/result")
     public ResponseEntity<ApiResponse<PlacementResultDTO>> getPlacementResult(
-            @AuthenticationPrincipal UserDetails userDetails) {
-        Long userId = extractUserId(userDetails);
-        PlacementResultDTO result = placementTestService.getPlacementResult(userId);
+            @AuthenticationPrincipal User user) {
+        PlacementResultDTO result = placementTestService.getPlacementResult(user.getId());
         return ResponseEntity.ok(ApiResponse.success("Placement result retrieved", result));
-    }
-
-    private Long extractUserId(UserDetails userDetails) {
-        if (userDetails instanceof com.doit.entity.User) {
-            return ((com.doit.entity.User) userDetails).getId();
-        }
-        throw new IllegalStateException("Unable to extract user ID");
     }
 }

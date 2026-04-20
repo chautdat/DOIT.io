@@ -13,10 +13,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class WritingSubmitRequest {
     @NotNull(message = "Exam ID is required")
-    private Long examId;
+    private String examId;
 
     @NotNull(message = "Task ID is required")
-    private Long taskId;
+    private String taskId;
 
     @NotBlank(message = "Essay content is required")
     private String essay;

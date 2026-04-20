@@ -15,7 +15,7 @@ import java.util.List;
 public class SpeakingSubmitRequest {
 
     @NotNull(message = "Attempt ID is required")
-    private Long attemptId;
+    private String attemptId;
 
     private List<SpeakingPartAnswer> partAnswers;
 
@@ -26,7 +26,7 @@ public class SpeakingSubmitRequest {
     public static class SpeakingPartAnswer {
         
         @NotNull(message = "Part ID is required")
-        private Long partId;
+        private String partId;
 
         private String audioUrl;
 

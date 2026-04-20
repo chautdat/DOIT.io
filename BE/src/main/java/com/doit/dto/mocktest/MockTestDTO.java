@@ -1,12 +1,10 @@
 package com.doit.dto.mocktest;
 
-import com.doit.entity.MockTest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -15,19 +13,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class MockTestDTO {
 
-    private Long id;
-    private Long userId;
-    private MockTest.MockTestStatus status;
-    private BigDecimal listeningBand;
-    private BigDecimal readingBand;
-    private BigDecimal writingBand;
-    private BigDecimal speakingBand;
-    private BigDecimal overallBand;
-    private Long listeningAttemptId;
-    private Long readingAttemptId;
-    private Long writingAttemptId;
-    private Long speakingAttemptId;
+    private String id;
+    private String userId;
+    private String listeningExamId;
+    private String readingExamId;
+    private String writingExamId;
+    private String speakingExamId;
+    private String status;
+    private Double listeningScore;
+    private Double readingScore;
+    private Double writingScore;
+    private Double speakingScore;
+    private Double overallBand;
     private LocalDateTime startedAt;
     private LocalDateTime completedAt;
-    private Integer totalTimeMinutes;
 }

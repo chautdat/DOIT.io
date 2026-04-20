@@ -1,13 +1,13 @@
 package com.doit.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "speaking_parts")
+@Document(collection = "speaking_parts")
 @Data
 @Builder
 @NoArgsConstructor
@@ -15,41 +15,28 @@ import java.util.List;
 public class SpeakingPart {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "exam_id", nullable = false)
-    private Exam exam;
+    private String examId;
 
-    @Column(name = "part_number", nullable = false)
-    private Integer partNumber; // 1, 2, or 3
+    private PartType partType;
 
-    @Column(nullable = false)
     private String topic;
 
-    @Column(name = "topic_description", columnDefinition = "TEXT")
-    private String topicDescription;
+    private String description;
 
-    @ElementCollection
-    @CollectionTable(name = "speaking_questions", joinColumns = @JoinColumn(name = "part_id"))
-    @Column(name = "question", columnDefinition = "TEXT")
     @Builder.Default
     private List<String> questions = new ArrayList<>();
 
-    @Column(name = "cue_card", columnDefinition = "TEXT")
-    private String cueCard; // For Part 2
+    private String cueCard;
 
-    @Column(name = "prep_time_seconds")
-    @Builder.Default
-    private Integer prepTimeSeconds = 60; // Part 2: 1 minute prep
+    private Integer preparationTimeSeconds;
 
-    @Column(name = "speak_time_seconds")
-    private Integer speakTimeSeconds; // Part 1: 4-5 min, Part 2: 2 min, Part 3: 4-5 min
+    private Integer speakingTimeSeconds;
 
-    @Column(name = "sample_answers", columnDefinition = "TEXT")
-    private String sampleAnswers;
-
-    @Column(columnDefinition = "TEXT")
-    private String tips;
+    public enum PartType {
+        PART_1,
+        PART_2,
+        PART_3
+    }
 }

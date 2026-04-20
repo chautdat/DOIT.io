@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
@@ -17,14 +16,12 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class StudyPlanCreateRequest {
 
-    @DecimalMin(value = "1.0", message = "Current band must be at least 1.0")
-    @DecimalMax(value = "9.0", message = "Current band cannot exceed 9.0")
-    private BigDecimal currentBand;
+    private String name;
 
     @NotNull(message = "Target band is required")
     @DecimalMin(value = "1.0", message = "Target band must be at least 1.0")
     @DecimalMax(value = "9.0", message = "Target band cannot exceed 9.0")
-    private BigDecimal targetBand;
+    private Double targetBand;
 
     private LocalDate targetDate;
 
@@ -39,7 +36,4 @@ public class StudyPlanCreateRequest {
 
     @Builder.Default
     private Boolean focusSpeaking = true;
-
-    @Builder.Default
-    private Integer studyHoursPerDay = 2;
 }

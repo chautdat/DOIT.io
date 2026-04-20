@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WritingTaskDTO {
-    private Long id;
+    private String id;
     private Integer taskNumber;
     private WritingTask.TaskType taskType;
     private String promptText;

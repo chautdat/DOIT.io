@@ -15,10 +15,10 @@ import java.util.List;
 @AllArgsConstructor
 public class ReadingSubmitRequest {
     @NotNull(message = "Exam ID is required")
-    private Long examId;
+    private String examId;
 
     @NotNull(message = "Attempt ID is required")
-    private Long attemptId;
+    private String attemptId;
 
     @NotEmpty(message = "Answers are required")
     private List<ReadingAnswerRequest> answers;

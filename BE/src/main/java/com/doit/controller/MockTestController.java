@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -52,7 +51,7 @@ public class MockTestController {
      */
     @GetMapping("/{mockTestId}")
     public ResponseEntity<ApiResponse<MockTestDTO>> getMockTest(
-            @PathVariable Long mockTestId,
+            @PathVariable String mockTestId,
             @AuthenticationPrincipal User user) {
         MockTestDTO mockTest = mockTestService.getMockTest(mockTestId, user);
         return ResponseEntity.ok(ApiResponse.success("Mock test retrieved successfully", mockTest));
@@ -96,7 +95,7 @@ public class MockTestController {
      */
     @PostMapping("/{mockTestId}/submit-skill")
     public ResponseEntity<ApiResponse<MockTestDTO>> submitSkillAttempt(
-            @PathVariable Long mockTestId,
+            @PathVariable String mockTestId,
             @AuthenticationPrincipal User user,
             @Valid @RequestBody MockTestSkillSubmitRequest request) {
         MockTestDTO mockTest = mockTestService.submitSkillAttempt(mockTestId, user, request);
@@ -108,7 +107,7 @@ public class MockTestController {
      */
     @PostMapping("/{mockTestId}/complete")
     public ResponseEntity<ApiResponse<MockTestResultDTO>> completeMockTest(
-            @PathVariable Long mockTestId,
+            @PathVariable String mockTestId,
             @AuthenticationPrincipal User user) {
         MockTestResultDTO result = mockTestService.completeMockTest(mockTestId, user);
         return ResponseEntity.ok(ApiResponse.success("Mock test completed successfully", result));
@@ -119,7 +118,7 @@ public class MockTestController {
      */
     @GetMapping("/{mockTestId}/result")
     public ResponseEntity<ApiResponse<MockTestResultDTO>> getMockTestResult(
-            @PathVariable Long mockTestId,
+            @PathVariable String mockTestId,
             @AuthenticationPrincipal User user) {
         MockTestResultDTO result = mockTestService.getMockTestResult(mockTestId, user);
         return ResponseEntity.ok(ApiResponse.success("Mock test result retrieved", result));
@@ -130,7 +129,7 @@ public class MockTestController {
      */
     @DeleteMapping("/{mockTestId}")
     public ResponseEntity<ApiResponse<Void>> deleteMockTest(
-            @PathVariable Long mockTestId,
+            @PathVariable String mockTestId,
             @AuthenticationPrincipal User user) {
         mockTestService.deleteMockTest(mockTestId, user);
         return ResponseEntity.ok(ApiResponse.success("Mock test deleted successfully", null));
@@ -141,11 +140,11 @@ public class MockTestController {
      */
     @PostMapping("/{mockTestId}/grade")
     public ResponseEntity<ApiResponse<MockTestResultDTO>> gradeMockTest(
-            @PathVariable Long mockTestId,
-            @RequestParam(required = false) BigDecimal listeningBand,
-            @RequestParam(required = false) BigDecimal readingBand,
-            @RequestParam(required = false) BigDecimal writingBand,
-            @RequestParam(required = false) BigDecimal speakingBand) {
+            @PathVariable String mockTestId,
+            @RequestParam(required = false) Double listeningBand,
+            @RequestParam(required = false) Double readingBand,
+            @RequestParam(required = false) Double writingBand,
+            @RequestParam(required = false) Double speakingBand) {
         MockTestResultDTO result = mockTestService.gradeMockTest(
                 mockTestId, listeningBand, readingBand, writingBand, speakingBand);
         return ResponseEntity.ok(ApiResponse.success("Mock test graded successfully", result));

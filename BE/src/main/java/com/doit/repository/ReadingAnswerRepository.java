@@ -1,20 +1,17 @@
 package com.doit.repository;
 
 import com.doit.entity.ReadingAnswer;
-import com.doit.entity.UserAttempt;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface ReadingAnswerRepository extends JpaRepository<ReadingAnswer, Long> {
+public interface ReadingAnswerRepository extends MongoRepository<ReadingAnswer, String> {
 
-    List<ReadingAnswer> findByAttempt(UserAttempt attempt);
+    List<ReadingAnswer> findByAttemptId(String attemptId);
 
-    List<ReadingAnswer> findByAttemptOrderByQuestionOrderNumber(UserAttempt attempt);
+    Long countByAttemptIdAndIsCorrectTrue(String attemptId);
 
-    Long countByAttemptAndIsCorrectTrue(UserAttempt attempt);
-
-    Long countByAttempt(UserAttempt attempt);
+    Long countByAttemptId(String attemptId);
 }

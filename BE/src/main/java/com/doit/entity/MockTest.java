@@ -1,14 +1,14 @@
 package com.doit.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "mock_tests")
+@Document(collection = "mock_tests")
 @Data
 @Builder
 @NoArgsConstructor
@@ -16,63 +16,49 @@ import java.time.LocalDateTime;
 public class MockTest {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private String userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "listening_attempt_id")
-    private UserAttempt listeningAttempt;
+    private String listeningExamId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reading_attempt_id")
-    private UserAttempt readingAttempt;
+    private String readingExamId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "writing_attempt_id")
-    private UserAttempt writingAttempt;
+    private String writingExamId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "speaking_attempt_id")
-    private UserAttempt speakingAttempt;
+    private String speakingExamId;
 
-    @Column(name = "listening_band", precision = 2, scale = 1)
-    private BigDecimal listeningBand;
-
-    @Column(name = "reading_band", precision = 2, scale = 1)
-    private BigDecimal readingBand;
-
-    @Column(name = "writing_band", precision = 2, scale = 1)
-    private BigDecimal writingBand;
-
-    @Column(name = "speaking_band", precision = 2, scale = 1)
-    private BigDecimal speakingBand;
-
-    @Column(name = "overall_band", precision = 2, scale = 1)
-    private BigDecimal overallBand;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     @Builder.Default
     private MockTestStatus status = MockTestStatus.IN_PROGRESS;
 
-    @CreationTimestamp
-    @Column(name = "started_at", updatable = false)
+    @Builder.Default
+    private Double totalScore = 0.0;
+
+    @Builder.Default
+    private Double overallBand = 0.0;
+
+    private Double listeningScore;
+
+    private Double readingScore;
+
+    private Double writingScore;
+
+    private Double speakingScore;
+
     private LocalDateTime startedAt;
 
-    @Column(name = "completed_at")
     private LocalDateTime completedAt;
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
 
     public enum MockTestStatus {
         IN_PROGRESS,
-        LISTENING,
-        READING,
-        WRITING,
-        SPEAKING,
         COMPLETED,
-        GRADED
+        GRADED,
+        CANCELLED
     }
 }

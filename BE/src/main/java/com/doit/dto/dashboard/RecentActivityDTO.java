@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -13,13 +12,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RecentActivityDTO {
-
-    private Long id;
-    private String activityType; // LISTENING, READING, WRITING, SPEAKING, MOCK_TEST
-    private String title;
-    private String description;
-    private BigDecimal bandScore;
-    private String status;
-    private LocalDateTime timestamp;
-    private Integer timeSpentMinutes;
+    private String attemptId;
+    private String examId;
+    private String examTitle;
+    private String skill;
+    private Double bandScore;
+    private Integer correctAnswers;
+    private Integer totalQuestions;
+    private LocalDateTime startedAt;
+    private LocalDateTime completedAt;
 }

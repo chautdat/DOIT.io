@@ -28,14 +28,14 @@ public class AdminController {
     }
     
     @GetMapping("/users/{userId}")
-    public ResponseEntity<ApiResponse<UserAdminDTO>> getUserById(@PathVariable Long userId) {
+    public ResponseEntity<ApiResponse<UserAdminDTO>> getUserById(@PathVariable String userId) {
         UserAdminDTO user = adminService.getUserById(userId);
         return ResponseEntity.ok(ApiResponse.success("User retrieved successfully", user));
     }
     
     @PutMapping("/users/{userId}/role")
     public ResponseEntity<ApiResponse<UserAdminDTO>> updateUserRole(
-            @PathVariable Long userId,
+            @PathVariable String userId,
             @Valid @RequestBody UpdateUserRoleRequest request) {
         UserAdminDTO user = adminService.updateUserRole(userId, request);
         return ResponseEntity.ok(ApiResponse.success("User role updated successfully", user));
@@ -43,14 +43,14 @@ public class AdminController {
     
     @PutMapping("/users/{userId}/status")
     public ResponseEntity<ApiResponse<UserAdminDTO>> updateUserStatus(
-            @PathVariable Long userId,
+            @PathVariable String userId,
             @Valid @RequestBody UpdateUserStatusRequest request) {
         UserAdminDTO user = adminService.updateUserStatus(userId, request);
         return ResponseEntity.ok(ApiResponse.success("User status updated successfully", user));
     }
     
     @DeleteMapping("/users/{userId}")
-    public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Long userId) {
+    public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable String userId) {
         adminService.deleteUser(userId);
         return ResponseEntity.ok(ApiResponse.success("User deleted successfully", null));
     }
@@ -64,13 +64,13 @@ public class AdminController {
     }
     
     @GetMapping("/exams/{examId}")
-    public ResponseEntity<ApiResponse<ExamAdminDTO>> getExamById(@PathVariable Long examId) {
+    public ResponseEntity<ApiResponse<ExamAdminDTO>> getExamById(@PathVariable String examId) {
         ExamAdminDTO exam = adminService.getExamById(examId);
         return ResponseEntity.ok(ApiResponse.success("Exam retrieved successfully", exam));
     }
     
     @PutMapping("/exams/{examId}/toggle-status")
-    public ResponseEntity<ApiResponse<ExamAdminDTO>> toggleExamStatus(@PathVariable Long examId) {
+    public ResponseEntity<ApiResponse<ExamAdminDTO>> toggleExamStatus(@PathVariable String examId) {
         ExamAdminDTO exam = adminService.toggleExamStatus(examId);
         return ResponseEntity.ok(ApiResponse.success("Exam status toggled successfully", exam));
     }
@@ -91,7 +91,7 @@ public class AdminController {
     
     @PostMapping("/submissions/writing/{submissionId}/grade")
     public ResponseEntity<ApiResponse<SubmissionAdminDTO>> gradeWritingSubmission(
-            @PathVariable Long submissionId,
+            @PathVariable String submissionId,
             @Valid @RequestBody GradeSubmissionRequest request) {
         SubmissionAdminDTO submission = adminService.gradeWritingSubmission(submissionId, request);
         return ResponseEntity.ok(ApiResponse.success("Writing submission graded successfully", submission));
@@ -99,7 +99,7 @@ public class AdminController {
     
     @PostMapping("/submissions/speaking/{submissionId}/grade")
     public ResponseEntity<ApiResponse<SubmissionAdminDTO>> gradeSpeakingSubmission(
-            @PathVariable Long submissionId,
+            @PathVariable String submissionId,
             @Valid @RequestBody GradeSubmissionRequest request) {
         SubmissionAdminDTO submission = adminService.gradeSpeakingSubmission(submissionId, request);
         return ResponseEntity.ok(ApiResponse.success("Speaking submission graded successfully", submission));

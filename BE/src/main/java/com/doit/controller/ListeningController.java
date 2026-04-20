@@ -37,14 +37,14 @@ public class ListeningController {
     }
 
     @GetMapping("/exams/{examId}")
-    public ResponseEntity<ApiResponse<ListeningExamDTO>> getExam(@PathVariable Long examId) {
+    public ResponseEntity<ApiResponse<ListeningExamDTO>> getExam(@PathVariable String examId) {
         ListeningExamDTO exam = listeningService.getListeningExam(examId);
         return ResponseEntity.ok(ApiResponse.success("Exam retrieved successfully", exam));
     }
 
     @PostMapping("/exams/{examId}/start")
     public ResponseEntity<ApiResponse<UserAttempt>> startAttempt(
-            @PathVariable Long examId,
+            @PathVariable String examId,
             @AuthenticationPrincipal UserDetails userDetails) {
         
         User user = userRepository.findByEmail(userDetails.getUsername())
@@ -68,7 +68,7 @@ public class ListeningController {
 
     @GetMapping("/attempts/{attemptId}")
     public ResponseEntity<ApiResponse<ListeningResultDTO>> getAttemptResult(
-            @PathVariable Long attemptId,
+            @PathVariable String attemptId,
             @AuthenticationPrincipal UserDetails userDetails) {
         
         User user = userRepository.findByEmail(userDetails.getUsername())

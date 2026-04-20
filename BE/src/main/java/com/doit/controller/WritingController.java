@@ -5,7 +5,6 @@ import com.doit.dto.writing.*;
 import com.doit.entity.Exam;
 import com.doit.entity.User;
 import com.doit.entity.UserAttempt;
-import com.doit.entity.WritingSubmission;
 import com.doit.service.WritingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +40,7 @@ public class WritingController {
      * Get writing exam details with all tasks
      */
     @GetMapping("/exams/{examId}")
-    public ResponseEntity<ApiResponse<WritingExamDTO>> getWritingExam(@PathVariable Long examId) {
+    public ResponseEntity<ApiResponse<WritingExamDTO>> getWritingExam(@PathVariable String examId) {
         WritingExamDTO exam = writingService.getWritingExam(examId);
         return ResponseEntity.ok(ApiResponse.success("Writing exam retrieved successfully", exam));
     }
@@ -52,7 +51,7 @@ public class WritingController {
     @PostMapping("/exams/{examId}/start")
     public ResponseEntity<ApiResponse<UserAttempt>> startAttempt(
             @AuthenticationPrincipal User user,
-            @PathVariable Long examId) {
+            @PathVariable String examId) {
         
         UserAttempt attempt = writingService.startAttempt(user, examId);
         return ResponseEntity.ok(ApiResponse.success("Writing attempt started", attempt));
@@ -66,7 +65,7 @@ public class WritingController {
             @AuthenticationPrincipal User user,
             @Valid @RequestBody WritingSubmitRequest request) {
         
-        WritingResultDTO result = writingService.submitEssay(user, request);
+        WritingResultDTO result = writingService.submitAttempt(user, request);
         return ResponseEntity.ok(ApiResponse.success("Essay submitted and graded", result));
     }
 
@@ -76,9 +75,9 @@ public class WritingController {
     @GetMapping("/submissions/{submissionId}")
     public ResponseEntity<ApiResponse<WritingResultDTO>> getSubmissionResult(
             @AuthenticationPrincipal User user,
-            @PathVariable Long submissionId) {
+            @PathVariable String submissionId) {
         
-        WritingResultDTO result = writingService.getSubmissionResult(user, submissionId);
+        WritingResultDTO result = writingService.getAttemptResult(user, submissionId);
         return ResponseEntity.ok(ApiResponse.success("Submission result retrieved", result));
     }
 
@@ -86,11 +85,11 @@ public class WritingController {
      * Get user's writing submission history
      */
     @GetMapping("/history")
-    public ResponseEntity<ApiResponse<Page<WritingSubmission>>> getUserSubmissions(
+    public ResponseEntity<ApiResponse<Page<UserAttempt>>> getUserSubmissions(
             @AuthenticationPrincipal User user,
             @PageableDefault(size = 10) Pageable pageable) {
         
-        Page<WritingSubmission> submissions = writingService.getUserSubmissions(user, pageable);
+        Page<UserAttempt> submissions = writingService.getUserAttempts(user, pageable);
         return ResponseEntity.ok(ApiResponse.success("Writing history retrieved", submissions));
     }
 }

@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
+
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -16,10 +16,10 @@ import java.util.Map;
 @AllArgsConstructor
 public class PlacementResultDTO {
 
-    private Long attemptId;
-    private Long userId;
-    private BigDecimal overallBandScore;
-    private Map<Exam.Skill, BigDecimal> skillScores;
+    private String attemptId;
+    private String userId;
+    private Double overallBandScore;
+    private Map<Exam.Skill, Double> skillScores;
     private Exam.BandLevel recommendedLevel;
     private String feedback;
     private String strengths;

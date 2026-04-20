@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class SpeakingPartDTO {
 
-    private Long id;
+    private String id;
     private Integer partNumber;
     private String topic;
     private String topicDescription;

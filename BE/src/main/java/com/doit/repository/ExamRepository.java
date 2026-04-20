@@ -3,15 +3,14 @@ package com.doit.repository;
 import com.doit.entity.Exam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.mongodb.repository.Aggregation;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface ExamRepository extends JpaRepository<Exam, Long> {
+public interface ExamRepository extends MongoRepository<Exam, String> {
     
     Page<Exam> findBySkillAndIsActiveTrue(Exam.Skill skill, Pageable pageable);
     
@@ -21,14 +20,16 @@ public interface ExamRepository extends JpaRepository<Exam, Long> {
     
     List<Exam> findByTypeAndSkillAndIsActiveTrue(Exam.ExamType type, Exam.Skill skill);
     
-    @Query("SELECT e FROM Exam e WHERE e.type = :type AND e.isActive = true ORDER BY FUNCTION('RANDOM')")
-    List<Exam> findRandomByType(@Param("type") Exam.ExamType type, Pageable pageable);
+    @Aggregation(pipeline = {
+        "{ $match: { type: ?0, isActive: true } }",
+        "{ $sample: { size: ?1 } }"
+    })
+    List<Exam> findRandomByType(Exam.ExamType type, int size);
     
     long countBySkillAndIsActiveTrue(Exam.Skill skill);
     
     long countByTypeAndIsActiveTrue(Exam.ExamType type);
 
-    // Listening API queries
     List<Exam> findBySkillAndIsActiveTrue(Exam.Skill skill);
     
     List<Exam> findBySkillAndBandLevelAndIsActiveTrue(Exam.Skill skill, Exam.BandLevel bandLevel);

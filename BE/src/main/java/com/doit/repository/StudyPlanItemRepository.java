@@ -1,32 +1,30 @@
 package com.doit.repository;
 
-import com.doit.entity.Exam;
-import com.doit.entity.StudyPlan;
 import com.doit.entity.StudyPlanItem;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface StudyPlanItemRepository extends JpaRepository<StudyPlanItem, Long> {
+public interface StudyPlanItemRepository extends MongoRepository<StudyPlanItem, String> {
 
-    List<StudyPlanItem> findByPlan(StudyPlan plan);
+    List<StudyPlanItem> findByStudyPlanId(String studyPlanId);
 
-    List<StudyPlanItem> findByPlanOrderByOrderNumber(StudyPlan plan);
+    List<StudyPlanItem> findByStudyPlanIdOrderByOrderIndex(String studyPlanId);
 
-    List<StudyPlanItem> findByPlanAndSkill(StudyPlan plan, Exam.Skill skill);
+    List<StudyPlanItem> findByStudyPlanIdAndSkill(String studyPlanId, String skill);
 
-    List<StudyPlanItem> findByPlanAndIsCompletedFalseOrderByRecommendedDate(StudyPlan plan);
+    List<StudyPlanItem> findByStudyPlanIdAndIsCompletedFalseOrderByScheduledDate(String studyPlanId);
 
-    List<StudyPlanItem> findByPlanAndRecommendedDate(StudyPlan plan, LocalDate date);
+    List<StudyPlanItem> findByStudyPlanIdAndScheduledDate(String studyPlanId, LocalDate date);
 
-    List<StudyPlanItem> findByPlanAndRecommendedDateBetween(StudyPlan plan, 
-                                                            LocalDate startDate, 
-                                                            LocalDate endDate);
+    List<StudyPlanItem> findByStudyPlanIdAndScheduledDateBetween(String studyPlanId, 
+                                                                  LocalDate startDate, 
+                                                                  LocalDate endDate);
 
-    Long countByPlan(StudyPlan plan);
+    Long countByStudyPlanId(String studyPlanId);
 
-    Long countByPlanAndIsCompletedTrue(StudyPlan plan);
+    Long countByStudyPlanIdAndIsCompletedTrue(String studyPlanId);
 }

@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ListeningAnswerRequest {
-    private Long questionId;
+    private String questionId;
     private String answer;
 }

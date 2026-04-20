@@ -14,10 +14,10 @@ import java.util.List;
 @AllArgsConstructor
 public class SpeakingExamDTO {
 
-    private Long id;
+    private String examId;
     private String title;
     private String description;
-    private Exam.ExamType type;
+    private Exam.ExamType examType;
     private Exam.BandLevel bandLevel;
     private Integer durationMinutes;
     private Integer totalParts;

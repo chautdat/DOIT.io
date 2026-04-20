@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
+
 import java.util.List;
 
 @Data
@@ -16,7 +16,7 @@ public class ProgressChartDTO {
 
     private String skill;
     private List<ProgressPointDTO> dataPoints;
-    private BigDecimal averageBand;
-    private BigDecimal highestBand;
-    private BigDecimal lowestBand;
+    private Double averageBand;
+    private Double highestBand;
+    private Double lowestBand;
 }

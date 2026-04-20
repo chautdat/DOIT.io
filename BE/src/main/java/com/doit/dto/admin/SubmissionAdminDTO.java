@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
+
 import java.time.LocalDateTime;
 
 @Data
@@ -14,17 +14,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class SubmissionAdminDTO {
 
-    private Long id;
+    private String id;
     private String type; // WRITING or SPEAKING
-    private Long userId;
+    private String userId;
     private String userEmail;
     private String userFullName;
-    private Long taskId;
+    private String taskId;
     private String taskTitle;
     private String submissionContent;
     private String audioUrl;
     private Boolean isGraded;
-    private BigDecimal bandScore;
+    private Double bandScore;
     private String feedback;
     private LocalDateTime submittedAt;
     private LocalDateTime gradedAt;

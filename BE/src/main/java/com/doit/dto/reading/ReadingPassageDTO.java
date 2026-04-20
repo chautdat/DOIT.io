@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReadingPassageDTO {
-    private Long id;
+    private String id;
     private Integer passageNumber;
     private String title;
     private String passageText;

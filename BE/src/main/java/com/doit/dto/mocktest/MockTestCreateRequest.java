@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MockTestCreateRequest {
 
-    private Long listeningExamId;
-    private Long readingExamId;
-    private Long writingExamId;
-    private Long speakingExamId;
+    private String listeningExamId;
+    private String readingExamId;
+    private String writingExamId;
+    private String speakingExamId;
 }

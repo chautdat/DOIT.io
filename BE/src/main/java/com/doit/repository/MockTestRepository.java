@@ -1,40 +1,30 @@
 package com.doit.repository;
 
 import com.doit.entity.MockTest;
-import com.doit.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface MockTestRepository extends JpaRepository<MockTest, Long> {
+public interface MockTestRepository extends MongoRepository<MockTest, String> {
 
-    List<MockTest> findByUserOrderByStartedAtDesc(User user);
+    List<MockTest> findByUserIdOrderByStartedAtDesc(String userId);
 
-    Page<MockTest> findByUser(User user, Pageable pageable);
+    Page<MockTest> findByUserId(String userId, Pageable pageable);
 
-    Optional<MockTest> findByIdAndUser(Long id, User user);
+    Optional<MockTest> findByIdAndUserId(String id, String userId);
 
-    List<MockTest> findByUserAndStatus(User user, MockTest.MockTestStatus status);
+    List<MockTest> findByUserIdAndStatus(String userId, MockTest.MockTestStatus status);
 
-    @Query("SELECT mt FROM MockTest mt WHERE mt.user = :user AND mt.status = 'GRADED' " +
-           "ORDER BY mt.completedAt DESC")
-    List<MockTest> findGradedMockTestsByUser(@Param("user") User user);
+    @Query("{ 'userId': ?0, 'status': 'COMPLETED' }")
+    List<MockTest> findCompletedMockTestsByUserId(String userId);
 
-    @Query("SELECT AVG(mt.overallBand) FROM MockTest mt WHERE mt.user = :user AND mt.status = 'GRADED'")
-    Double getAverageOverallBandByUser(@Param("user") User user);
+    Long countByUserId(String userId);
 
-    @Query("SELECT mt FROM MockTest mt WHERE mt.user = :user AND mt.status = 'GRADED' " +
-           "ORDER BY mt.overallBand DESC")
-    List<MockTest> findTopMockTestsByUser(@Param("user") User user, Pageable pageable);
-
-    Long countByUser(User user);
-
-    Long countByUserAndStatus(User user, MockTest.MockTestStatus status);
+    Long countByUserIdAndStatus(String userId, MockTest.MockTestStatus status);
 }
